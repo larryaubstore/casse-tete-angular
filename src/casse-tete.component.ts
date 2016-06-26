@@ -9,7 +9,7 @@ import {Component, View} from 'angular2/core';
   styleUrls: ['assets/css/puzzle.css']
 })
 
-export class CasseTete {
+export class CasseTeteComponent {
 
   constructor() {
     console.info('CasseTete Component Mounted Successfully');

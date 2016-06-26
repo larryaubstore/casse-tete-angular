@@ -4,8 +4,11 @@ var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
     pug = require('gulp-pug');
 
+const typescript = require('gulp-typescript');
+const tscConfig = require('./tsconfig.json');
+
 // run init tasks
-gulp.task('default', ['dependencies', 'js', 'html', 'css', 'private:build-ng2-templates']);
+gulp.task('default', ['dependencies', 'js', 'html', 'css', 'private:build-ng2-templates', 'ts']);
 
 // run development task
 gulp.task('dev', ['watch', 'serve']);
@@ -23,6 +26,7 @@ gulp.task('watch', function () {
   gulp.watch('src/**/*.js', ['js']);
   gulp.watch('src/**/*.html', ['html']);
   gulp.watch('src/**/*.css', ['css']);
+  gulp.watch('src/**/*.ts', ['ts']);
 });
 
 // move dependencies into build dir
@@ -72,6 +76,13 @@ gulp.task('css', function () {
     .pipe(gulp.dest('build'))
 });
 
+
+gulp.task('ts', function () {
+  return gulp
+    .src('src/**/*.ts')
+    .pipe(typescript(tscConfig.compilerOptions))
+    .pipe(gulp.dest('build'));
+});
 
 gulp.task('private:build-ng2-templates', function(done){  
     return gulp.src('src/templates/**/*.jade')
