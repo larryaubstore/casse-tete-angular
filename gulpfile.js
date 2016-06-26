@@ -1,10 +1,11 @@
 var gulp = require('gulp'),
     rename = require('gulp-rename'),
     traceur = require('gulp-traceur'),
-    webserver = require('gulp-webserver');
+    webserver = require('gulp-webserver'),
+    pug = require('gulp-pug');
 
 // run init tasks
-gulp.task('default', ['dependencies', 'js', 'html', 'css']);
+gulp.task('default', ['dependencies', 'js', 'html', 'css', 'private:build-ng2-templates']);
 
 // run development task
 gulp.task('dev', ['watch', 'serve']);
@@ -69,4 +70,12 @@ gulp.task('html', function () {
 gulp.task('css', function () {
   return gulp.src('src/**/*.css')
     .pipe(gulp.dest('build'))
+});
+
+
+gulp.task('private:build-ng2-templates', function(done){  
+    return gulp.src('src/templates/**/*.jade')
+        .pipe(pug())
+        .pipe(gulp.dest('dist/templates'));
+
 });
