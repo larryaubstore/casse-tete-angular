@@ -76,6 +76,6 @@ gulp.task('css', function () {
 gulp.task('private:build-ng2-templates', function(done){  
     return gulp.src('src/templates/**/*.jade')
         .pipe(pug())
-        .pipe(gulp.dest('dist/templates'));
+        .pipe(gulp.dest('src/dist/templates'));
 
 });
