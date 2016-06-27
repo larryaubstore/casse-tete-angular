@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     traceur = require('gulp-traceur'),
     webserver = require('gulp-webserver'),
-    pug = require('gulp-pug');
+    pug = require('gulp-pug'),
+    gls = require('gulp-live-server');
 
 const typescript = require('gulp-typescript');
 const tscConfig = require('./tsconfig.json');
@@ -11,7 +12,7 @@ const tscConfig = require('./tsconfig.json');
 gulp.task('default', ['dependencies', 'js', 'html', 'css', 'private:build-ng2-templates', 'ts']);
 
 // run development task
-gulp.task('dev', ['watch', 'serve']);
+gulp.task('dev', ['watch', 'serve', 'servestatic']);
 
 // serve the build dir
 gulp.task('serve', function () {
@@ -88,5 +89,18 @@ gulp.task('private:build-ng2-templates', function(done){
     return gulp.src('src/templates/**/*.jade')
         .pipe(pug())
         .pipe(gulp.dest('src/dist/templates'));
+});
+
+
+gulp.task('servestatic', function() {
+  var server = gls.static('src/assets/img', 8888);
+  server.start();
+
+  gulp.watch(['static/**/*.jpg' ], function (file) {
+    server.notify.apply(server, [file]);
+  });
 
 });
+
+
+

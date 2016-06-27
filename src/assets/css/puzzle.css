@@ -24,7 +24,7 @@
 
 .tileimage
 {
-	background-image: url(images/20110403143837_rouedentelee.jpg);
+	background-image: url('http://localhost:8888/20110403143837_rouedentelee.jpg');
 }
 
 .transparentTile {
