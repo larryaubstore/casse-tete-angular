@@ -2,17 +2,17 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     traceur = require('gulp-traceur'),
     webserver = require('gulp-webserver'),
-    pug = require('gulp-pug'),
-    gls = require('gulp-live-server');
+    pug = require('gulp-pug');
+//    gls = require('gulp-live-server');
 
 const typescript = require('gulp-typescript');
 const tscConfig = require('./tsconfig.json');
 
 // run init tasks
-gulp.task('default', ['dependencies', 'js', 'html', 'css', 'private:build-ng2-templates', 'ts']);
+gulp.task('default', ['dependencies',  'html', 'css', 'private:build-ng2-templates', 'ts', 'img', 'js']);
 
 // run development task
-gulp.task('dev', ['watch', 'serve', 'servestatic']);
+gulp.task('dev', ['watch', 'serve' ]);
 
 // serve the build dir
 gulp.task('serve', function () {
@@ -33,37 +33,35 @@ gulp.task('watch', function () {
 // move dependencies into build dir
 gulp.task('dependencies', function () {
   return gulp.src([
-    'node_modules/traceur/bin/traceur-runtime.js',
-    'node_modules/systemjs/dist/system-csp-production.src.js',
-    'node_modules/systemjs/dist/system.js',
-    'node_modules/reflect-metadata/Reflect.js',
-    'node_modules/angular2/bundles/angular2.js',
-    'node_modules/angular2/bundles/angular2-polyfills.js',
-    'node_modules/rxjs/bundles/Rx.js',
-    'node_modules/es6-shim/es6-shim.min.js',
-    'node_modules/es6-shim/es6-shim.map'
+    'node_modules/**/*.*',
   ])
     .pipe(gulp.dest('build/lib'));
 });
 
 // transpile & move js
+//gulp.task('js', function () {
+//  return gulp.src('src/**/*.js')
+//    .pipe(rename({
+//      extname: ''
+//    }))
+//    .pipe(traceur({
+//      modules: 'instantiate',
+//      moduleName: true,
+//      annotations: true,
+//      types: true,
+//      memberVariables: true
+//    }))
+//    .pipe(rename({
+//      extname: '.js'
+//    }))
+//    .pipe(gulp.dest('build'));
+//});
+
 gulp.task('js', function () {
   return gulp.src('src/**/*.js')
-    .pipe(rename({
-      extname: ''
-    }))
-    .pipe(traceur({
-      modules: 'instantiate',
-      moduleName: true,
-      annotations: true,
-      types: true,
-      memberVariables: true
-    }))
-    .pipe(rename({
-      extname: '.js'
-    }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('build'))
 });
+
 
 // move html
 gulp.task('html', function () {
@@ -77,10 +75,19 @@ gulp.task('css', function () {
     .pipe(gulp.dest('build'))
 });
 
+// move css
+gulp.task('img', function () {
+  return gulp.src('src/**/*.jpg')
+    .pipe(gulp.dest('build'))
+});
+
 
 gulp.task('ts', function () {
   return gulp
-    .src('src/**/*.ts')
+    .src([
+      'src/**/*.ts',
+       'node_modules/angular2/typings/browser.d.ts',
+        ])
     .pipe(typescript(tscConfig.compilerOptions))
     .pipe(gulp.dest('build'));
 });
@@ -92,15 +99,15 @@ gulp.task('private:build-ng2-templates', function(done){
 });
 
 
-gulp.task('servestatic', function() {
-  var server = gls.static('src/assets/img', 8888);
-  server.start();
-
-  gulp.watch(['static/**/*.jpg' ], function (file) {
-    server.notify.apply(server, [file]);
-  });
-
-});
+//gulp.task('servestatic', function() {
+//  var server = gls.static('src/assets/img', 8888);
+//  server.start();
+//
+//  gulp.watch(['static/**/*.jpg' ], function (file) {
+//    server.notify.apply(server, [file]);
+//  });
+//
+//});
 
 
 

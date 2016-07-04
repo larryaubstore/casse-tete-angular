@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', './mock-casse-tetes'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,29 +10,31 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
-    var CasseTeteAngular;
+    var core_1, mock_casse_tetes_1;
+    var CasseTeteService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (mock_casse_tetes_1_1) {
+                mock_casse_tetes_1 = mock_casse_tetes_1_1;
             }],
         execute: function() {
-            CasseTeteAngular = (function () {
-                function CasseTeteAngular() {
-                    console.info('CasseTeteAngular Component Mounted Successfully');
+            CasseTeteService = (function () {
+                function CasseTeteService() {
                 }
-                CasseTeteAngular = __decorate([
-                    core_1.Component({
-                        selector: 'casse-tete-angular',
-                        templateUrl: 'casse-tete-angular.html'
-                    }), 
+                CasseTeteService.prototype.getList = function () {
+                    return mock_casse_tetes_1.CASSETETES;
+                };
+                CasseTeteService = __decorate([
+                    core_1.Injectable(), 
                     __metadata('design:paramtypes', [])
-                ], CasseTeteAngular);
-                return CasseTeteAngular;
+                ], CasseTeteService);
+                return CasseTeteService;
             }());
-            exports_1("CasseTeteAngular", CasseTeteAngular);
+            exports_1("CasseTeteService", CasseTeteService);
         }
     }
 });
-//# sourceMappingURL=casse-tete-angular.js.map
+//# sourceMappingURL=casse-tete.service.js.map

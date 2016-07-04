@@ -11,28 +11,29 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var CasseTeteAngular;
+    var CasseTeteComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            CasseTeteAngular = (function () {
-                function CasseTeteAngular() {
-                    console.info('CasseTeteAngular Component Mounted Successfully');
+            CasseTeteComponent = (function () {
+                function CasseTeteComponent() {
+                    console.info('CasseTete Component Mounted Successfully');
                 }
-                CasseTeteAngular = __decorate([
+                CasseTeteComponent = __decorate([
                     core_1.Component({
-                        selector: 'casse-tete-angular',
-                        templateUrl: 'casse-tete-angular.html'
+                        selector: 'casse-tete',
+                        templateUrl: 'dist/templates/casse-tete.html',
+                        styleUrls: ['assets/css/puzzle.css']
                     }), 
                     __metadata('design:paramtypes', [])
-                ], CasseTeteAngular);
-                return CasseTeteAngular;
+                ], CasseTeteComponent);
+                return CasseTeteComponent;
             }());
-            exports_1("CasseTeteAngular", CasseTeteAngular);
+            exports_1("CasseTeteComponent", CasseTeteComponent);
         }
     }
 });
-//# sourceMappingURL=casse-tete-angular.js.map
+//# sourceMappingURL=casse-tete.component.js.map

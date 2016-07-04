@@ -1,10 +1,7 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 
 @Component({
-  selector: 'casse-tete'
-})
-
-@View({
+  selector: 'casse-tete',
   templateUrl: 'dist/templates/casse-tete.html',
   styleUrls: ['assets/css/puzzle.css']
 })
