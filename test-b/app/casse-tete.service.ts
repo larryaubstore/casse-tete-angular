@@ -15,15 +15,18 @@ export class CasseTeteService {
 
   getPieces(width: number, height: number, count: number, imageSrc: string) {
 
-    var pieces: Piece[];
+    return new Promise<Piece[]>((resolve, reject) => {
 
-    let rows = count / 4;
+      var pieces: Piece[];
 
-    var image = new Image();
-    var scope = this;
-    image.onload = _.bind(function () {
+      let rows = count / 4;
 
-    }, this);
-    image.src = imageSrc;
+      var image = new Image();
+      var scope = this;
+      image.onload = _.bind(function () {
+        resolve(pieces);
+      }, this);
+      image.src = imageSrc;
+    });
   }
 }
