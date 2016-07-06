@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
     pug = require('gulp-pug')
     shell = require('gulp-shell')
-    clean = require('gulp-clean');
+    clean = require('gulp-clean'),
+    server = require('gulp-express');
 
 var runSequence = require('run-sequence');
 
@@ -37,14 +38,22 @@ gulp.task('clean', function () {
 
 });
 
+gulp.task('serve', function () {
+  server.run(['app.js']);
+
+});
 
 // serve the build dir
-gulp.task('serve', function () {
-  gulp.src('build')
-    .pipe(webserver({
-      open: true
-    }));
-});
+//gulp.task('serve', function () {
+//  gulp.src('build')
+//    .pipe(webserver({
+//      open: true
+//    }));
+//});
+
+
+
+
 
 // watch for changes and run the relevant task
 gulp.task('watch', function () {
