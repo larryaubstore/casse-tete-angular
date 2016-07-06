@@ -16,7 +16,7 @@ export class CasseTeteService {
 
   getPieces(width: number, height: number, count: number, imageSrc: string) {
 
-    //return new Promise<Piece[]>((resolve, reject) => {
+    return new Promise<Piece[]>((resolve, reject) => {
 
       var pieces: Piece[];
 
@@ -24,12 +24,32 @@ export class CasseTeteService {
 
       var image = new Image();
       var scope = this;
-      image.onload = _.bind(function () {
+      image.onload = function (event: any) {
 
-        alert('test');
-        //resolve(pieces);
-      }, this);
+        var natWidth = this.naturalWidth;
+        var natHeight = this.naturalHeight;
+
+        var incX: number = natWidth / (rows + 1);
+        var incY: number = natHeight / (rows + 1);
+        
+        var aPiece: Piece = null;
+        for(var i = 0; i < rows + 1; i++) {
+
+          aPiece = { id: i + 1, 
+                     left: i * incX, 
+                     top: incY * 1, 
+                     width: incX - 9, 
+                     height: incY - 9, 
+                     bgLeft: 2, 
+                     bgTop: 2 };
+          //pieces.push({ id: 1 });
+        }
+
+        //alert("w - h " + natWidth + " " + natHeight);
+        //alert('test');
+        resolve(pieces);
+      }
       image.src = imageSrc;
-    //});
+    });
   }
 }
