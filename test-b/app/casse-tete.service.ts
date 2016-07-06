@@ -7,6 +7,7 @@ import { CASSETETES } from './mock-casse-tetes';
 import { Piece } from './piece';
 
 
+
 @Injectable()
 export class CasseTeteService {
   getList() {
@@ -15,7 +16,7 @@ export class CasseTeteService {
 
   getPieces(width: number, height: number, count: number, imageSrc: string) {
 
-    return new Promise<Piece[]>((resolve, reject) => {
+    //return new Promise<Piece[]>((resolve, reject) => {
 
       var pieces: Piece[];
 
@@ -24,9 +25,11 @@ export class CasseTeteService {
       var image = new Image();
       var scope = this;
       image.onload = _.bind(function () {
-        resolve(pieces);
+
+        alert('test');
+        //resolve(pieces);
       }, this);
       image.src = imageSrc;
-    });
+    //});
   }
 }

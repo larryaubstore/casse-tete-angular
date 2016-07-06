@@ -1,14 +1,12 @@
 import {Component} from '@angular/core';
 
-import {CasseTeteAngular} from './casse-tete-angular';
-import {CasseTeteComponent} from './casse-tete.component';
 
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
 
 @Component({
   selector: 'main',
-  directives: [CasseTeteAngular, CasseTeteComponent, ROUTER_DIRECTIVES],
+  directives: [ ROUTER_DIRECTIVES],
   template: `
 
     <nav>

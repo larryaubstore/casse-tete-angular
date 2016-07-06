@@ -28,6 +28,8 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
        let url = params['url']; // (+) converts string 'id' to a number
        console.log(url);
        let list = this._casseTeteService.getList();
+
+       this._casseTeteService.getPieces(100, 100, 16, 'assets/css/20110403143837_rouedentelee.jpg');
        //this.service.getHero(id).then(hero => this.hero = hero);
      });
   }
