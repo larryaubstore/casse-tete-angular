@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute }       from '@angular/router';
 import { CasseTeteService }       from './casse-tete.service';
 
+import { Piece } from './piece';
+
 @Component({
   selector: 'casse-tete',
   templateUrl: 'app/dist/templates/casse-tete.html',
@@ -11,6 +13,7 @@ import { CasseTeteService }       from './casse-tete.service';
 
 export class CasseTeteComponent implements OnInit, OnDestroy {
 
+  puzzles: Piece[]; 
 
   private sub: any;
 
@@ -29,7 +32,7 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
        console.log(url);
        let list = this._casseTeteService.getList();
 
-       this._casseTeteService.getPieces(100, 100, 16, 'assets/css/20110403143837_rouedentelee.jpg');
+       this._casseTeteService.getPieces(100, 100, 16, 'assets/css/20110403143837_rouedentelee.jpg').then(puzzles => this.puzzles = puzzles);
        //this.service.getHero(id).then(hero => this.hero = hero);
      });
   }
