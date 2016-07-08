@@ -42,7 +42,7 @@ export class CasseTeteService {
                      height: incY - 9, 
                      bgLeft: 2, 
                      bgTop: 2 };
-          //pieces.push({ id: 1 });
+          pieces.push(aPiece);
         }
 
         //alert("w - h " + natWidth + " " + natHeight);

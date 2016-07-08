@@ -1,7 +1,7 @@
 export class Piece {
   id: number;
-  left: string;
-  top: string;
+  left: number;
+  top: number;
   width: number;
   height: number;
   bgLeft: number;
