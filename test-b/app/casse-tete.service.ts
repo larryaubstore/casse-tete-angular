@@ -18,7 +18,7 @@ export class CasseTeteService {
 
     return new Promise<Piece[]>((resolve, reject) => {
 
-      var pieces: Piece[];
+      var pieces: Piece[] = [];
 
       let rows = count / 4;
 

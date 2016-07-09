@@ -1,7 +1,8 @@
 #puzzle(style='width:100%;padding:20px;')
   .tilewrapper
     .position
-      div( *ngFor="let item of items")
+      div( *ngFor="let item of puzzles")
+        div(id='{{item.id}}')
       //
         #TILE_0.tile.tileimage.shadow.border(style='left:0px;top:0px;width:199px;height:142px;background-position:0px 0px;')
         #TILE_1.tile.tileimage.shadow.border(style='left:208px;top:0px;width:199px;height:142px;background-position:-199px 0px;')

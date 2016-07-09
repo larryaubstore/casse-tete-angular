@@ -32,8 +32,12 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
        console.log(url);
        let list = this._casseTeteService.getList();
 
-       this._casseTeteService.getPieces(100, 100, 16, 'assets/css/20110403143837_rouedentelee.jpg').then(puzzles => this.puzzles = puzzles);
-       //this.service.getHero(id).then(hero => this.hero = hero);
+       var scope = this;
+       this._casseTeteService.getPieces(100, 100, 16, 'assets/css/20110403143837_rouedentelee.jpg')
+        .then(function(puzzles) { 
+          scope.puzzles = puzzles;
+          console.log(JSON.stringify(scope.puzzles));
+        });
      });
   }
 
