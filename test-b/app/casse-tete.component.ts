@@ -56,6 +56,20 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
     return styles;
   }
 
+  onKeyRow(event:any) {
+
+    var row = +event.target.value;
+    console.log("row ==> " + row);
+    var scope = this;
+    this._casseTeteService.getPieces(100, 100, row, 'assets/css/20110403143837_rouedentelee.jpg')
+     .then(function(puzzles) { 
+       scope.puzzles = puzzles;
+       console.log(JSON.stringify(scope.puzzles));
+     });
+
+    //this.values += event.target.value + ' | ';
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
