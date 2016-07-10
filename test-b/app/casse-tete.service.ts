@@ -29,15 +29,15 @@ export class CasseTeteService {
         var natWidth = this.naturalWidth;
         var natHeight = this.naturalHeight;
 
-        var incX: number = natWidth / (rows + 1);
-        var incY: number = natHeight / (rows + 1);
-        
+        var incX: number = +(natWidth / (rows + 1));
+        var incY: number = +(natHeight / (rows + 1));
+       
         var aPiece: Piece = null;
         for(var i = 0; i < rows + 1; i++) {
 
           aPiece = { id: i + 1, 
                      left: i * incX, 
-                     top: incY * 1, 
+                     top: i * incY, 
                      width: incX - 9, 
                      height: incY - 9, 
                      bgLeft: 2, 

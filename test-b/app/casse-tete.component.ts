@@ -41,6 +41,19 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
      });
   }
 
+      //left : {{item.left}}px;top: {{item.top}}px;width: {{item.width}}px; height: {{item.height}}px;
+
+  setStyles(piece: Piece) {
+    let styles = {
+      'left': piece.left + 'px',
+      'top' : piece.top + 'px',
+      'width' : piece.width + 'px',
+      'height' : piece.height + 'px'
+
+    };
+    return styles;
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
