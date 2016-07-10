@@ -48,7 +48,8 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
       'left': piece.left + 'px',
       'top' : piece.top + 'px',
       'width' : piece.width + 'px',
-      'height' : piece.height + 'px'
+      'height' : piece.height + 'px',
+      'background-position': piece.bgLeft + 'px ' + piece.bgTop + 'px' 
 
     };
     return styles;

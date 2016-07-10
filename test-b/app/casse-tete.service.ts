@@ -21,6 +21,7 @@ export class CasseTeteService {
       var pieces: Piece[] = [];
 
       let rows = count / 4;
+      let cols = count / 4;
 
       var image = new Image();
       var scope = this;
@@ -29,20 +30,23 @@ export class CasseTeteService {
         var natWidth = this.naturalWidth;
         var natHeight = this.naturalHeight;
 
-        var incX: number = +(natWidth / (rows + 1));
-        var incY: number = +(natHeight / (rows + 1));
+        var incX: number = Math.floor(+(natWidth / (rows + 1)));
+        var incY: number = Math.floor(+(natHeight / (rows + 1)));
        
         var aPiece: Piece = null;
         for(var i = 0; i < rows + 1; i++) {
+        
+          for(var j = 0; j < cols + 1; j++) {
 
-          aPiece = { id: i + 1, 
-                     left: i * incX, 
-                     top: i * incY, 
-                     width: incX - 9, 
-                     height: incY - 9, 
-                     bgLeft: 2, 
-                     bgTop: 2 };
-          pieces.push(aPiece);
+            aPiece = { id: i + 1, 
+                       left: j * incX, 
+                       top: i * incY, 
+                       width: incX - 9, 
+                       height: incY - 9, 
+                       bgLeft: (incX) * j * -1, 
+                       bgTop: (incY) * i * -1};
+            pieces.push(aPiece);
+          }
         }
 
         //alert("w - h " + natWidth + " " + natHeight);
