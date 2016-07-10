@@ -1,5 +1,6 @@
-input(id='inputRow',  (keyup)="onKeyRow($event)")
-input(id='inputMargin',  (keyup)="onKeyMargin($event)")
+input(id='inputRow',  (keyup)="onKeyRow($event)", value='20')
+br
+input(id='inputMargin',  (keyup)="onKeyMargin($event)", value='9')
 #puzzle(style='width:100%;padding:20px;')
   .tilewrapper
     .position
