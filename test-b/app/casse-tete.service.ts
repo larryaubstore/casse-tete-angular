@@ -34,11 +34,12 @@ export class CasseTeteService {
         var incY: number = Math.floor(+(natHeight / (rows + 1)));
        
         var aPiece: Piece = null;
+        var counter = 0;
         for(var i = 0; i < rows + 1; i++) {
         
           for(var j = 0; j < cols + 1; j++) {
 
-            aPiece = { id: i + 1, 
+            aPiece = { id: counter + 1, 
                        left: j * incX, 
                        top: i * incY, 
                        width: incX - 9, 
@@ -46,6 +47,7 @@ export class CasseTeteService {
                        bgLeft: (incX) * j * -1, 
                        bgTop: (incY) * i * -1};
             pieces.push(aPiece);
+            counter++;
           }
         }
 
