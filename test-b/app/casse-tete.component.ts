@@ -3,6 +3,7 @@ import { Router, ActivatedRoute }       from '@angular/router';
 import { CasseTeteService }       from './casse-tete.service';
 
 import { Piece } from './piece';
+import { InputValues } from './inputValues';
 
 @Component({
   selector: 'casse-tete',
@@ -33,7 +34,7 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
        let list = this._casseTeteService.getList();
 
        var scope = this;
-       this._casseTeteService.getPieces(100, 100, 16, 'assets/css/20110403143837_rouedentelee.jpg')
+       this._casseTeteService.getPieces(100, 100, 16, 9, 'assets/css/20110403143837_rouedentelee.jpg')
         .then(function(puzzles) { 
           scope.puzzles = puzzles;
           console.log(JSON.stringify(scope.puzzles));
@@ -56,18 +57,61 @@ export class CasseTeteComponent implements OnInit, OnDestroy {
     return styles;
   }
 
+  getInputValues() {
+
+    var row = (<HTMLInputElement>document.getElementById('inputRow')).value;
+    var margin = (<HTMLInputElement>document.getElementById('inputMargin')).value;
+
+    var inputValues = new InputValues();
+
+    inputValues.count = +row;
+    inputValues.margin = +margin;
+    
+
+    return inputValues;
+//    return InputValues { 
+//      count : row;
+//      margin: margin;
+//      width: 0;
+//      height: 0;          
+//    };
+
+  }
+
   onKeyRow(event:any) {
 
-    var row = +event.target.value;
-    console.log("row ==> " + row);
+    //var row = +event.target.value;
+    //console.log("row ==> " + row);
+
+    var inputValues = this.getInputValues();
     var scope = this;
-    this._casseTeteService.getPieces(100, 100, row, 'assets/css/20110403143837_rouedentelee.jpg')
+    this._casseTeteService.getPieces(100, 
+                                     100, 
+                                     inputValues.count, 
+                                     inputValues.margin, 
+                                     'assets/css/20110403143837_rouedentelee.jpg')
      .then(function(puzzles) { 
        scope.puzzles = puzzles;
        console.log(JSON.stringify(scope.puzzles));
      });
+  }
 
-    //this.values += event.target.value + ' | ';
+  onKeyMargin(event:any) {
+
+    //var margin = +event.target.value;
+    //console.log("margin ==> " + margin);
+    
+    var inputValues = this.getInputValues();
+    var scope = this;
+    this._casseTeteService.getPieces(100, 
+                                     100, 
+                                     inputValues.count, 
+                                     inputValues.margin,
+                                     'assets/css/20110403143837_rouedentelee.jpg')
+     .then(function(puzzles) { 
+       scope.puzzles = puzzles;
+       console.log(JSON.stringify(scope.puzzles));
+     });
   }
 
   ngOnDestroy() {

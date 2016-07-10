@@ -14,7 +14,7 @@ export class CasseTeteService {
     return CASSETETES;
   }
 
-  getPieces(width: number, height: number, count: number, imageSrc: string) {
+  getPieces(width: number, height: number, count: number, margin: number, imageSrc: string) {
 
     return new Promise<Piece[]>((resolve, reject) => {
 
@@ -42,8 +42,8 @@ export class CasseTeteService {
             aPiece = { id: counter + 1, 
                        left: j * incX, 
                        top: i * incY, 
-                       width: incX - 9, 
-                       height: incY - 9, 
+                       width: incX - margin, 
+                       height: incY - margin, 
                        bgLeft: (incX) * j * -1, 
                        bgTop: (incY) * i * -1};
             pieces.push(aPiece);
