@@ -1,8 +1,12 @@
-h3 Top Puzzle 
-.grid.grid-pad
-  .col-1-4(*ngfor='#puzzle of puzzles', (click)='gotoDetail(puzzle)')
-    | ¦ 
-    .module.puzzle
-      | ¦ ¦ 
-      img(src='{{hero.name}}')
-      |   ¦
+input(id='inputRow',  (keyup)="onKeyRow($event)", value='20')
+br
+input(id='inputMargin',  (keyup)="onKeyMargin($event)", value='9')
+
+
+//casse-tete(*ngFor="let puzzle of puzzles" [puzzle]="puzzle")
+
+#puzzle(style='width:100%;padding:20px;')
+  .tilewrapper
+    .position
+      div( *ngFor="let puzzle of puzzles")
+        casse-tete([puzzle]="puzzle")

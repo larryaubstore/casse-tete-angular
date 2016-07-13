@@ -4,7 +4,7 @@ import {CasseTeteComponent} from './casse-tete.component';
 import {CasseTeteListComponent} from './casse-tete-list.component';
 
 export const routes: RouterConfig = [
-  { path: 'casse-tete/:url', component: CasseTeteComponent  },
+  { path: 'casse-tete/:url', component: CasseTeteListComponent  },
   { path: '', component: CasseTeteListComponent  }
 ];
 

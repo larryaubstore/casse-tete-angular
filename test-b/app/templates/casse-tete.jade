@@ -1,11 +1,4 @@
-input(id='inputRow',  (keyup)="onKeyRow($event)", value='20')
-br
-input(id='inputMargin',  (keyup)="onKeyMargin($event)", value='9')
-#puzzle(style='width:100%;padding:20px;')
-  .tilewrapper
-    .position
-      div( *ngFor="let item of puzzles")
-        div.tile.tileimage.shadow.border(id='TILE_{{item.id}}', [ngStyle]="setStyles(item)")
+div.tile.tileimage.shadow.border(id='TILE_{{puzzle.id}}', [ngStyle]="setStyles(puzzle)")
       //
         #TILE_0.tile.tileimage.shadow.border(style='left:0px;top:0px;width:199px;height:142px;background-position:0px 0px;')
         #TILE_1.tile.tileimage.shadow.border(style='left:208px;top:0px;width:199px;height:142px;background-position:-199px 0px;')
