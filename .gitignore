@@ -4,3 +4,4 @@ token
 dist/
 *.swp
 *.map
+app/*.js
