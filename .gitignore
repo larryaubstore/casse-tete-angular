@@ -1,6 +1,6 @@
 node_modules/
-build/
+build/*.js
 token
-dist/
 *.swp
 *.map
+app/*.js

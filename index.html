@@ -1,35 +1,28 @@
-<!doctype html>
-<html lang="">
+<html>
   <head>
+    <title>Angular 2 QuickStart</title>
+
     <base href="/">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>casse-tete-angular</title>
-  </head>
-  <body>
+    <link rel="stylesheet" href="styles.css">
 
-    <main>Loading...</main>
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
 
-    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
-    <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
-
-    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
-    <script src="node_modules/angular2/bundles/router.dev.js"></script>
+    <script src="node_modules/underscore/underscore-min.js"></script>
 
-
-
+    <script src="systemjs.config.js"></script>
     <script>
-      System.config({packages: {app: {format: 'register', defaultExtension: 'js'}}});
-      System.import('src/main.js').catch(console.log.bind(console));
+      System.import('app').catch(function(err){ console.error(err); });
     </script>
+  </head>
 
-
-
+  <body>
+    <main>Loading...</main>
   </body>
 </html>
