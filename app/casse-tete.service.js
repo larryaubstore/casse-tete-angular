@@ -1,47 +1,60 @@
-System.register(['@angular/core', './mock-casse-tetes'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
-    var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-    var core_1, mock_casse_tetes_1;
-    var CasseTeteService;
-    return {
-        setters:[
-            function (core_1_1) {
-                core_1 = core_1_1;
-            },
-            function (mock_casse_tetes_1_1) {
-                mock_casse_tetes_1 = mock_casse_tetes_1_1;
-            }],
-        execute: function() {
-            CasseTeteService = (function () {
-                function CasseTeteService() {
-                }
-                CasseTeteService.prototype.getList = function () {
-                    return mock_casse_tetes_1.CASSETETES;
-                };
-                CasseTeteService.prototype.getPieces = function (width, height, count, imageSrc) {
-                    //return new Promise<Piece[]>((resolve, reject) => {
-                    var pieces;
-                    var rows = count / 4;
-                    var image = new Image();
-                    var scope = this;
-                    image.onload = _.bind(function () {
-                        //resolve(pieces);
-                    }, this);
-                    image.src = imageSrc;
-                    //});
-                };
-                CasseTeteService = __decorate([
-                    core_1.Injectable()
-                ], CasseTeteService);
-                return CasseTeteService;
-            }());
-            exports_1("CasseTeteService", CasseTeteService);
-        }
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var mock_casse_tetes_1 = require('./mock-casse-tetes');
+var CasseTeteService = (function () {
+    function CasseTeteService() {
     }
-});
+    CasseTeteService.prototype.getList = function () {
+        return mock_casse_tetes_1.CASSETETES;
+    };
+    CasseTeteService.prototype.getPieces = function (width, height, count, margin, imageSrc) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var pieces = [];
+            var rows = count / 4;
+            var cols = count / 4;
+            var image = new Image();
+            var scope = _this;
+            image.onload = function (event) {
+                var natWidth = this.naturalWidth;
+                var natHeight = this.naturalHeight;
+                var incX = Math.floor(+(natWidth / (rows + 1)));
+                var incY = Math.floor(+(natHeight / (rows + 1)));
+                var aPiece = null;
+                var counter = 0;
+                for (var i = 0; i < rows + 1; i++) {
+                    for (var j = 0; j < cols + 1; j++) {
+                        aPiece = { id: counter + 1,
+                            left: j * incX,
+                            top: i * incY,
+                            width: incX - margin,
+                            height: incY - margin,
+                            bgLeft: (incX) * j * -1,
+                            bgTop: (incY) * i * -1 };
+                        pieces.push(aPiece);
+                        counter++;
+                    }
+                }
+                //alert("w - h " + natWidth + " " + natHeight);
+                //alert('test');
+                resolve(pieces);
+            };
+            image.src = imageSrc;
+        });
+    };
+    CasseTeteService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [])
+    ], CasseTeteService);
+    return CasseTeteService;
+}());
+exports.CasseTeteService = CasseTeteService;
