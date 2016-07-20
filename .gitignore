@@ -4,3 +4,4 @@ token
 *.swp
 *.map
 app/*.js
+config/default.json

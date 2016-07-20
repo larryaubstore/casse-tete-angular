@@ -1,0 +1,9 @@
+{
+  "flickr" : {
+
+      "FLICKR_KEY": "YOUR_KEY",
+      "FLICKR_PASS": "YOUR_PASS"
+
+  }
+
+}
