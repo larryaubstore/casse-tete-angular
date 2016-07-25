@@ -10,3 +10,7 @@ input(id='inputMargin',  (keyup)="onKeyMargin($event)", value='9')
       //div( *ngFor="let puzzle of puzzles")
       casse-tete(*ngFor="let puzzle of puzzles", [puzzle]="puzzle")
       //  casse-tete([puzzle]="puzzle")
+      //
+      //
+#vignettes(style='width:990px;margin: 0 auto;')
+  vignette(*ngFor="let vignette of vignettes", [vignette]="vignette")

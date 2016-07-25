@@ -5,6 +5,7 @@ import { CASSETETES } from './mock-casse-tetes';
 //import { PIECES } from './mock-casse-tete';
 //
 import { Piece } from './piece';
+import { Vignette } from './vignette';
 
 
 
@@ -12,6 +13,14 @@ import { Piece } from './piece';
 export class CasseTeteService {
   getList() {
     return CASSETETES;
+  }
+
+  getVignettes() {
+
+    var vignettes: Vignette[] = [
+
+      { 'id': 1, 'imagesrc': 'test1.jpg'}
+    ];
   }
 
   getPieces(width: number, height: number, count: number, margin: number, imageSrc: string) {

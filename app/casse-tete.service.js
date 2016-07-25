@@ -16,6 +16,11 @@ var CasseTeteService = (function () {
     CasseTeteService.prototype.getList = function () {
         return mock_casse_tetes_1.CASSETETES;
     };
+    CasseTeteService.prototype.getVignettes = function () {
+        var vignettes = [
+            { 'id': 1, 'imagesrc': 'test1.jpg' }
+        ];
+    };
     CasseTeteService.prototype.getPieces = function (width, height, count, margin, imageSrc) {
         var _this = this;
         return new Promise(function (resolve, reject) {

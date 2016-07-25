@@ -13,6 +13,7 @@ var router_1 = require('@angular/router');
 var casse_tete_service_1 = require('./casse-tete.service');
 var inputValues_1 = require('./inputValues');
 var casse_tete_component_1 = require('./casse-tete.component');
+var vignette_component_1 = require('./vignette.component');
 var CasseTeteListComponent = (function () {
     function CasseTeteListComponent(route, _router, _casseTeteService) {
         this.route = route;
@@ -76,7 +77,7 @@ var CasseTeteListComponent = (function () {
             templateUrl: 'app/dist/templates/casse-tete-list.html',
             styleUrls: ['assets/css/puzzle.css'],
             providers: [casse_tete_service_1.CasseTeteService],
-            directives: [casse_tete_component_1.CasseTeteComponent]
+            directives: [casse_tete_component_1.CasseTeteComponent, vignette_component_1.VignetteComponent]
         }), 
         __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, casse_tete_service_1.CasseTeteService])
     ], CasseTeteListComponent);

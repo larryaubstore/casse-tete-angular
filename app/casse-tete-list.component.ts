@@ -3,20 +3,23 @@ import { Router, ActivatedRoute }       from '@angular/router';
 import { CasseTeteService }       from './casse-tete.service';
 
 import { Piece } from './piece';
+import { Vignette } from './vignette';
 import { InputValues } from './inputValues';
 
 import { CasseTeteComponent } from './casse-tete.component';
+import { VignetteComponent } from './vignette.component';
  
 @Component({
   selector: 'casse-tete-list',
   templateUrl: 'app/dist/templates/casse-tete-list.html', 
   styleUrls: ['assets/css/puzzle.css'],
   providers: [CasseTeteService],
-  directives: [CasseTeteComponent]
+  directives: [CasseTeteComponent, VignetteComponent]
 }) 
 export class CasseTeteListComponent implements OnInit {
   
-  puzzles: Piece[]; 
+  puzzles: Piece[];
+  vignettes: Vignette[]; 
 
   private sub: any;
 

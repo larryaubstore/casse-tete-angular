@@ -3,6 +3,8 @@ import { Router, ActivatedRoute }       from '@angular/router';
 import { CasseTeteService }       from './casse-tete.service';
 
 import { Piece } from './piece';
+import { Vignette } from './vignette';
+
 import { InputValues } from './inputValues';
 
 @Component({
