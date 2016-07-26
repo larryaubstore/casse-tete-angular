@@ -10,7 +10,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
   template: `
 
     <nav>
-      <a [routerLink]="['casse-tete/test']">Dashboard</a>
+      <a [routerLink]="['casse-tete/test']">Valeur par défaut</a>
     </nav>
 
 
