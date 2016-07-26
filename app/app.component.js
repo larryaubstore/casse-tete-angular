@@ -17,7 +17,7 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'main',
             directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n\n    <nav>\n      <a [routerLink]=\"['casse-tete/test']\">Dashboard</a>\n    </nav>\n\n\n    <router-outlet></router-outlet>\n  "
+            template: "\n\n    <nav>\n      <a [routerLink]=\"['casse-tete/test']\">Valeur par d\u00E9faut</a>\n    </nav>\n\n\n    <router-outlet></router-outlet>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

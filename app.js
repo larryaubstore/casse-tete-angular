@@ -14,12 +14,13 @@ app.get('/assets/css/*.jpg', function(req, res) {
 
   if(urlParsed.query && urlParsed.query.scale) {
 
+    var factor = 100 / parseInt(urlParsed.query.scale);
     var image = sharp('.' + urlParsed.pathname);
     image
       .metadata()
       .then(function(metadata) {
         return image
-          .resize(Math.round(metadata.width / 2))
+          .resize(Math.round(metadata.width / factor))
           .webp()
           .toBuffer();
       })
@@ -29,7 +30,8 @@ app.get('/assets/css/*.jpg', function(req, res) {
         res.end();
       });
   } else {
-    fs.readFile('./assets/css/vallon.jpg', function(err, data) {
+//    fs.readFile('./assets/css/vallon.jpg', function(err, data) {
+    fs.readFile('./' + req.url, function(err, data) {
       if(err) throw err;
       res.write(data);
       res.end();

@@ -1,10 +1,11 @@
-input(id='inputRow',  (keyup)="onKeyRow($event)", value='20')
-br
-input(id='inputMargin',  (keyup)="onKeyMargin($event)", value='9')
-br
-input(id='inputWidth',  (keyup)="onKeyRow($event)", value='150')
-br
-input(id='inputHeight',  (keyup)="onKeyRow($event)", value='105')
+div(style='position:absolute;top:30px;left:30px;')
+  input(id='inputRow',  (keyup)="onKeyRow($event)", value='20')
+  br
+  input(id='inputMargin',  (keyup)="onKeyMargin($event)", value='9')
+  br
+  input(id='inputWidth',  (keyup)="onKeyRow($event)", value='150')
+  br
+  input(id='inputHeight',  (keyup)="onKeyRow($event)", value='105')
 
 #puzzle(style='width:100%;padding:20px;')
   .tilewrapper

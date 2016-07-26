@@ -30,8 +30,11 @@ var CasseTeteService = (function () {
             var image = new Image();
             var scope = _this;
             image.onload = function (event) {
-                var natWidth = this.naturalWidth;
-                var natHeight = this.naturalHeight;
+                var factor = 1;
+                var natWidth = this.naturalWidth * factor;
+                var natHeight = this.naturalHeight * factor;
+                //var natWidth = width;
+                //var natHeight = height;
                 var incX = Math.floor(+(natWidth / (rows + 1)));
                 var incY = Math.floor(+(natHeight / (rows + 1)));
                 var aPiece = null;
@@ -53,7 +56,7 @@ var CasseTeteService = (function () {
                 //alert('test');
                 resolve(pieces);
             };
-            image.src = imageSrc;
+            image.src = imageSrc + '?scale=100';
         });
     };
     CasseTeteService = __decorate([

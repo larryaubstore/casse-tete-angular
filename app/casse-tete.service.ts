@@ -68,7 +68,7 @@ export class CasseTeteService {
         //alert('test');
         resolve(pieces);
       }
-      image.src = imageSrc;
+      image.src = imageSrc + '?scale=100';
     });
   }
 }
