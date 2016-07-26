@@ -36,11 +36,15 @@ export class CasseTeteService {
       var scope = this;
       image.onload = function (event: any) {
 
-        var natWidth = this.naturalWidth;
-        var natHeight = this.naturalHeight;
+        var factor = 1;
 
-        var incX: number = Math.floor(+(natWidth / (rows + 1)));
-        var incY: number = Math.floor(+(natHeight / (rows + 1)));
+        var natWidth = this.naturalWidth * factor;
+        var natHeight = this.naturalHeight * factor;
+
+        //var natWidth = width;
+        //var natHeight = height;
+        var incX: number = Math.floor(+(natWidth  / (rows + 1)));
+        var incY: number = Math.floor(+(natHeight  / (rows + 1)));
        
         var aPiece: Piece = null;
         var counter = 0;

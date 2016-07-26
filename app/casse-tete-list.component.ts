@@ -51,11 +51,15 @@ export class CasseTeteListComponent implements OnInit {
 
     var row = (<HTMLInputElement>document.getElementById('inputRow')).value;
     var margin = (<HTMLInputElement>document.getElementById('inputMargin')).value;
+    var width = (<HTMLInputElement>document.getElementById('inputWidth')).value;
+    var height = (<HTMLInputElement>document.getElementById('inputHeight')).value;
 
     var inputValues = new InputValues();
 
     inputValues.count = +row;
     inputValues.margin = +margin;
+    inputValues.width = +width;
+    inputValues.height = +height;
     
 
     return inputValues;
@@ -75,8 +79,8 @@ export class CasseTeteListComponent implements OnInit {
 
     var inputValues = this.getInputValues();
     var scope = this;
-    this._casseTeteService.getPieces(100, 
-                                     100, 
+    this._casseTeteService.getPieces(inputValues.width, 
+                                     inputValues.height, 
                                      inputValues.count, 
                                      inputValues.margin, 
                                      'assets/css/20110403143837_rouedentelee.jpg')
@@ -93,8 +97,8 @@ export class CasseTeteListComponent implements OnInit {
     
     var inputValues = this.getInputValues();
     var scope = this;
-    this._casseTeteService.getPieces(100, 
-                                     100, 
+    this._casseTeteService.getPieces(inputValues.width, 
+                                     inputValues.height, 
                                      inputValues.count, 
                                      inputValues.margin,
                                      'assets/css/20110403143837_rouedentelee.jpg')
