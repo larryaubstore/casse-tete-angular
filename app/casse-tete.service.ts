@@ -6,7 +6,7 @@ import { CASSETETES } from './mock-casse-tetes';
 //
 import { Piece } from './piece';
 import { Vignette } from './vignette';
-
+import { InputValues } from './inputValues';
 
 
 @Injectable()
@@ -23,14 +23,21 @@ export class CasseTeteService {
     ];
   }
 
-  getPieces(width: number, height: number, count: number, margin: number, imageSrc: string) {
+  getPieces(inputValues: InputValues, imageSrc: string) {
 
     return new Promise<Piece[]>((resolve, reject) => {
 
       var pieces: Piece[] = [];
 
+      var count = inputValues.count;
+      var width = inputValues.width;
+      var height = inputValues.height;
+      var margin = inputValues.margin;
+
+
       let rows = count / 4;
       let cols = count / 4;
+
 
       var image = new Image();
       var scope = this;
@@ -48,6 +55,9 @@ export class CasseTeteService {
        
         var aPiece: Piece = null;
         var counter = 0;
+      
+        //rows = rows * 4;
+        //cols = cols * 4;
         for(var i = 0; i < rows + 1; i++) {
         
           for(var j = 0; j < cols + 1; j++) {
@@ -58,7 +68,8 @@ export class CasseTeteService {
                        width: incX - margin, 
                        height: incY - margin, 
                        bgLeft: (incX) * j * -1, 
-                       bgTop: (incY) * i * -1};
+                       bgTop: (incY) * i * -1,
+                       src: imageSrc + '?scale=' + inputValues.scale};
             pieces.push(aPiece);
             counter++;
           }
@@ -68,7 +79,7 @@ export class CasseTeteService {
         //alert('test');
         resolve(pieces);
       }
-      image.src = imageSrc + '?scale=100';
+      image.src = imageSrc + '?scale=' + inputValues.scale;
     });
   }
 }

@@ -27,7 +27,13 @@ var CasseTeteListComponent = (function () {
             console.log(url);
             var list = _this._casseTeteService.getList();
             var scope = _this;
-            _this._casseTeteService.getPieces(100, 100, 16, 9, 'assets/css/20110403143837_rouedentelee.jpg')
+            var inputValues = new inputValues_1.InputValues();
+            inputValues.width = 100;
+            inputValues.height = 100;
+            inputValues.count = 16;
+            inputValues.margin = 9;
+            inputValues.scale = 100;
+            _this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
                 .then(function (puzzles) {
                 scope.puzzles = puzzles;
                 console.log(JSON.stringify(scope.puzzles));
@@ -39,11 +45,13 @@ var CasseTeteListComponent = (function () {
         var margin = document.getElementById('inputMargin').value;
         var width = document.getElementById('inputWidth').value;
         var height = document.getElementById('inputHeight').value;
+        var scale = document.getElementById('inputScale').value;
         var inputValues = new inputValues_1.InputValues();
         inputValues.count = +row;
         inputValues.margin = +margin;
         inputValues.width = +width;
         inputValues.height = +height;
+        inputValues.scale = +scale;
         return inputValues;
     };
     //  gotoDetail(casseTete: CasseTete) { 
@@ -55,7 +63,7 @@ var CasseTeteListComponent = (function () {
         //console.log("row ==> " + row);
         var inputValues = this.getInputValues();
         var scope = this;
-        this._casseTeteService.getPieces(inputValues.width, inputValues.height, inputValues.count, inputValues.margin, 'assets/css/20110403143837_rouedentelee.jpg')
+        this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
             .then(function (puzzles) {
             scope.puzzles = puzzles;
             console.log(JSON.stringify(scope.puzzles));
@@ -66,7 +74,7 @@ var CasseTeteListComponent = (function () {
         //console.log("margin ==> " + margin);
         var inputValues = this.getInputValues();
         var scope = this;
-        this._casseTeteService.getPieces(inputValues.width, inputValues.height, inputValues.count, inputValues.margin, 'assets/css/20110403143837_rouedentelee.jpg')
+        this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
             .then(function (puzzles) {
             scope.puzzles = puzzles;
             console.log(JSON.stringify(scope.puzzles));

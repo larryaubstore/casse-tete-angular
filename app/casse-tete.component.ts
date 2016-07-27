@@ -33,7 +33,8 @@ export class CasseTeteComponent {
       'width' : piece.width + 'px',
       'height' : piece.height + 'px',
       'background-position': piece.bgLeft + 'px ' + piece.bgTop + 'px',
-      'display' : piece.id === 1 ? 'none' : 'block'
+      'display' : piece.id === 1 ? 'none' : 'block',
+      'background-image': 'url(' + piece.src + ')'
 
     };
     return styles;

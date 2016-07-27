@@ -22,10 +22,12 @@
 	position:relative;
 }
 
+/*
 .tileimage
 {
 	background-image: url('assets/css/20110403143837_rouedentelee.jpg');
 }
+*/
 
 .transparentTile {
 	opacity:0.4;

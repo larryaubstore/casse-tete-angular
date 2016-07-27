@@ -3,4 +3,5 @@ export class InputValues {
   width: number;
   height: number;
   margin: number;
+  scale: number;
 }

@@ -21,10 +21,14 @@ var CasseTeteService = (function () {
             { 'id': 1, 'imagesrc': 'test1.jpg' }
         ];
     };
-    CasseTeteService.prototype.getPieces = function (width, height, count, margin, imageSrc) {
+    CasseTeteService.prototype.getPieces = function (inputValues, imageSrc) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var pieces = [];
+            var count = inputValues.count;
+            var width = inputValues.width;
+            var height = inputValues.height;
+            var margin = inputValues.margin;
             var rows = count / 4;
             var cols = count / 4;
             var image = new Image();
@@ -39,6 +43,8 @@ var CasseTeteService = (function () {
                 var incY = Math.floor(+(natHeight / (rows + 1)));
                 var aPiece = null;
                 var counter = 0;
+                //rows = rows * 4;
+                //cols = cols * 4;
                 for (var i = 0; i < rows + 1; i++) {
                     for (var j = 0; j < cols + 1; j++) {
                         aPiece = { id: counter + 1,
@@ -47,7 +53,8 @@ var CasseTeteService = (function () {
                             width: incX - margin,
                             height: incY - margin,
                             bgLeft: (incX) * j * -1,
-                            bgTop: (incY) * i * -1 };
+                            bgTop: (incY) * i * -1,
+                            src: imageSrc + '?scale=' + inputValues.scale };
                         pieces.push(aPiece);
                         counter++;
                     }
@@ -56,7 +63,7 @@ var CasseTeteService = (function () {
                 //alert('test');
                 resolve(pieces);
             };
-            image.src = imageSrc + '?scale=100';
+            image.src = imageSrc + '?scale=' + inputValues.scale;
         });
     };
     CasseTeteService = __decorate([

@@ -6,4 +6,5 @@ export class Piece {
   height: number;
   bgLeft: number;
   bgTop: number;
+  src: string;
 }

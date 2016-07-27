@@ -34,11 +34,20 @@ export class CasseTeteListComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
 
        let url = params['url']; // (+) converts string 'id' to a number
+
        console.log(url);
        let list = this._casseTeteService.getList();
 
        var scope = this;
-       this._casseTeteService.getPieces(100, 100, 16, 9, 'assets/css/20110403143837_rouedentelee.jpg')
+
+       var inputValues = new InputValues();
+       inputValues.width = 100;
+       inputValues.height = 100;
+       inputValues.count = 16;
+       inputValues.margin = 9;
+       inputValues.scale = 100;
+
+       this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
         .then(function(puzzles) { 
           scope.puzzles = puzzles;
           console.log(JSON.stringify(scope.puzzles));
@@ -53,6 +62,7 @@ export class CasseTeteListComponent implements OnInit {
     var margin = (<HTMLInputElement>document.getElementById('inputMargin')).value;
     var width = (<HTMLInputElement>document.getElementById('inputWidth')).value;
     var height = (<HTMLInputElement>document.getElementById('inputHeight')).value;
+    var scale = (<HTMLInputElement>document.getElementById('inputScale')).value;
 
     var inputValues = new InputValues();
 
@@ -60,6 +70,7 @@ export class CasseTeteListComponent implements OnInit {
     inputValues.margin = +margin;
     inputValues.width = +width;
     inputValues.height = +height;
+    inputValues.scale = +scale;
     
 
     return inputValues;
@@ -79,10 +90,7 @@ export class CasseTeteListComponent implements OnInit {
 
     var inputValues = this.getInputValues();
     var scope = this;
-    this._casseTeteService.getPieces(inputValues.width, 
-                                     inputValues.height, 
-                                     inputValues.count, 
-                                     inputValues.margin, 
+    this._casseTeteService.getPieces(inputValues, 
                                      'assets/css/20110403143837_rouedentelee.jpg')
      .then(function(puzzles) { 
        scope.puzzles = puzzles;
@@ -97,10 +105,7 @@ export class CasseTeteListComponent implements OnInit {
     
     var inputValues = this.getInputValues();
     var scope = this;
-    this._casseTeteService.getPieces(inputValues.width, 
-                                     inputValues.height, 
-                                     inputValues.count, 
-                                     inputValues.margin,
+    this._casseTeteService.getPieces(inputValues, 
                                      'assets/css/20110403143837_rouedentelee.jpg')
      .then(function(puzzles) { 
        scope.puzzles = puzzles;
