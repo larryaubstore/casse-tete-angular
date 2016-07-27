@@ -18,7 +18,7 @@ var CasseTeteService = (function () {
     };
     CasseTeteService.prototype.getVignettes = function () {
         var vignettes = [
-            { 'id': 1, 'imagesrc': 'test1.jpg' }
+            { 'id': 1, 'imagesrc': 'colonne.jpg' }
         ];
     };
     CasseTeteService.prototype.getPieces = function (inputValues, imageSrc) {
@@ -37,6 +37,21 @@ var CasseTeteService = (function () {
                 var factor = 1;
                 var natWidth = this.naturalWidth * factor;
                 var natHeight = this.naturalHeight * factor;
+                //        var autoScale = 100;
+                //
+                //        if(natWidth > natHeight) {
+                //
+                //          if(natWidth > 500) {
+                //            autoScale = +(500 / natWidth * 100);
+                //          } else {
+                //
+                //          }
+                //        } else {
+                //
+                //          if(natHeight > 500) {
+                //            autoScale = +(500 / natHeight * 100);
+                //          }
+                //        }
                 //var natWidth = width;
                 //var natHeight = height;
                 var incX = Math.floor(+(natWidth / (rows + 1)));

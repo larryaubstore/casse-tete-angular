@@ -20,6 +20,9 @@ var CasseTeteListComponent = (function () {
         this._router = _router;
         this._casseTeteService = _casseTeteService;
     }
+    CasseTeteListComponent.prototype.getRandomInt = function (min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    };
     CasseTeteListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.route.params.subscribe(function (params) {
@@ -28,12 +31,15 @@ var CasseTeteListComponent = (function () {
             var list = _this._casseTeteService.getList();
             var scope = _this;
             var inputValues = new inputValues_1.InputValues();
-            inputValues.width = 100;
-            inputValues.height = 100;
-            inputValues.count = 16;
-            inputValues.margin = 9;
+            inputValues.width = 150;
+            inputValues.height = 105;
+            inputValues.count = 80;
+            inputValues.margin = 2;
             inputValues.scale = 100;
-            _this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
+            var randomInt = +_this.getRandomInt(0, list.length);
+            console.log("random Int ==> " + randomInt);
+            var imageSrc = list[randomInt].src;
+            _this._casseTeteService.getPieces(inputValues, imageSrc)
                 .then(function (puzzles) {
                 scope.puzzles = puzzles;
                 console.log(JSON.stringify(scope.puzzles));

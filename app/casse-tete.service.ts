@@ -19,11 +19,13 @@ export class CasseTeteService {
 
     var vignettes: Vignette[] = [
 
-      { 'id': 1, 'imagesrc': 'test1.jpg'}
+      { 'id': 1, 'imagesrc': 'colonne.jpg'}
     ];
   }
 
   getPieces(inputValues: InputValues, imageSrc: string) {
+
+
 
     return new Promise<Piece[]>((resolve, reject) => {
 
@@ -47,6 +49,21 @@ export class CasseTeteService {
 
         var natWidth = this.naturalWidth * factor;
         var natHeight = this.naturalHeight * factor;
+//        var autoScale = 100;
+//
+//        if(natWidth > natHeight) {
+//
+//          if(natWidth > 500) {
+//            autoScale = +(500 / natWidth * 100);
+//          } else {
+//
+//          }
+//        } else {
+//
+//          if(natHeight > 500) {
+//            autoScale = +(500 / natHeight * 100);
+//          }
+//        }
 
         //var natWidth = width;
         //var natHeight = height;

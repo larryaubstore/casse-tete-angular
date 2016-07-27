@@ -1,13 +1,6 @@
 "use strict";
 exports.CASSETETES = [
-    { 'id': 11, 'src': 'Mr. Nice' },
-    { 'id': 12, 'src': 'Narco' },
-    { 'id': 13, 'src': 'Bombasto' },
-    { 'id': 14, 'src': 'Celeritas' },
-    { 'id': 15, 'src': 'Magneta' },
-    { 'id': 16, 'src': 'RubberMan' },
-    { 'id': 17, 'src': 'Dynama' },
-    { 'id': 18, 'src': 'Dr IQ' },
-    { 'id': 19, 'src': 'Magma' },
-    { 'id': 20, 'src': 'Tornado' }
+    { 'id': 11, 'src': 'assets/css/20110403143837_rouedentelee.jpg' },
+    { 'id': 12, 'src': 'assets/css/vallon.jpg' },
+    { 'id': 13, 'src': 'assets/css/colonne.jpg' }
 ];

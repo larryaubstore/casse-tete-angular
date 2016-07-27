@@ -30,6 +30,10 @@ export class CasseTeteListComponent implements OnInit {
     private _casseTeteService: CasseTeteService) {
   } 
   
+  getRandomInt(min: number, max:number) {
+      return Math.floor(Math.random() * (max - min)) + min;
+  }
+
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
 
@@ -41,13 +45,18 @@ export class CasseTeteListComponent implements OnInit {
        var scope = this;
 
        var inputValues = new InputValues();
-       inputValues.width = 100;
-       inputValues.height = 100;
-       inputValues.count = 16;
-       inputValues.margin = 9;
+       inputValues.width = 150;
+       inputValues.height = 105;
+       inputValues.count = 80;
+       inputValues.margin = 2;
        inputValues.scale = 100;
 
-       this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
+
+       var randomInt = +this.getRandomInt(0, list.length);
+       console.log("random Int ==> " + randomInt);
+       var imageSrc = list[randomInt].src;
+
+       this._casseTeteService.getPieces(inputValues, imageSrc)
         .then(function(puzzles) { 
           scope.puzzles = puzzles;
           console.log(JSON.stringify(scope.puzzles));
