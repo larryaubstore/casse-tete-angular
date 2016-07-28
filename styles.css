@@ -182,3 +182,15 @@ nav a.router-link-active {
   max-height:100%;
   overflow:auto;
 }
+
+
+
+.vignettebordure {
+  padding:1px;
+  border:1px solid #021a40;
+  background-color: #E9E9E9;
+  margin-right: 5px;
+  padding: 3px;
+}
+
+
