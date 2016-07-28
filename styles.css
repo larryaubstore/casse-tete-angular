@@ -190,7 +190,13 @@ nav a.router-link-active {
   border:1px solid #021a40;
   background-color: #E9E9E9;
   margin-right: 5px;
+  margin-bottom: 5px;
   padding: 3px;
 }
+
+
+.grow { transition: all .2s ease-in-out; }
+.grow:hover { transform: scale(1.1); }
+
 
 
