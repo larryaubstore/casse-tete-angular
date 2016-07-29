@@ -186,12 +186,11 @@ nav a.router-link-active {
 
 
 .vignettebordure {
-  padding:1px;
+  padding:0px;
   border:1px solid #021a40;
   background-color: #E9E9E9;
   margin-right: 5px;
   margin-bottom: 5px;
-  padding: 3px;
 }
 
 

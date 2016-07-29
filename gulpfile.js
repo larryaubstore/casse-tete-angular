@@ -54,7 +54,7 @@ gulp.task('compilets', function () {
 
 
 gulp.task('private:build-ng2-templates', function(done){  
-    return gulp.src('app/templates/**/*.jade')
+    return gulp.src('app/templates/**/*.pug')
         .pipe(pug())
         .pipe(gulp.dest('app/dist/templates'));
 });
