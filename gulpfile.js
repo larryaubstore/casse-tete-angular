@@ -31,6 +31,12 @@ gulp.task('heroku:', function(done) {
 });
 
 
+gulp.task('copy', function () {
+
+  return gulp.src(['./node_modules/bootstrap/dist/**'])
+    .pipe(gulp.dest('./assets/bootstrap/'));
+});
+
 
 gulp.task('serve', function () {
   server.run(['app.js']);
