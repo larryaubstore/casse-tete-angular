@@ -37,7 +37,10 @@ export class CasseTeteListComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
 
-       let url = params['url']; // (+) converts string 'id' to a number
+       let url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
+
+       let marker = url.indexOf('?');
+       url = url.substr(0, marker);
 
        console.log(url);
        let list = this._casseTeteService.getList();
@@ -54,7 +57,9 @@ export class CasseTeteListComponent implements OnInit {
 
        var randomInt = +this.getRandomInt(0, list.length);
        console.log("random Int ==> " + randomInt);
-       var imageSrc = list[randomInt].src;
+       //var imageSrc = list[randomInt].src;
+       //
+       var imageSrc = url;
 
        this._casseTeteService.getPieces(inputValues, imageSrc)
         .then(function(puzzles) { 

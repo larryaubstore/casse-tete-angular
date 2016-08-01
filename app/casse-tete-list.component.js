@@ -26,7 +26,9 @@ var CasseTeteListComponent = (function () {
     CasseTeteListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.route.params.subscribe(function (params) {
-            var url = params['url']; // (+) converts string 'id' to a number
+            var url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
+            var marker = url.indexOf('?');
+            url = url.substr(0, marker);
             console.log(url);
             var list = _this._casseTeteService.getList();
             var scope = _this;
@@ -38,7 +40,9 @@ var CasseTeteListComponent = (function () {
             inputValues.scale = 100;
             var randomInt = +_this.getRandomInt(0, list.length);
             console.log("random Int ==> " + randomInt);
-            var imageSrc = list[randomInt].src;
+            //var imageSrc = list[randomInt].src;
+            //
+            var imageSrc = url;
             _this._casseTeteService.getPieces(inputValues, imageSrc)
                 .then(function (puzzles) {
                 scope.puzzles = puzzles;
