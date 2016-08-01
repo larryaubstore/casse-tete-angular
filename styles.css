@@ -185,9 +185,15 @@ nav a.router-link-active {
 
 
 
+.col-md-2 {
+  min-width: 210px;
+}
+
+
+
 .vignettebordure {
   padding:0px;
-  border:1px solid #021a40;
+  /*border:1px solid #021a40;*/
   background-color: #E9E9E9;
   margin-right: 5px;
   margin-bottom: 5px;
@@ -197,5 +203,8 @@ nav a.router-link-active {
 .grow { transition: all .2s ease-in-out; }
 .grow:hover { transform: scale(1.1); }
 
+.container-fluid {
+  padding-top: 40px;
+}
 
 

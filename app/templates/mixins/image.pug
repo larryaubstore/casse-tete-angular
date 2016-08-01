@@ -1,4 +1,5 @@
 mixin image(src)
-  .col-md-2
-    .vignette.vignettebordure.grow
-      img(src=src,  width=200, height=134, style='margin-left:-100px; left: 50%; position:relative;' )
+  a(href='/casse-tete/' + encodeURIComponent(src))
+    .col-md-2
+      .vignette.vignettebordure.grow
+        img(src=src,  width=200, height=134, style='margin-left:-100px; left: 50%; position:relative;' )
