@@ -26,10 +26,9 @@ var CasseTeteListComponent = (function () {
     CasseTeteListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.route.params.subscribe(function (params) {
-            var url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
-            var marker = url.indexOf('?');
-            url = url.substr(0, marker);
-            console.log(url);
+            _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
+            var marker = _this._url.indexOf('?');
+            _this._url = _this._url.substr(0, marker);
             var list = _this._casseTeteService.getList();
             var scope = _this;
             var inputValues = new inputValues_1.InputValues();
@@ -38,17 +37,81 @@ var CasseTeteListComponent = (function () {
             inputValues.count = 80;
             inputValues.margin = 2;
             inputValues.scale = 100;
+            var totalWidth = document.getElementsByClassName("col-md-10")[0].offsetWidth;
+            var fitWidth = Math.floor(totalWidth / inputValues.count);
+            console.log("fitWidth ==> " + fitWidth);
             var randomInt = +_this.getRandomInt(0, list.length);
-            console.log("random Int ==> " + randomInt);
-            //var imageSrc = list[randomInt].src;
-            //
-            var imageSrc = url;
+            var imageSrc = _this._url;
             _this._casseTeteService.getPieces(inputValues, imageSrc)
                 .then(function (puzzles) {
                 scope.puzzles = puzzles;
-                console.log(JSON.stringify(scope.puzzles));
             });
+            window.addEventListener("resize", _.bind(_this.resize, _this));
         });
+    };
+    CasseTeteListComponent.prototype.ngAfterViewInit = function () {
+        console.log('AfterViewInit');
+        $("#inputRow").slider().on('slide', _.bind(function (event) {
+            this.onKeyRow(event);
+            console.log(event.value);
+        }, this))
+            .data('slider');
+        $("#inputMargin").slider().on('slide', _.bind(function (event) {
+            this.onKeyRow(event);
+            console.log(event.value);
+        }, this))
+            .data('slider');
+        $("#inputWidth").slider().on('slide', _.bind(function (event) {
+            this.onKeyRow(event);
+            console.log(event.value);
+        }, this))
+            .data('slider');
+        $("#inputHeight").slider().on('slide', _.bind(function (event) {
+            this.onKeyRow(event);
+            console.log(event.value);
+        }, this))
+            .data('slider');
+        $("#inputScale").slider().on('slide', _.bind(function (event) {
+            this.onKeyRow(event);
+            console.log(event.value);
+        }, this))
+            .data('slider');
+        this.resize();
+    };
+    CasseTeteListComponent.prototype.resize = function () {
+        if (this._resizeTimeout)
+            clearTimeout(this._resizeTimeout);
+        this._resizeTimeout = setTimeout(_.bind(function () {
+            var inputValues = this.getInputValues();
+            var totalWidth = document.getElementsByClassName("col-md-10")[0].clientWidth;
+            //let totalHeight = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientHeight;
+            var totalHeight = document.getElementsByTagName("body")[0].clientHeight;
+            console.log("resize");
+            console.log(totalWidth);
+            console.log(totalHeight);
+            var scope = this;
+            this._casseTeteService.getImageNatural(this._url)
+                .then(function (imageNatural) {
+                if (imageNatural.width >= totalWidth) {
+                    var factor = Math.floor(totalWidth / imageNatural.width * 100 - 20);
+                    console.log("FACTOR ==> " + factor);
+                    inputValues.scale = factor;
+                    scope._casseTeteService.getPieces(inputValues, scope._url)
+                        .then(function (puzzles) {
+                        scope.puzzles = puzzles;
+                    });
+                }
+                else {
+                    var factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
+                    console.log("FACTOR ==> " + factor);
+                    inputValues.scale = factor;
+                    scope._casseTeteService.getPieces(inputValues, scope._url)
+                        .then(function (puzzles) {
+                        scope.puzzles = puzzles;
+                    });
+                }
+            });
+        }, this), 100);
     };
     CasseTeteListComponent.prototype.getInputValues = function () {
         var row = document.getElementById('inputRow').value;
@@ -64,30 +127,20 @@ var CasseTeteListComponent = (function () {
         inputValues.scale = +scale;
         return inputValues;
     };
-    //  gotoDetail(casseTete: CasseTete) { 
-    //    let link = ['CasseTeteList', { id: casseTete.id }];                                                       
-    //    this._router.navigate(link);
-    //  } 
     CasseTeteListComponent.prototype.onKeyRow = function (event) {
-        //var row = +event.target.value;
-        //console.log("row ==> " + row);
         var inputValues = this.getInputValues();
         var scope = this;
-        this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
+        this._casseTeteService.getPieces(inputValues, this._url)
             .then(function (puzzles) {
             scope.puzzles = puzzles;
-            console.log(JSON.stringify(scope.puzzles));
         });
     };
     CasseTeteListComponent.prototype.onKeyMargin = function (event) {
-        //var margin = +event.target.value;
-        //console.log("margin ==> " + margin);
         var inputValues = this.getInputValues();
         var scope = this;
-        this._casseTeteService.getPieces(inputValues, 'assets/css/20110403143837_rouedentelee.jpg')
+        this._casseTeteService.getPieces(inputValues, this._url)
             .then(function (puzzles) {
             scope.puzzles = puzzles;
-            console.log(JSON.stringify(scope.puzzles));
         });
     };
     CasseTeteListComponent.prototype.ngOnDestroy = function () {

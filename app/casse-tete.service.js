@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var mock_casse_tetes_1 = require('./mock-casse-tetes');
+var imagenatural_1 = require('./imagenatural');
 var CasseTeteService = (function () {
     function CasseTeteService() {
     }
@@ -20,6 +21,20 @@ var CasseTeteService = (function () {
         var vignettes = [
             { 'id': 1, 'imagesrc': 'colonne.jpg' }
         ];
+    };
+    CasseTeteService.prototype.getImageNatural = function (url) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var image = new Image();
+            var scope = _this;
+            image.onload = function (event) {
+                var imageNatural = new imagenatural_1.ImageNatural();
+                imageNatural.width = this.naturalWidth;
+                imageNatural.height = this.naturalHeight;
+                resolve(imageNatural);
+            };
+            image.src = url;
+        });
     };
     CasseTeteService.prototype.getPieces = function (inputValues, imageSrc) {
         var _this = this;
@@ -58,8 +73,6 @@ var CasseTeteService = (function () {
                 var incY = Math.floor(+(natHeight / (rows + 1)));
                 var aPiece = null;
                 var counter = 0;
-                //rows = rows * 4;
-                //cols = cols * 4;
                 for (var i = 0; i < rows + 1; i++) {
                     for (var j = 0; j < cols + 1; j++) {
                         aPiece = { id: counter + 1,
@@ -74,8 +87,6 @@ var CasseTeteService = (function () {
                         counter++;
                     }
                 }
-                //alert("w - h " + natWidth + " " + natHeight);
-                //alert('test');
                 resolve(pieces);
             };
             image.src = imageSrc + '?scale=' + inputValues.scale;

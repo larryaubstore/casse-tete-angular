@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable }       from '@angular/core';
+import { CasseTete }        from './casse-tete';
+import { CASSETETES }       from './mock-casse-tetes';
+import { Piece }            from './piece';
+import { Vignette }         from './vignette';
+import { InputValues }      from './inputValues';
 
-import { CasseTete } from './casse-tete';
-import { CASSETETES } from './mock-casse-tetes';
-//import { PIECES } from './mock-casse-tete';
-//
-import { Piece } from './piece';
-import { Vignette } from './vignette';
-import { InputValues } from './inputValues';
+import { ImageNatural }     from './imagenatural';
 
 
 @Injectable()
@@ -22,6 +21,23 @@ export class CasseTeteService {
       { 'id': 1, 'imagesrc': 'colonne.jpg'}
     ];
   }
+
+
+  getImageNatural(url: string) {
+    return new Promise<ImageNatural>((resolve, reject) => {
+      var image = new Image();
+      var scope = this;
+      image.onload = function (event: any) {
+        let imageNatural = new ImageNatural();
+        imageNatural.width = this.naturalWidth;
+        imageNatural.height = this.naturalHeight;
+        resolve(imageNatural);
+      };
+      
+      image.src = url;
+    });
+  }
+
 
   getPieces(inputValues: InputValues, imageSrc: string) {
 
@@ -73,8 +89,6 @@ export class CasseTeteService {
         var aPiece: Piece = null;
         var counter = 0;
       
-        //rows = rows * 4;
-        //cols = cols * 4;
         for(var i = 0; i < rows + 1; i++) {
         
           for(var j = 0; j < cols + 1; j++) {
@@ -91,11 +105,9 @@ export class CasseTeteService {
             counter++;
           }
         }
-
-        //alert("w - h " + natWidth + " " + natHeight);
-        //alert('test');
         resolve(pieces);
       }
+
       image.src = imageSrc + '?scale=' + inputValues.scale;
     });
   }
