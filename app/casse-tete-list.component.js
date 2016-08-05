@@ -99,6 +99,7 @@ var CasseTeteListComponent = (function () {
                     scope._casseTeteService.getPieces(inputValues, scope._url)
                         .then(function (puzzles) {
                         scope.puzzles = puzzles;
+                        $("#puzzle").removeClass("invisible");
                     });
                 }
                 else {
@@ -108,6 +109,7 @@ var CasseTeteListComponent = (function () {
                     scope._casseTeteService.getPieces(inputValues, scope._url)
                         .then(function (puzzles) {
                         scope.puzzles = puzzles;
+                        $("#puzzle").removeClass("invisible");
                     });
                 }
             });

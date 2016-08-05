@@ -141,6 +141,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             scope._casseTeteService.getPieces(inputValues, scope._url)
             .then(function(puzzles: any) { 
               scope.puzzles = puzzles;
+              $("#puzzle").removeClass("invisible");
             });
           } else {
             let factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
@@ -149,6 +150,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             scope._casseTeteService.getPieces(inputValues, scope._url)
             .then(function(puzzles: any) { 
               scope.puzzles = puzzles;
+              $("#puzzle").removeClass("invisible");
             });
           }
 
