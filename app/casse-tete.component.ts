@@ -33,10 +33,15 @@ export class CasseTeteComponent {
     //alert(this.parent.getFreeSpot());
 
     let freeSpot = this.parent.getFreeSpot();
+    let rowCount = this.parent.getRowCount();
     if(this.puzzle.id - 1 === freeSpot) {
       alert("GO LEFT");
     } else if(this.puzzle.id + 1 === freeSpot) {
       alert("GO RIGHT");
+    } else if(this.puzzle.id - rowCount === freeSpot) {
+      alert("GO UP");
+    } else if(this.puzzle.id + rowCount === freeSpot) {
+      alert("GO DOWN");
     } else {
 
     }

@@ -27,6 +27,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   private _url: string;
   private _resizeTimeout: any;
   private _freeSpot: number;
+  private _rowCount: number;
 
   constructor(                                                                                        
 
@@ -42,6 +43,10 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   getFreeSpot() {
     return this._freeSpot;
+  }
+
+  getRowCount() {
+    return this._rowCount + 1;
   }
 
   ngOnInit() {
@@ -80,6 +85,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        this._casseTeteService.getPieces(inputValues, imageSrc)
         .then(function(puzzles) { 
           scope.puzzles = puzzles;
+          scope._rowCount = inputValues.count / 4;
         });
 
        window.addEventListener("resize", _.bind(this.resize, this)); 
@@ -149,6 +155,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             scope._casseTeteService.getPieces(inputValues, scope._url)
             .then(function(puzzles: any) { 
               scope.puzzles = puzzles;
+              scope._rowCount = inputValues.count / 4;
               $("#puzzle").removeClass("invisible");
             });
           } else {
@@ -158,6 +165,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             scope._casseTeteService.getPieces(inputValues, scope._url)
             .then(function(puzzles: any) { 
               scope.puzzles = puzzles;
+              scope._rowCount = inputValues.count / 4;
               $("#puzzle").removeClass("invisible");
             });
           }
@@ -199,16 +207,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
                                      this._url)
      .then(function(puzzles) { 
        scope.puzzles = puzzles;
-     });
-  }
-
-  onKeyMargin(event:any) {
-    var inputValues = this.getInputValues();
-    var scope = this;
-    this._casseTeteService.getPieces(inputValues, 
-                                     this._url)
-     .then(function(puzzles) { 
-       scope.puzzles = puzzles;
+       scope._rowCount = inputValues.count / 4;
      });
   }
 
