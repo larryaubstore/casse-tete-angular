@@ -34,12 +34,20 @@ export class CasseTeteComponent {
 
     let freeSpot = this.parent.getFreeSpot();
     let rowCount = this.parent.getRowCount();
+
+    let tileSelector = $("#TILE_" + this.puzzle.id);
+
     if(this.puzzle.id - 1 === freeSpot) {
       alert("GO LEFT");
     } else if(this.puzzle.id + 1 === freeSpot) {
       alert("GO RIGHT");
     } else if(this.puzzle.id - rowCount === freeSpot) {
-      alert("GO UP");
+
+      let offset = this.parent.getTileOffsetHeight();
+      tileSelector.animate({ top : '-=' + this.parent.getTileOffsetHeight()}, 250, function () {
+
+      });
+      //alert("GO UP");
     } else if(this.puzzle.id + rowCount === freeSpot) {
       alert("GO DOWN");
     } else {
