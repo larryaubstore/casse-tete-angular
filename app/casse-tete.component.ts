@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute }       from '@angular/router';
 import { CasseTeteService }       from './casse-tete.service';
+import { CasseTeteListComponent }       from './casse-tete-list.component';
 
 import { Piece } from './piece';
 import { Vignette } from './vignette';
@@ -16,7 +17,9 @@ import { InputValues } from './inputValues';
 
 export class CasseTeteComponent {
 
-  @Input() puzzle: Piece; 
+  @Input() puzzle: Piece;
+  @Input() parent: CasseTeteListComponent;
+  private _realPos: number;
 
 
   constructor(
@@ -24,6 +27,30 @@ export class CasseTeteComponent {
     console.info('CasseTete Component Mounted Successfully');
   }
 
+  private _onClick() {
+
+
+    //alert(this.parent.getFreeSpot());
+
+    let freeSpot = this.parent.getFreeSpot();
+    if(this.puzzle.id - 1 === freeSpot) {
+      alert("GO LEFT");
+    } else if(this.puzzle.id + 1 === freeSpot) {
+      alert("GO RIGHT");
+    } else {
+
+    }
+
+
+    //alert(this.puzzle.id); 
+  }
+
+  ngAfterViewInit() {
+    this._realPos = this.puzzle.id;
+    document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", 
+      _.bind(this._onClick, this));
+
+  }
 
 
   setStyles(piece: Piece) {

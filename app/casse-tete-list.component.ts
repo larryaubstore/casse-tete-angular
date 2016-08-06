@@ -21,10 +21,12 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   
   puzzles: Piece[];
   vignettes: Vignette[]; 
+  me: CasseTeteListComponent;
 
   private sub: any;
   private _url: string;
   private _resizeTimeout: any;
+  private _freeSpot: number;
 
   constructor(                                                                                        
 
@@ -38,9 +40,15 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
       return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  getFreeSpot() {
+    return this._freeSpot;
+  }
+
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
 
+       this.me = this;
+       this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
 
        let marker = this._url.indexOf('?');

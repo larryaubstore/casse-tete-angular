@@ -12,12 +12,12 @@
       .input-group
         input( id="inputMargin", data-slider-id='exMarginSlider', type="text", data-slider-min="0", data-slider-max="30", data-slider-step="1", data-slider-value="9")
 
-      label(for="inputWidth")='Tile width'
-      .input-group
+      label.invisible(for="inputWidth")='Tile width'
+      .input-group.invisible
         input( id="inputWidth", data-slider-id='exWidthSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="150")
 
-      label(for="inputHeight")='Tile height'
-      .input-group
+      label.invisible(for="inputHeight")='Tile height'
+      .input-group.invisible
         input( id="inputHeight", data-slider-id='exHeightSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="105")
 
       label(for="inputScale")='Scale'
@@ -29,7 +29,7 @@
         .tilewrapper
           .position
             //div( *ngFor="let puzzle of puzzles")
-            casse-tete(*ngFor="let puzzle of puzzles", [puzzle]="puzzle")
+            casse-tete(*ngFor="let puzzle of puzzles", [puzzle]="puzzle", [parent]="me")
             //  casse-tete([puzzle]="puzzle")
             //
             //
