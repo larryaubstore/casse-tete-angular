@@ -150,6 +150,15 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   }
 
+  checkErrors() {
+
+    var count = 0;
+    for(var i = 0; i < this.puzzles.length; i++) {
+
+
+    }
+  }
+
   resize() {
 
     if(this._resizeTimeout) clearTimeout(this._resizeTimeout);

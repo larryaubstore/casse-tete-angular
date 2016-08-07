@@ -1,0 +1,9 @@
+mixin errorpanel(counterrors)
+
+  if counterrors > 0
+    h1
+      span.label.label-danger=countererrors
+  else
+    h1
+      span.label.label-success=0
+

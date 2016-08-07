@@ -1,3 +1,5 @@
+include mixins/errorpanel.pug
+
 .container-fluid
   .row
     .col-md-2
@@ -23,6 +25,8 @@
       label(for="inputScale")='Scale'
       .input-group
         input( id="inputScale", data-slider-id='exScaleSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="50")
+
+      +errorpanel(0)
 
     .col-md-10
       #puzzle.invisible(style='width:100%;')
