@@ -26,7 +26,11 @@ include mixins/errorpanel.pug
       .input-group
         input( id="inputScale", data-slider-id='exScaleSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="50")
 
-      +errorpanel(0)
+      h1
+        span.label.label-danger([style.display]="countererrors > 0  ? 'block' : 'none'")='{{countererrors}}'
+      h1
+        span.label.label-success([style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
+      // +errorpanel(0)
 
     .col-md-10
       #puzzle.invisible(style='width:100%;')

@@ -115,7 +115,8 @@ export class CasseTeteService {
                        height: incY - margin, 
                        bgLeft: (incX) * j * -1, 
                        bgTop: (incY) * i * -1,
-                       src: imageSrc + '?scale=' + inputValues.scale};
+                       src: imageSrc + '?scale=' + inputValues.scale,
+                       realPos: 0};
             pieces.push(aPiece);
             counter++;
           }

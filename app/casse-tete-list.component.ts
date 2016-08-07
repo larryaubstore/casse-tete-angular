@@ -22,6 +22,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   puzzles: Piece[];
   vignettes: Vignette[]; 
   me: CasseTeteListComponent;
+  countererrors: number;
 
   private sub: any;
   private _url: string;
@@ -67,6 +68,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     this.sub = this.route.params.subscribe(params => {
 
        this.me = this;
+       this.countererrors = 0;
        this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
 
@@ -155,14 +157,21 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     var count = 0;
     for(var i = 0; i < this.puzzles.length; i++) {
 
+      if(!this.puzzles[i].isCorrect()) {
+        count++;
+      }
 
     }
+
+    return count;
   }
 
   resize() {
 
     if(this._resizeTimeout) clearTimeout(this._resizeTimeout);
     this._resizeTimeout = setTimeout(_.bind(function () {
+
+      this.countererrors = this.checkErrors();
       let inputValues = this.getInputValues();
       let totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth;
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;
@@ -216,7 +225,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
         });
 
 
-    }, this), 100);
+    }, this), 500);
 
 
   } 

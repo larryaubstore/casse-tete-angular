@@ -7,4 +7,13 @@ export class Piece {
   bgLeft: number;
   bgTop: number;
   src: string;
+  realPos: number;
+
+  public isCorrect() {
+    return(this.id === this.realPos);
+  }
+
+
+
+
 }

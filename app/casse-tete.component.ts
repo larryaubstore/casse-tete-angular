@@ -19,7 +19,7 @@ export class CasseTeteComponent {
 
   @Input() puzzle: Piece;
   @Input() parent: CasseTeteListComponent;
-  private _realPos: number;
+
 
 
   constructor(
@@ -38,22 +38,22 @@ export class CasseTeteComponent {
     let tileSelector = $("#TILE_" + this.puzzle.id);
     let offset = this.parent.getTileOffsetHeight();
 
-    if(this._realPos - 1 === freeSpot) {
+    if(this.puzzle.realPos - 1 === freeSpot) {
       tileSelector.animate({left : '-=' + this.parent.getTileOffsetWidth()}, 250);
-      this.parent.setFreeSpot(this._realPos);
-      this._realPos = freeSpot;
-    } else if(this._realPos + 1 === freeSpot) {
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
+    } else if(this.puzzle.realPos + 1 === freeSpot) {
       tileSelector.animate({left : '+=' + this.parent.getTileOffsetWidth()}, 250);
-      this.parent.setFreeSpot(this._realPos);
-      this._realPos = freeSpot;
-    } else if(this._realPos - rowCount === freeSpot) {
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
+    } else if(this.puzzle.realPos - rowCount === freeSpot) {
       tileSelector.animate({ top : '-=' + this.parent.getTileOffsetHeight()}, 250);
-      this.parent.setFreeSpot(this._realPos);
-      this._realPos = freeSpot;
-    } else if(this._realPos + rowCount === freeSpot) {
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
+    } else if(this.puzzle.realPos + rowCount === freeSpot) {
       tileSelector.animate({ top : '+=' + this.parent.getTileOffsetHeight()}, 250);
-      this.parent.setFreeSpot(this._realPos);
-      this._realPos = freeSpot;
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
     } else {
 
     }
@@ -63,7 +63,7 @@ export class CasseTeteComponent {
   }
 
   ngAfterViewInit() {
-    this._realPos = this.puzzle.id;
+    this.puzzle.realPos = this.puzzle.id;
     document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", 
       _.bind(this._onClick, this));
 
