@@ -47,6 +47,10 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     return this._freeSpot;
   }
 
+  setFreeSpot(value: number) {
+    this._freeSpot = value;
+  }
+
   getRowCount() {
     return this._rowCount + 1;
   }

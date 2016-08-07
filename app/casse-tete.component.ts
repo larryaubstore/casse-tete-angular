@@ -36,20 +36,20 @@ export class CasseTeteComponent {
     let rowCount = this.parent.getRowCount();
 
     let tileSelector = $("#TILE_" + this.puzzle.id);
+    let offset = this.parent.getTileOffsetHeight();
 
-    if(this.puzzle.id - 1 === freeSpot) {
+    if(this._realPos - 1 === freeSpot) {
       alert("GO LEFT");
-    } else if(this.puzzle.id + 1 === freeSpot) {
+    } else if(this._realPos + 1 === freeSpot) {
       alert("GO RIGHT");
-    } else if(this.puzzle.id - rowCount === freeSpot) {
-
-      let offset = this.parent.getTileOffsetHeight();
-      tileSelector.animate({ top : '-=' + this.parent.getTileOffsetHeight()}, 250, function () {
-
-      });
-      //alert("GO UP");
-    } else if(this.puzzle.id + rowCount === freeSpot) {
-      alert("GO DOWN");
+    } else if(this._realPos - rowCount === freeSpot) {
+      tileSelector.animate({ top : '-=' + this.parent.getTileOffsetHeight()}, 250);
+      this.parent.setFreeSpot(this._realPos);
+      this._realPos = freeSpot;
+    } else if(this._realPos + rowCount === freeSpot) {
+      tileSelector.animate({ top : '+=' + this.parent.getTileOffsetHeight()}, 250);
+      this.parent.setFreeSpot(this._realPos);
+      this._realPos = freeSpot;
     } else {
 
     }
