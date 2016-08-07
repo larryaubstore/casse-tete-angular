@@ -107,7 +107,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
          scope.puzzles = values[0];
          scope._tileOffsetWidth = values[1].tileOffsetWidth;
          scope._tileOffsetHeight = values[1].tileOffsetHeight;
-         scope._rowCount = inputValues.count / 4;
+         scope._rowCount = Math.floor(inputValues.count / 4);
         });
 
 
@@ -181,7 +181,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
               scope._tileOffsetWidth = values[1].tileOffsetWidth;
               scope._tileOffsetHeight = values[1].tileOffsetHeight;
 
-              scope._rowCount = inputValues.count / 4;
+              scope._rowCount = Math.floor(inputValues.count / 4);
               $("#puzzle").removeClass("invisible");
             });
           } else {
@@ -198,7 +198,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
               scope._tileOffsetWidth = values[1].tileOffsetWidth;
               scope._tileOffsetHeight = values[1].tileOffsetHeight;
 
-              scope._rowCount = inputValues.count / 4;
+              scope._rowCount = Math.floor(inputValues.count / 4);
               $("#puzzle").removeClass("invisible");
             });
 
@@ -245,7 +245,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
       scope.puzzles = values[0];
       scope._tileOffsetWidth = values[1].tileOffsetWidth;
       scope._tileOffsetHeight = values[1].tileOffsetHeight;
-      scope._rowCount = inputValues.count / 4;
+      scope._rowCount = Math.floor(inputValues.count / 4);
      });
   }
 

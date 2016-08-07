@@ -49,8 +49,8 @@ export class CasseTeteService {
       var margin = inputValues.margin;
 
 
-      let rows = count / 4;
-      let cols = count / 4;
+      let rows = Math.floor(count / 4);
+      let cols = Math.floor(count / 4);
 
 
       var image = new Image();
@@ -86,8 +86,8 @@ export class CasseTeteService {
       var margin = inputValues.margin;
 
 
-      let rows = count / 4;
-      let cols = count / 4;
+      let rows = Math.floor(count / 4);
+      let cols = Math.floor(count / 4);
 
 
       var image = new Image();
