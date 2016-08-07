@@ -96,11 +96,20 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        var randomInt = +this.getRandomInt(0, list.length);
        var imageSrc = this._url;
 
-       this._casseTeteService.getPieces(inputValues, imageSrc)
-        .then(function(puzzles) { 
-          scope.puzzles = puzzles;
-          scope._rowCount = inputValues.count / 4;
+   
+       var inputValues = this.getInputValues();
+       var scope = this;
+       var p1 = scope._casseTeteService.getPieces(inputValues, this._url);
+       var p2 = scope._casseTeteService.getTileOffset(inputValues, this._url);
+
+
+       Promise.all([p1, p2]).then(function(values: any) { 
+         scope.puzzles = values[0];
+         scope._tileOffsetWidth = values[1].tileOffsetWidth;
+         scope._tileOffsetHeight = values[1].tileOffsetHeight;
+         scope._rowCount = inputValues.count / 4;
         });
+
 
        window.addEventListener("resize", _.bind(this.resize, this)); 
      });
@@ -179,6 +188,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             let factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
             console.log("FACTOR ==> "  + factor);
             inputValues.scale = factor;
+
             var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
             var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
 
@@ -227,11 +237,15 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   onKeyRow(event:any) {
     var inputValues = this.getInputValues();
     var scope = this;
-    this._casseTeteService.getPieces(inputValues, 
-                                     this._url)
-     .then(function(puzzles) { 
-       scope.puzzles = puzzles;
-       scope._rowCount = inputValues.count / 4;
+    var p1 = scope._casseTeteService.getPieces(inputValues, this._url);
+    var p2 = scope._casseTeteService.getTileOffset(inputValues, this._url);
+
+
+    Promise.all([p1, p2]).then(function(values: any) { 
+      scope.puzzles = values[0];
+      scope._tileOffsetWidth = values[1].tileOffsetWidth;
+      scope._tileOffsetHeight = values[1].tileOffsetHeight;
+      scope._rowCount = inputValues.count / 4;
      });
   }
 
