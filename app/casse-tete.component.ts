@@ -39,9 +39,13 @@ export class CasseTeteComponent {
     let offset = this.parent.getTileOffsetHeight();
 
     if(this._realPos - 1 === freeSpot) {
-      alert("GO LEFT");
+      tileSelector.animate({left : '-=' + this.parent.getTileOffsetWidth()}, 250);
+      this.parent.setFreeSpot(this._realPos);
+      this._realPos = freeSpot;
     } else if(this._realPos + 1 === freeSpot) {
-      alert("GO RIGHT");
+      tileSelector.animate({left : '+=' + this.parent.getTileOffsetWidth()}, 250);
+      this.parent.setFreeSpot(this._realPos);
+      this._realPos = freeSpot;
     } else if(this._realPos - rowCount === freeSpot) {
       tileSelector.animate({ top : '-=' + this.parent.getTileOffsetHeight()}, 250);
       this.parent.setFreeSpot(this._realPos);
