@@ -108,15 +108,15 @@ export class CasseTeteService {
         
           for(var j = 0; j < cols + 1; j++) {
 
-            aPiece = { id: counter + 1, 
-                       left: j * incX, 
-                       top: i * incY, 
-                       width: incX - margin, 
-                       height: incY - margin, 
-                       bgLeft: (incX) * j * -1, 
-                       bgTop: (incY) * i * -1,
-                       src: imageSrc + '?scale=' + inputValues.scale,
-                       realPos: 0};
+            aPiece = new Piece(  counter + 1, 
+                        j * incX, 
+                        i * incY, 
+                        incX - margin, 
+                        incY - margin, 
+                        (incX) * j * -1, 
+                        (incY) * i * -1,
+                       imageSrc + '?scale=' + inputValues.scale,
+                        0);
             pieces.push(aPiece);
             counter++;
           }

@@ -38,6 +38,8 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     private _router: Router,
     private _casseTeteService: CasseTeteService) {
 
+      this.puzzles = [];
+
   } 
   
   getRandomInt(min: number, max:number) {
@@ -163,7 +165,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
     }
 
-    return count;
+    this.countererrors = count;
   }
 
   resize() {
@@ -171,7 +173,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     if(this._resizeTimeout) clearTimeout(this._resizeTimeout);
     this._resizeTimeout = setTimeout(_.bind(function () {
 
-      this.countererrors = this.checkErrors();
+      this.checkErrors();
       let inputValues = this.getInputValues();
       let totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth;
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;

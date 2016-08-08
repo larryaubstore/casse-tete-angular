@@ -58,6 +58,7 @@ export class CasseTeteComponent {
 
     }
 
+    this.parent.checkErrors();
 
     //alert(this.puzzle.id); 
   }
