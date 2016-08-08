@@ -10,7 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var mock_casse_tetes_1 = require('./mock-casse-tetes');
+var piece_1 = require('./piece');
 var imagenatural_1 = require('./imagenatural');
+var tilesetup_1 = require('./tilesetup');
 var CasseTeteService = (function () {
     function CasseTeteService() {
     }
@@ -36,6 +38,28 @@ var CasseTeteService = (function () {
             image.src = url;
         });
     };
+    CasseTeteService.prototype.getTileOffset = function (inputValues, imageSrc) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var count = inputValues.count;
+            var width = inputValues.width;
+            var height = inputValues.height;
+            var margin = inputValues.margin;
+            var rows = Math.floor(count / 4);
+            var cols = Math.floor(count / 4);
+            var image = new Image();
+            var scope = _this;
+            image.onload = function (event) {
+                var factor = 1;
+                var natWidth = this.naturalWidth * factor;
+                var natHeight = this.naturalHeight * factor;
+                var incX = Math.floor(+(natWidth / (rows + 1)));
+                var incY = Math.floor(+(natHeight / (rows + 1)));
+                resolve({ tileOffsetWidth: incX, tileOffsetHeight: incY });
+            };
+            image.src = imageSrc + '?scale=' + inputValues.scale;
+        });
+    };
     CasseTeteService.prototype.getPieces = function (inputValues, imageSrc) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -44,50 +68,26 @@ var CasseTeteService = (function () {
             var width = inputValues.width;
             var height = inputValues.height;
             var margin = inputValues.margin;
-            var rows = count / 4;
-            var cols = count / 4;
+            var rows = Math.floor(count / 4);
+            var cols = Math.floor(count / 4);
             var image = new Image();
             var scope = _this;
             image.onload = function (event) {
                 var factor = 1;
                 var natWidth = this.naturalWidth * factor;
                 var natHeight = this.naturalHeight * factor;
-                //        var autoScale = 100;
-                //
-                //        if(natWidth > natHeight) {
-                //
-                //          if(natWidth > 500) {
-                //            autoScale = +(500 / natWidth * 100);
-                //          } else {
-                //
-                //          }
-                //        } else {
-                //
-                //          if(natHeight > 500) {
-                //            autoScale = +(500 / natHeight * 100);
-                //          }
-                //        }
-                //var natWidth = width;
-                //var natHeight = height;
                 var incX = Math.floor(+(natWidth / (rows + 1)));
                 var incY = Math.floor(+(natHeight / (rows + 1)));
                 var aPiece = null;
                 var counter = 0;
                 for (var i = 0; i < rows + 1; i++) {
                     for (var j = 0; j < cols + 1; j++) {
-                        aPiece = { id: counter + 1,
-                            left: j * incX,
-                            top: i * incY,
-                            width: incX - margin,
-                            height: incY - margin,
-                            bgLeft: (incX) * j * -1,
-                            bgTop: (incY) * i * -1,
-                            src: imageSrc + '?scale=' + inputValues.scale };
+                        aPiece = new piece_1.Piece(counter + 1, j * incX, i * incY, incX - margin, incY - margin, (incX) * j * -1, (incY) * i * -1, imageSrc + '?scale=' + inputValues.scale, 0);
                         pieces.push(aPiece);
                         counter++;
                     }
                 }
-                resolve(pieces);
+                resolve(new tilesetup_1.TileSetup(incX, incY, pieces));
             };
             image.src = imageSrc + '?scale=' + inputValues.scale;
         });

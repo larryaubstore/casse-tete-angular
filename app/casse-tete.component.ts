@@ -29,9 +29,6 @@ export class CasseTeteComponent {
 
   private _onClick() {
 
-
-    //alert(this.parent.getFreeSpot());
-
     let freeSpot = this.parent.getFreeSpot();
     let rowCount = this.parent.getRowCount();
 
@@ -59,8 +56,6 @@ export class CasseTeteComponent {
     }
 
     this.parent.checkErrors();
-
-    //alert(this.puzzle.id); 
   }
 
   ngAfterViewInit() {

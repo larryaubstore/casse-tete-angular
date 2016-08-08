@@ -6,6 +6,7 @@ import { Vignette }         from './vignette';
 import { InputValues }      from './inputValues';
 
 import { ImageNatural }     from './imagenatural';
+import { TileSetup }        from './tilesetup';
 
 
 @Injectable()
@@ -76,7 +77,7 @@ export class CasseTeteService {
 
 
 
-    return new Promise<Piece[]>((resolve, reject) => {
+    return new Promise<TileSetup>((resolve, reject) => {
 
       var pieces: Piece[] = [];
 
@@ -121,7 +122,7 @@ export class CasseTeteService {
             counter++;
           }
         }
-        resolve(pieces);
+        resolve(new TileSetup(incX, incY, pieces));
       }
 
       image.src = imageSrc + '?scale=' + inputValues.scale;

@@ -108,7 +108,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
        Promise.all([p1, p2]).then(function(values: any) { 
-         scope.puzzles = values[0];
+         scope.puzzles = values[0].puzzles;
          scope._tileOffsetWidth = values[1].tileOffsetWidth;
          scope._tileOffsetHeight = values[1].tileOffsetHeight;
          scope._rowCount = Math.floor(inputValues.count / 4);
@@ -168,6 +168,26 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     this.countererrors = count;
   }
 
+
+  merge(oldArray: Piece[], newArray: Piece[], incX: number, incY: number) {
+
+    if(oldArray.length === 0 || oldArray.length !== newArray.length) {
+      oldArray = newArray;
+    } else {
+
+      for(var i = 0; i < oldArray.length; i++) {
+        oldArray[i].left = newArray[i].left;
+        oldArray[i].top = newArray[i].top;
+        oldArray[i].width = newArray[i].width;
+        oldArray[i].height = newArray[i].height;
+        oldArray[i].bgLeft = newArray[i].bgLeft;
+        oldArray[i].bgTop = newArray[i].bgTop;
+        oldArray[i].src = newArray[i].src;
+      }
+    }
+    return oldArray;
+  }
+
   resize() {
 
     if(this._resizeTimeout) clearTimeout(this._resizeTimeout);
@@ -197,7 +217,9 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
             var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
             Promise.all([p1, p2]).then(function(values: any) { 
-              scope.puzzles = values[0];
+              //scope.puzzles = values[0];
+              scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
+                                          values[0].incX, values[0].incY);
               scope._tileOffsetWidth = values[1].tileOffsetWidth;
               scope._tileOffsetHeight = values[1].tileOffsetHeight;
 
@@ -214,7 +236,9 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
             Promise.all([p1, p2]).then(function(values: any) { 
-              scope.puzzles = values[0];
+              //scope.puzzles = values[0];
+              scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
+                                          values[0].incX, values[0].incY);
               scope._tileOffsetWidth = values[1].tileOffsetWidth;
               scope._tileOffsetHeight = values[1].tileOffsetHeight;
 
@@ -262,7 +286,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
     Promise.all([p1, p2]).then(function(values: any) { 
-      scope.puzzles = values[0];
+      scope.puzzles = values[0].puzzles;
       scope._tileOffsetWidth = values[1].tileOffsetWidth;
       scope._tileOffsetHeight = values[1].tileOffsetHeight;
       scope._rowCount = Math.floor(inputValues.count / 4);

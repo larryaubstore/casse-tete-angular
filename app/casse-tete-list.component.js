@@ -19,13 +19,32 @@ var CasseTeteListComponent = (function () {
         this.route = route;
         this._router = _router;
         this._casseTeteService = _casseTeteService;
+        this.puzzles = [];
     }
     CasseTeteListComponent.prototype.getRandomInt = function (min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     };
+    CasseTeteListComponent.prototype.getFreeSpot = function () {
+        return this._freeSpot;
+    };
+    CasseTeteListComponent.prototype.setFreeSpot = function (value) {
+        this._freeSpot = value;
+    };
+    CasseTeteListComponent.prototype.getRowCount = function () {
+        return this._rowCount + 1;
+    };
+    CasseTeteListComponent.prototype.getTileOffsetWidth = function () {
+        return this._tileOffsetWidth;
+    };
+    CasseTeteListComponent.prototype.getTileOffsetHeight = function () {
+        return this._tileOffsetHeight;
+    };
     CasseTeteListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.route.params.subscribe(function (params) {
+            _this.me = _this;
+            _this.countererrors = 0;
+            _this._freeSpot = 1;
             _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
             var marker = _this._url.indexOf('?');
             _this._url = _this._url.substr(0, marker);
@@ -42,9 +61,15 @@ var CasseTeteListComponent = (function () {
             console.log("fitWidth ==> " + fitWidth);
             var randomInt = +_this.getRandomInt(0, list.length);
             var imageSrc = _this._url;
-            _this._casseTeteService.getPieces(inputValues, imageSrc)
-                .then(function (puzzles) {
-                scope.puzzles = puzzles;
+            var inputValues = _this.getInputValues();
+            var scope = _this;
+            var p1 = scope._casseTeteService.getPieces(inputValues, _this._url);
+            var p2 = scope._casseTeteService.getTileOffset(inputValues, _this._url);
+            Promise.all([p1, p2]).then(function (values) {
+                scope.puzzles = values[0].puzzles;
+                scope._tileOffsetWidth = values[1].tileOffsetWidth;
+                scope._tileOffsetHeight = values[1].tileOffsetHeight;
+                scope._rowCount = Math.floor(inputValues.count / 4);
             });
             window.addEventListener("resize", _.bind(_this.resize, _this));
         });
@@ -78,13 +103,39 @@ var CasseTeteListComponent = (function () {
             .data('slider');
         this.resize();
     };
+    CasseTeteListComponent.prototype.checkErrors = function () {
+        var count = 0;
+        for (var i = 0; i < this.puzzles.length; i++) {
+            if (!this.puzzles[i].isCorrect()) {
+                count++;
+            }
+        }
+        this.countererrors = count;
+    };
+    CasseTeteListComponent.prototype.merge = function (oldArray, newArray, incX, incY) {
+        if (oldArray.length === 0 || oldArray.length !== newArray.length) {
+            oldArray = newArray;
+        }
+        else {
+            for (var i = 0; i < oldArray.length; i++) {
+                oldArray[i].left = newArray[i].left;
+                oldArray[i].top = newArray[i].top;
+                oldArray[i].width = newArray[i].width;
+                oldArray[i].height = newArray[i].height;
+                oldArray[i].bgLeft = newArray[i].bgLeft;
+                oldArray[i].bgTop = newArray[i].bgTop;
+                oldArray[i].src = newArray[i].src;
+            }
+        }
+        return oldArray;
+    };
     CasseTeteListComponent.prototype.resize = function () {
         if (this._resizeTimeout)
             clearTimeout(this._resizeTimeout);
         this._resizeTimeout = setTimeout(_.bind(function () {
+            this.checkErrors();
             var inputValues = this.getInputValues();
             var totalWidth = document.getElementsByClassName("col-md-10")[0].clientWidth;
-            //let totalHeight = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientHeight;
             var totalHeight = document.getElementsByTagName("body")[0].clientHeight;
             console.log("resize");
             console.log(totalWidth);
@@ -96,9 +147,14 @@ var CasseTeteListComponent = (function () {
                     var factor = Math.floor(totalWidth / imageNatural.width * 100 - 20);
                     console.log("FACTOR ==> " + factor);
                     inputValues.scale = factor;
-                    scope._casseTeteService.getPieces(inputValues, scope._url)
-                        .then(function (puzzles) {
-                        scope.puzzles = puzzles;
+                    var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
+                    var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
+                    Promise.all([p1, p2]).then(function (values) {
+                        //scope.puzzles = values[0];
+                        scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, values[0].incX, values[0].incY);
+                        scope._tileOffsetWidth = values[1].tileOffsetWidth;
+                        scope._tileOffsetHeight = values[1].tileOffsetHeight;
+                        scope._rowCount = Math.floor(inputValues.count / 4);
                         $("#puzzle").removeClass("invisible");
                     });
                 }
@@ -106,14 +162,19 @@ var CasseTeteListComponent = (function () {
                     var factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
                     console.log("FACTOR ==> " + factor);
                     inputValues.scale = factor;
-                    scope._casseTeteService.getPieces(inputValues, scope._url)
-                        .then(function (puzzles) {
-                        scope.puzzles = puzzles;
+                    var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
+                    var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
+                    Promise.all([p1, p2]).then(function (values) {
+                        //scope.puzzles = values[0];
+                        scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, values[0].incX, values[0].incY);
+                        scope._tileOffsetWidth = values[1].tileOffsetWidth;
+                        scope._tileOffsetHeight = values[1].tileOffsetHeight;
+                        scope._rowCount = Math.floor(inputValues.count / 4);
                         $("#puzzle").removeClass("invisible");
                     });
                 }
             });
-        }, this), 100);
+        }, this), 500);
     };
     CasseTeteListComponent.prototype.getInputValues = function () {
         var row = document.getElementById('inputRow').value;
@@ -132,17 +193,13 @@ var CasseTeteListComponent = (function () {
     CasseTeteListComponent.prototype.onKeyRow = function (event) {
         var inputValues = this.getInputValues();
         var scope = this;
-        this._casseTeteService.getPieces(inputValues, this._url)
-            .then(function (puzzles) {
-            scope.puzzles = puzzles;
-        });
-    };
-    CasseTeteListComponent.prototype.onKeyMargin = function (event) {
-        var inputValues = this.getInputValues();
-        var scope = this;
-        this._casseTeteService.getPieces(inputValues, this._url)
-            .then(function (puzzles) {
-            scope.puzzles = puzzles;
+        var p1 = scope._casseTeteService.getPieces(inputValues, this._url);
+        var p2 = scope._casseTeteService.getTileOffset(inputValues, this._url);
+        Promise.all([p1, p2]).then(function (values) {
+            scope.puzzles = values[0].puzzles;
+            scope._tileOffsetWidth = values[1].tileOffsetWidth;
+            scope._tileOffsetHeight = values[1].tileOffsetHeight;
+            scope._rowCount = Math.floor(inputValues.count / 4);
         });
     };
     CasseTeteListComponent.prototype.ngOnDestroy = function () {
