@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute }       from '@angular/router';
 import { CasseTeteService }       from './casse-tete.service';
+import { CasseTeteListComponent }       from './casse-tete-list.component';
 
 import { Piece } from './piece';
 import { Vignette } from './vignette';
@@ -16,7 +17,9 @@ import { InputValues } from './inputValues';
 
 export class CasseTeteComponent {
 
-  @Input() puzzle: Piece; 
+  @Input() puzzle: Piece;
+  @Input() parent: CasseTeteListComponent;
+
 
 
   constructor(
@@ -24,6 +27,43 @@ export class CasseTeteComponent {
     console.info('CasseTete Component Mounted Successfully');
   }
 
+  private _onClick() {
+
+    let freeSpot = this.parent.getFreeSpot();
+    let rowCount = this.parent.getRowCount();
+
+    let tileSelector = $("#TILE_" + this.puzzle.id);
+    let offset = this.parent.getTileOffsetHeight();
+
+    if(this.puzzle.realPos - 1 === freeSpot) {
+      tileSelector.animate({left : '-=' + this.parent.getTileOffsetWidth()}, 250);
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
+    } else if(this.puzzle.realPos + 1 === freeSpot) {
+      tileSelector.animate({left : '+=' + this.parent.getTileOffsetWidth()}, 250);
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
+    } else if(this.puzzle.realPos - rowCount === freeSpot) {
+      tileSelector.animate({ top : '-=' + this.parent.getTileOffsetHeight()}, 250);
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
+    } else if(this.puzzle.realPos + rowCount === freeSpot) {
+      tileSelector.animate({ top : '+=' + this.parent.getTileOffsetHeight()}, 250);
+      this.parent.setFreeSpot(this.puzzle.realPos);
+      this.puzzle.realPos = freeSpot;
+    } else {
+
+    }
+
+    this.parent.checkErrors();
+  }
+
+  ngAfterViewInit() {
+    this.puzzle.realPos = this.puzzle.id;
+    document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", 
+      _.bind(this._onClick, this));
+
+  }
 
 
   setStyles(piece: Piece) {

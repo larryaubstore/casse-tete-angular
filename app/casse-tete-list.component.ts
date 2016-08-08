@@ -21,10 +21,16 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   
   puzzles: Piece[];
   vignettes: Vignette[]; 
+  me: CasseTeteListComponent;
+  countererrors: number;
 
   private sub: any;
   private _url: string;
   private _resizeTimeout: any;
+  private _freeSpot: number;
+  private _rowCount: number;
+  private _tileOffsetWidth: number;
+  private _tileOffsetHeight:number;
 
   constructor(                                                                                        
 
@@ -32,15 +38,40 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     private _router: Router,
     private _casseTeteService: CasseTeteService) {
 
+      this.puzzles = [];
+
   } 
   
   getRandomInt(min: number, max:number) {
       return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  getFreeSpot() {
+    return this._freeSpot;
+  }
+
+  setFreeSpot(value: number) {
+    this._freeSpot = value;
+  }
+
+  getRowCount() {
+    return this._rowCount + 1;
+  }
+
+  getTileOffsetWidth() {
+    return this._tileOffsetWidth;
+  }
+
+  getTileOffsetHeight() {
+    return this._tileOffsetHeight;
+  }
+
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
 
+       this.me = this;
+       this.countererrors = 0;
+       this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
 
        let marker = this._url.indexOf('?');
@@ -69,10 +100,20 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        var randomInt = +this.getRandomInt(0, list.length);
        var imageSrc = this._url;
 
-       this._casseTeteService.getPieces(inputValues, imageSrc)
-        .then(function(puzzles) { 
-          scope.puzzles = puzzles;
+   
+       var inputValues = this.getInputValues();
+       var scope = this;
+       var p1 = scope._casseTeteService.getPieces(inputValues, this._url);
+       var p2 = scope._casseTeteService.getTileOffset(inputValues, this._url);
+
+
+       Promise.all([p1, p2]).then(function(values: any) { 
+         scope.puzzles = values[0].puzzles;
+         scope._tileOffsetWidth = values[1].tileOffsetWidth;
+         scope._tileOffsetHeight = values[1].tileOffsetHeight;
+         scope._rowCount = Math.floor(inputValues.count / 4);
         });
+
 
        window.addEventListener("resize", _.bind(this.resize, this)); 
      });
@@ -113,13 +154,48 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   }
 
+  checkErrors() {
+
+    var count = 0;
+    for(var i = 0; i < this.puzzles.length; i++) {
+
+      if(!this.puzzles[i].isCorrect()) {
+        count++;
+      }
+
+    }
+
+    this.countererrors = count;
+  }
+
+
+  merge(oldArray: Piece[], newArray: Piece[], incX: number, incY: number) {
+
+    if(oldArray.length === 0 || oldArray.length !== newArray.length) {
+      oldArray = newArray;
+    } else {
+
+      for(var i = 0; i < oldArray.length; i++) {
+        oldArray[i].left = newArray[i].left;
+        oldArray[i].top = newArray[i].top;
+        oldArray[i].width = newArray[i].width;
+        oldArray[i].height = newArray[i].height;
+        oldArray[i].bgLeft = newArray[i].bgLeft;
+        oldArray[i].bgTop = newArray[i].bgTop;
+        oldArray[i].src = newArray[i].src;
+      }
+    }
+    return oldArray;
+  }
+
   resize() {
 
     if(this._resizeTimeout) clearTimeout(this._resizeTimeout);
     this._resizeTimeout = setTimeout(_.bind(function () {
+
+      this.checkErrors();
       let inputValues = this.getInputValues();
       let totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth;
-      //let totalHeight = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientHeight;
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;
 
       console.log("resize");
@@ -138,26 +214,44 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             let factor = Math.floor(totalWidth / imageNatural.width * 100 - 20);
             console.log("FACTOR ==> "  + factor);
             inputValues.scale = factor;
-            scope._casseTeteService.getPieces(inputValues, scope._url)
-            .then(function(puzzles: any) { 
-              scope.puzzles = puzzles;
+            var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
+            var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
+            Promise.all([p1, p2]).then(function(values: any) { 
+              //scope.puzzles = values[0];
+              scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
+                                          values[0].incX, values[0].incY);
+              scope._tileOffsetWidth = values[1].tileOffsetWidth;
+              scope._tileOffsetHeight = values[1].tileOffsetHeight;
+
+              scope._rowCount = Math.floor(inputValues.count / 4);
               $("#puzzle").removeClass("invisible");
             });
           } else {
             let factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
             console.log("FACTOR ==> "  + factor);
             inputValues.scale = factor;
-            scope._casseTeteService.getPieces(inputValues, scope._url)
-            .then(function(puzzles: any) { 
-              scope.puzzles = puzzles;
+
+            var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
+            var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
+
+
+            Promise.all([p1, p2]).then(function(values: any) { 
+              //scope.puzzles = values[0];
+              scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
+                                          values[0].incX, values[0].incY);
+              scope._tileOffsetWidth = values[1].tileOffsetWidth;
+              scope._tileOffsetHeight = values[1].tileOffsetHeight;
+
+              scope._rowCount = Math.floor(inputValues.count / 4);
               $("#puzzle").removeClass("invisible");
             });
+
           }
 
         });
 
 
-    }, this), 100);
+    }, this), 500);
 
 
   } 
@@ -187,20 +281,15 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   onKeyRow(event:any) {
     var inputValues = this.getInputValues();
     var scope = this;
-    this._casseTeteService.getPieces(inputValues, 
-                                     this._url)
-     .then(function(puzzles) { 
-       scope.puzzles = puzzles;
-     });
-  }
+    var p1 = scope._casseTeteService.getPieces(inputValues, this._url);
+    var p2 = scope._casseTeteService.getTileOffset(inputValues, this._url);
 
-  onKeyMargin(event:any) {
-    var inputValues = this.getInputValues();
-    var scope = this;
-    this._casseTeteService.getPieces(inputValues, 
-                                     this._url)
-     .then(function(puzzles) { 
-       scope.puzzles = puzzles;
+
+    Promise.all([p1, p2]).then(function(values: any) { 
+      scope.puzzles = values[0].puzzles;
+      scope._tileOffsetWidth = values[1].tileOffsetWidth;
+      scope._tileOffsetHeight = values[1].tileOffsetHeight;
+      scope._rowCount = Math.floor(inputValues.count / 4);
      });
   }
 

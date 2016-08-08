@@ -6,6 +6,7 @@ import { Vignette }         from './vignette';
 import { InputValues }      from './inputValues';
 
 import { ImageNatural }     from './imagenatural';
+import { TileSetup }        from './tilesetup';
 
 
 @Injectable()
@@ -39,13 +40,9 @@ export class CasseTeteService {
   }
 
 
-  getPieces(inputValues: InputValues, imageSrc: string) {
+  getTileOffset(inputValues: InputValues, imageSrc: string) {
+     return new Promise<any>((resolve, reject) => {
 
-
-
-    return new Promise<Piece[]>((resolve, reject) => {
-
-      var pieces: Piece[] = [];
 
       var count = inputValues.count;
       var width = inputValues.width;
@@ -53,8 +50,8 @@ export class CasseTeteService {
       var margin = inputValues.margin;
 
 
-      let rows = count / 4;
-      let cols = count / 4;
+      let rows = Math.floor(count / 4);
+      let cols = Math.floor(count / 4);
 
 
       var image = new Image();
@@ -65,24 +62,43 @@ export class CasseTeteService {
 
         var natWidth = this.naturalWidth * factor;
         var natHeight = this.naturalHeight * factor;
-//        var autoScale = 100;
-//
-//        if(natWidth > natHeight) {
-//
-//          if(natWidth > 500) {
-//            autoScale = +(500 / natWidth * 100);
-//          } else {
-//
-//          }
-//        } else {
-//
-//          if(natHeight > 500) {
-//            autoScale = +(500 / natHeight * 100);
-//          }
-//        }
+        var incX: number = Math.floor(+(natWidth  / (rows + 1)));
+        var incY: number = Math.floor(+(natHeight  / (rows + 1)));
+       
+        resolve({ tileOffsetWidth: incX, tileOffsetHeight: incY});
+      }
 
-        //var natWidth = width;
-        //var natHeight = height;
+      image.src = imageSrc + '?scale=' + inputValues.scale;
+    });
+   
+  }
+
+  getPieces(inputValues: InputValues, imageSrc: string) {
+
+
+
+    return new Promise<TileSetup>((resolve, reject) => {
+
+      var pieces: Piece[] = [];
+
+      var count = inputValues.count;
+      var width = inputValues.width;
+      var height = inputValues.height;
+      var margin = inputValues.margin;
+
+
+      let rows = Math.floor(count / 4);
+      let cols = Math.floor(count / 4);
+
+
+      var image = new Image();
+      var scope = this;
+      image.onload = function (event: any) {
+
+        var factor = 1;
+
+        var natWidth = this.naturalWidth * factor;
+        var natHeight = this.naturalHeight * factor;
         var incX: number = Math.floor(+(natWidth  / (rows + 1)));
         var incY: number = Math.floor(+(natHeight  / (rows + 1)));
        
@@ -93,19 +109,20 @@ export class CasseTeteService {
         
           for(var j = 0; j < cols + 1; j++) {
 
-            aPiece = { id: counter + 1, 
-                       left: j * incX, 
-                       top: i * incY, 
-                       width: incX - margin, 
-                       height: incY - margin, 
-                       bgLeft: (incX) * j * -1, 
-                       bgTop: (incY) * i * -1,
-                       src: imageSrc + '?scale=' + inputValues.scale};
+            aPiece = new Piece(  counter + 1, 
+                        j * incX, 
+                        i * incY, 
+                        incX - margin, 
+                        incY - margin, 
+                        (incX) * j * -1, 
+                        (incY) * i * -1,
+                       imageSrc + '?scale=' + inputValues.scale,
+                        0);
             pieces.push(aPiece);
             counter++;
           }
         }
-        resolve(pieces);
+        resolve(new TileSetup(incX, incY, pieces));
       }
 
       image.src = imageSrc + '?scale=' + inputValues.scale;
