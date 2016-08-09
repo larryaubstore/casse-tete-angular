@@ -23,6 +23,8 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   vignettes: Vignette[]; 
   me: CasseTeteListComponent;
   countererrors: number;
+  totalWidth: number;
+  imageTotalWidth: number;
 
   private sub: any;
   private _url: string;
@@ -44,6 +46,10 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   
   getRandomInt(min: number, max:number) {
       return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  getTotalWidth() {
+    return this.imageTotalWidth + 'px';
   }
 
   getFreeSpot() {
@@ -71,6 +77,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
        this.me = this;
        this.countererrors = 0;
+       this.imageTotalWidth = 0;
        this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
 
@@ -89,8 +96,8 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        inputValues.scale = 100;
 
 
-       let totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).offsetWidth;
-       let fitWidth = Math.floor(totalWidth / inputValues.count);
+       this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).offsetWidth;
+       let fitWidth = Math.floor(this.totalWidth / inputValues.count);
 
        console.log("fitWidth ==> " + fitWidth);
 
@@ -195,11 +202,11 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
       this.checkErrors();
       let inputValues = this.getInputValues();
-      let totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth;
+      this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth;
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;
 
       console.log("resize");
-      console.log(totalWidth);
+      console.log(this.totalWidth);
       console.log(totalHeight);
 
 
@@ -210,8 +217,24 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
         .then(function(imageNatural: ImageNatural) {
 
 
-          if(imageNatural.width >= totalWidth) {
-            let factor = Math.floor(totalWidth / imageNatural.width * 100 - 20);
+
+          scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80);
+
+//          console.log("totalWidth ==> " + scope.totalWidth);
+//          console.log("imageTotalWidth ==> " + scope.imageTotalWidth);
+//          console.log("imageNatural    ==> " + imageNatural.width);
+//
+//
+//          if(Math.abs(scope.imageTotalWidth - imageNatural.width) <= 20) {
+//              scope.imageTotalWidth -= 20;
+//          }
+
+
+          //debugger;
+          //scope.imageTotalWidth = scope.imageTotalWidth > scope.totalWidth ? scope.totalWidth : scope.imageTotalWidth;
+
+          if(imageNatural.width >= scope.totalWidth) {
+            let factor = Math.floor(scope.totalWidth / imageNatural.width * 100 - 10);
             console.log("FACTOR ==> "  + factor);
             inputValues.scale = factor;
             var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
@@ -227,7 +250,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
               $("#puzzle").removeClass("invisible");
             });
           } else {
-            let factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
+            let factor = Math.floor(totalHeight / imageNatural.height * 100 - 30);
             console.log("FACTOR ==> "  + factor);
             inputValues.scale = factor;
 
