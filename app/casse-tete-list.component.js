@@ -24,6 +24,10 @@ var CasseTeteListComponent = (function () {
     CasseTeteListComponent.prototype.getRandomInt = function (min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     };
+    CasseTeteListComponent.prototype.getTotalWidth = function () {
+        return this.imageTotalWidth + 'px';
+        //return this.totalWidth + 'px';
+    };
     CasseTeteListComponent.prototype.getFreeSpot = function () {
         return this._freeSpot;
     };
@@ -44,6 +48,7 @@ var CasseTeteListComponent = (function () {
         this.sub = this.route.params.subscribe(function (params) {
             _this.me = _this;
             _this.countererrors = 0;
+            _this.imageTotalWidth = 0;
             _this._freeSpot = 1;
             _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
             var marker = _this._url.indexOf('?');
@@ -56,8 +61,8 @@ var CasseTeteListComponent = (function () {
             inputValues.count = 80;
             inputValues.margin = 2;
             inputValues.scale = 100;
-            var totalWidth = document.getElementsByClassName("col-md-10")[0].offsetWidth;
-            var fitWidth = Math.floor(totalWidth / inputValues.count);
+            _this.totalWidth = document.getElementsByClassName("col-md-10")[0].offsetWidth;
+            var fitWidth = Math.floor(_this.totalWidth / inputValues.count);
             console.log("fitWidth ==> " + fitWidth);
             var randomInt = +_this.getRandomInt(0, list.length);
             var imageSrc = _this._url;
@@ -135,44 +140,53 @@ var CasseTeteListComponent = (function () {
         this._resizeTimeout = setTimeout(_.bind(function () {
             this.checkErrors();
             var inputValues = this.getInputValues();
-            var totalWidth = document.getElementsByClassName("col-md-10")[0].clientWidth;
+            this.totalWidth = document.getElementsByClassName("col-md-10")[0].clientWidth;
             var totalHeight = document.getElementsByTagName("body")[0].clientHeight;
             console.log("resize");
-            console.log(totalWidth);
+            console.log(this.totalWidth);
             console.log(totalHeight);
             var scope = this;
             this._casseTeteService.getImageNatural(this._url)
                 .then(function (imageNatural) {
-                if (imageNatural.width >= totalWidth) {
-                    var factor = Math.floor(totalWidth / imageNatural.width * 100 - 20);
-                    console.log("FACTOR ==> " + factor);
+                scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80);
+                var factor = 1;
+                if (imageNatural.width >= scope.imageTotalWidth) {
+                    factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
+                    console.log("FACTOR 1 ==> " + factor);
                     inputValues.scale = factor;
-                    var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
-                    var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
-                    Promise.all([p1, p2]).then(function (values) {
-                        //scope.puzzles = values[0];
-                        scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, values[0].incX, values[0].incY);
-                        scope._tileOffsetWidth = values[1].tileOffsetWidth;
-                        scope._tileOffsetHeight = values[1].tileOffsetHeight;
-                        scope._rowCount = Math.floor(inputValues.count / 4);
-                        $("#puzzle").removeClass("invisible");
-                    });
+                }
+                else if (scope.imageTotalWidth < imageNatural.width) {
+                    factor = Math.floor(imageNatural.width / scope.imageTotalWidth * 100);
+                    console.log("FACTOR 2 ==> " + factor);
+                    inputValues.scale = factor;
+                }
+                else if (imageNatural.height >= totalHeight) {
+                    factor = Math.floor(imageNatural.height / totalHeight * 100 - 60);
+                    console.log("FACTOR 3 ==> " + factor);
+                    inputValues.scale = factor;
+                    scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
+                }
+                else if (totalHeight < imageNatural.Height) {
+                    factor = Math.floor(totalHeight / imageNatural.height * 100 - 60);
+                    console.log("FACTOR 4 ==> " + factor);
+                    inputValues.scale = factor;
+                    scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
                 }
                 else {
-                    var factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
-                    console.log("FACTOR ==> " + factor);
+                    factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
+                    console.log("FACTOR 5 ==> " + factor);
                     inputValues.scale = factor;
-                    var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
-                    var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
-                    Promise.all([p1, p2]).then(function (values) {
-                        //scope.puzzles = values[0];
-                        scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, values[0].incX, values[0].incY);
-                        scope._tileOffsetWidth = values[1].tileOffsetWidth;
-                        scope._tileOffsetHeight = values[1].tileOffsetHeight;
-                        scope._rowCount = Math.floor(inputValues.count / 4);
-                        $("#puzzle").removeClass("invisible");
-                    });
                 }
+                //scope.imageTotalWidth = Math.floor(scope.imageTotalWidth * factor  / 100);
+                var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
+                var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
+                Promise.all([p1, p2]).then(function (values) {
+                    scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, values[0].incX, values[0].incY);
+                    scope._tileOffsetWidth = values[1].tileOffsetWidth;
+                    scope._tileOffsetHeight = values[1].tileOffsetHeight;
+                    scope._rowCount = Math.floor(inputValues.count / 4);
+                    $("#puzzle").removeClass("invisible");
+                });
             });
         }, this), 500);
     };

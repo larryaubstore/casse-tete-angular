@@ -33,11 +33,12 @@ include mixins/errorpanel.pug
       // +errorpanel(0)
 
     .col-md-10
-      #puzzle.invisible(style='width:100%;')
+      #puzzle.invisible(style='margin: 0 auto;height:100%;overflow:hidden;', [style.width]="getTotalWidth()")
         .tilewrapper
           .position
             //div( *ngFor="let puzzle of puzzles")
             casse-tete(*ngFor="let puzzle of puzzles", [puzzle]="puzzle", [parent]="me")
+              .loader.centerdiv
             //  casse-tete([puzzle]="puzzle")
             //
             //

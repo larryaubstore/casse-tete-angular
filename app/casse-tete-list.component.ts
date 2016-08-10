@@ -23,6 +23,8 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   vignettes: Vignette[]; 
   me: CasseTeteListComponent;
   countererrors: number;
+  totalWidth: number;
+  imageTotalWidth: number;
 
   private sub: any;
   private _url: string;
@@ -44,6 +46,11 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   
   getRandomInt(min: number, max:number) {
       return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  getTotalWidth() {
+    return this.imageTotalWidth + 'px';
+    //return this.totalWidth + 'px';
   }
 
   getFreeSpot() {
@@ -71,6 +78,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
        this.me = this;
        this.countererrors = 0;
+       this.imageTotalWidth = 0;
        this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
 
@@ -89,8 +97,8 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        inputValues.scale = 100;
 
 
-       let totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).offsetWidth;
-       let fitWidth = Math.floor(totalWidth / inputValues.count);
+       this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).offsetWidth;
+       let fitWidth = Math.floor(this.totalWidth / inputValues.count);
 
        console.log("fitWidth ==> " + fitWidth);
 
@@ -195,11 +203,11 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
       this.checkErrors();
       let inputValues = this.getInputValues();
-      let totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth;
+      this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth; 
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;
 
       console.log("resize");
-      console.log(totalWidth);
+      console.log(this.totalWidth);
       console.log(totalHeight);
 
 
@@ -210,43 +218,46 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
         .then(function(imageNatural: ImageNatural) {
 
 
-          if(imageNatural.width >= totalWidth) {
-            let factor = Math.floor(totalWidth / imageNatural.width * 100 - 20);
-            console.log("FACTOR ==> "  + factor);
-            inputValues.scale = factor;
-            var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
-            var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
-            Promise.all([p1, p2]).then(function(values: any) { 
-              //scope.puzzles = values[0];
-              scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
-                                          values[0].incX, values[0].incY);
-              scope._tileOffsetWidth = values[1].tileOffsetWidth;
-              scope._tileOffsetHeight = values[1].tileOffsetHeight;
 
-              scope._rowCount = Math.floor(inputValues.count / 4);
-              $("#puzzle").removeClass("invisible");
-            });
+          scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80);
+
+          let factor = 1;
+          if(imageNatural.width >= scope.imageTotalWidth) {
+            factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
+            console.log("FACTOR 1 ==> "  + factor);
+            inputValues.scale = factor;
+          } else if(scope.imageTotalWidth < imageNatural.width) {
+            factor = Math.floor(imageNatural.width / scope.imageTotalWidth * 100);
+            console.log("FACTOR 2 ==> "  + factor);
+            inputValues.scale = factor;
+          } else if(imageNatural.height >= totalHeight) {
+            factor = Math.floor(imageNatural.height / totalHeight * 100 - 60);
+            console.log("FACTOR 3 ==> "  + factor);
+            inputValues.scale = factor;
+            scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
+          } else if(totalHeight < imageNatural.Height) {
+            factor = Math.floor(totalHeight / imageNatural.height * 100 - 60);
+            console.log("FACTOR 4 ==> "  + factor);
+            inputValues.scale = factor;
+            scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
           } else {
-            let factor = Math.floor(totalHeight / imageNatural.height * 100 - 20);
-            console.log("FACTOR ==> "  + factor);
+            factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
+            console.log("FACTOR 5 ==> "  + factor);
             inputValues.scale = factor;
-
-            var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
-            var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
-
-
-            Promise.all([p1, p2]).then(function(values: any) { 
-              //scope.puzzles = values[0];
-              scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
-                                          values[0].incX, values[0].incY);
-              scope._tileOffsetWidth = values[1].tileOffsetWidth;
-              scope._tileOffsetHeight = values[1].tileOffsetHeight;
-
-              scope._rowCount = Math.floor(inputValues.count / 4);
-              $("#puzzle").removeClass("invisible");
-            });
-
           }
+
+          //scope.imageTotalWidth = Math.floor(scope.imageTotalWidth * factor  / 100);
+          var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
+          var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
+          Promise.all([p1, p2]).then(function(values: any) { 
+            scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
+                                        values[0].incX, values[0].incY);
+            scope._tileOffsetWidth = values[1].tileOffsetWidth;
+            scope._tileOffsetHeight = values[1].tileOffsetHeight;
+
+            scope._rowCount = Math.floor(inputValues.count / 4);
+            $("#puzzle").removeClass("invisible");
+          });
 
         });
 
