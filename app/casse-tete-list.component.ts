@@ -50,6 +50,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   getTotalWidth() {
     return this.imageTotalWidth + 'px';
+    //return this.totalWidth + 'px';
   }
 
   getFreeSpot() {
@@ -202,7 +203,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
       this.checkErrors();
       let inputValues = this.getInputValues();
-      this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth;
+      this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth; 
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;
 
       console.log("resize");
@@ -220,21 +221,9 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
           scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80);
 
-//          console.log("totalWidth ==> " + scope.totalWidth);
-//          console.log("imageTotalWidth ==> " + scope.imageTotalWidth);
-//          console.log("imageNatural    ==> " + imageNatural.width);
-//
-//
-//          if(Math.abs(scope.imageTotalWidth - imageNatural.width) <= 20) {
-//              scope.imageTotalWidth -= 20;
-//          }
 
-
-          //debugger;
-          //scope.imageTotalWidth = scope.imageTotalWidth > scope.totalWidth ? scope.totalWidth : scope.imageTotalWidth;
-
-          if(imageNatural.width >= scope.totalWidth) {
-            let factor = Math.floor(scope.totalWidth / imageNatural.width * 100 - 10);
+          if(imageNatural.width >= scope.imageTotalWidth) {
+            let factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
             console.log("FACTOR ==> "  + factor);
             inputValues.scale = factor;
             var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
