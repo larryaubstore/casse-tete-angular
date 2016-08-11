@@ -50,7 +50,6 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   getTotalWidth() {
     return this.imageTotalWidth + 'px';
-    //return this.totalWidth + 'px';
   }
 
   getFreeSpot() {

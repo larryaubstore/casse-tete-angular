@@ -210,6 +210,8 @@ nav a.router-link-active {
 
 html, body {
   height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 
