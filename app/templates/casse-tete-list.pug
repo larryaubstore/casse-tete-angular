@@ -31,6 +31,8 @@ include mixins/errorpanel.pug
       h1
         span.label.label-success([style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
       // +errorpanel(0)
+      //
+      button#noborder(type='button' class='btn btn-info')='Sans bordure'
 
     .col-md-10
       #puzzle.invisible(style='margin: 0 auto;height:100%;overflow:hidden;', [style.width]="getTotalWidth()")

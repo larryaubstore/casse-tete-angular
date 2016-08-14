@@ -20,13 +20,13 @@ var CasseTeteListComponent = (function () {
         this._router = _router;
         this._casseTeteService = _casseTeteService;
         this.puzzles = [];
+        this._children = [];
     }
     CasseTeteListComponent.prototype.getRandomInt = function (min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     };
     CasseTeteListComponent.prototype.getTotalWidth = function () {
         return this.imageTotalWidth + 'px';
-        //return this.totalWidth + 'px';
     };
     CasseTeteListComponent.prototype.getFreeSpot = function () {
         return this._freeSpot;
@@ -106,7 +106,15 @@ var CasseTeteListComponent = (function () {
             console.log(event.value);
         }, this))
             .data('slider');
+        document.getElementById('noborder').addEventListener('click', _.bind(function (event) {
+            this.showOriginal();
+        }, this));
         this.resize();
+    };
+    CasseTeteListComponent.prototype.showOriginal = function () {
+        for (var i = 0; i < this._children.length; i++) {
+            this._children[i].showOriginal();
+        }
     };
     CasseTeteListComponent.prototype.checkErrors = function () {
         var count = 0;
@@ -116,6 +124,9 @@ var CasseTeteListComponent = (function () {
             }
         }
         this.countererrors = count;
+    };
+    CasseTeteListComponent.prototype.addChildren = function (casseTeteComponent) {
+        this._children.push(casseTeteComponent);
     };
     CasseTeteListComponent.prototype.merge = function (oldArray, newArray, incX, incY) {
         if (oldArray.length === 0 || oldArray.length !== newArray.length) {

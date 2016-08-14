@@ -33,6 +33,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   private _rowCount: number;
   private _tileOffsetWidth: number;
   private _tileOffsetHeight:number;
+  private _children: CasseTeteComponent[];
 
   constructor(                                                                                        
 
@@ -41,6 +42,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     private _casseTeteService: CasseTeteService) {
 
       this.puzzles = [];
+      this._children = [];
 
   } 
   
@@ -156,9 +158,22 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
           console.log(event.value);   
         }, this))
         .data('slider');
+
+    document.getElementById('noborder').addEventListener('click', _.bind(function(event: any) {
+      this.showOriginal();
+    }, this));
+
+
     this.resize();
 
 
+  }
+
+  showOriginal() {
+
+    for(var i = 0; i < this._children.length; i++) {
+      this._children[i].showOriginal();
+    }
   }
 
   checkErrors() {
@@ -173,6 +188,11 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     }
 
     this.countererrors = count;
+  }
+
+
+  addChildren(casseTeteComponent: CasseTeteComponent) {
+    this._children.push(casseTeteComponent);
   }
 
 

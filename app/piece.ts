@@ -8,6 +8,8 @@ export class Piece {
   bgTop: number;
   src: string;
   realPos: number;
+  fullWidth: number;
+  fullHeight: number;
 
   constructor(id: number, 
               left: number, 
@@ -17,7 +19,9 @@ export class Piece {
               bgLeft: number,
               bgTop: number,
               src: string, 
-              realPos: number) {
+              realPos: number,
+              fullWidth: number,
+              fullHeight: number) {
 
                 this.id = id;
                 this.left = left;
@@ -28,6 +32,8 @@ export class Piece {
                 this.bgTop = bgTop;
                 this.src = src;
                 this.realPos = realPos;
+                this.fullWidth = fullWidth;
+                this.fullHeight = fullHeight;
               }
 
   public isCorrect() {

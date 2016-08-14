@@ -45,9 +45,17 @@ var CasseTeteComponent = (function () {
         }
         this.parent.checkErrors();
     };
+    CasseTeteComponent.prototype.getSelector = function () {
+        return document.getElementById("TILE_" + this.puzzle.id);
+    };
     CasseTeteComponent.prototype.ngAfterViewInit = function () {
         this.puzzle.realPos = this.puzzle.id;
         document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
+        this.parent.addChildren(this);
+    };
+    CasseTeteComponent.prototype.showOriginal = function () {
+        this.getSelector().style.width = this.puzzle.fullWidth + 'px';
+        this.getSelector().style.height = this.puzzle.fullHeight + 'px';
     };
     CasseTeteComponent.prototype.setStyles = function (piece) {
         var styles = {

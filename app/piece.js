@@ -1,6 +1,6 @@
 "use strict";
 var Piece = (function () {
-    function Piece(id, left, top, width, height, bgLeft, bgTop, src, realPos) {
+    function Piece(id, left, top, width, height, bgLeft, bgTop, src, realPos, fullWidth, fullHeight) {
         this.id = id;
         this.left = left;
         this.top = top;
@@ -10,6 +10,8 @@ var Piece = (function () {
         this.bgTop = bgTop;
         this.src = src;
         this.realPos = realPos;
+        this.fullWidth = fullWidth;
+        this.fullHeight = fullHeight;
     }
     Piece.prototype.isCorrect = function () {
         return (this.id === this.realPos);

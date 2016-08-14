@@ -58,13 +58,24 @@ export class CasseTeteComponent {
     this.parent.checkErrors();
   }
 
+
+  getSelector() {
+    return document.getElementById("TILE_" + this.puzzle.id);
+  }
+
   ngAfterViewInit() {
     this.puzzle.realPos = this.puzzle.id;
     document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", 
       _.bind(this._onClick, this));
 
+    this.parent.addChildren(this);
+
   }
 
+  showOriginal() {
+    this.getSelector().style.width = this.puzzle.fullWidth + 'px';
+    this.getSelector().style.height = this.puzzle.fullHeight + 'px';
+  }
 
   setStyles(piece: Piece) {
     let styles = {

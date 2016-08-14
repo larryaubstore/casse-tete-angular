@@ -117,7 +117,9 @@ export class CasseTeteService {
                         (incX) * j * -1, 
                         (incY) * i * -1,
                        imageSrc + '?scale=' + inputValues.scale,
-                        0);
+                        0, 
+                        incX, 
+                        incY);
             pieces.push(aPiece);
             counter++;
           }
