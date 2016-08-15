@@ -82,7 +82,10 @@ var CasseTeteService = (function () {
                 var counter = 0;
                 for (var i = 0; i < rows + 1; i++) {
                     for (var j = 0; j < cols + 1; j++) {
-                        aPiece = new piece_1.Piece(counter + 1, j * incX, i * incY, incX - margin, incY - margin, (incX) * j * -1, (incY) * i * -1, imageSrc + '?scale=' + inputValues.scale, 0, incX, incY);
+                        aPiece = new piece_1.Piece(counter + 1, j * incX, i * incY, 
+                        //                        incX - margin, 
+                        //                        incY - margin, 
+                        incX, incY, (incX) * j * -1, (incY) * i * -1, imageSrc + '?scale=' + inputValues.scale, 0, incX, incY);
                         pieces.push(aPiece);
                         counter++;
                     }

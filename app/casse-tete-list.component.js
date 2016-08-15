@@ -51,6 +51,7 @@ var CasseTeteListComponent = (function () {
             _this.imageTotalWidth = 0;
             _this._freeSpot = 1;
             _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
+            _this.noborder = true;
             var marker = _this._url.indexOf('?');
             _this._url = _this._url.substr(0, marker);
             var list = _this._casseTeteService.getList();
@@ -107,13 +108,23 @@ var CasseTeteListComponent = (function () {
         }, this))
             .data('slider');
         document.getElementById('noborder').addEventListener('click', _.bind(function (event) {
+            this.noborder = false;
             this.showOriginal();
+        }, this));
+        document.getElementById('withborder').addEventListener('click', _.bind(function (event) {
+            this.noborder = true;
+            this.showPuzzle();
         }, this));
         this.resize();
     };
     CasseTeteListComponent.prototype.showOriginal = function () {
         for (var i = 0; i < this._children.length; i++) {
             this._children[i].showOriginal();
+        }
+    };
+    CasseTeteListComponent.prototype.showPuzzle = function () {
+        for (var i = 0; i < this._children.length; i++) {
+            this._children[i].showPuzzle();
         }
     };
     CasseTeteListComponent.prototype.checkErrors = function () {

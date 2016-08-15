@@ -25,6 +25,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   countererrors: number;
   totalWidth: number;
   imageTotalWidth: number;
+  noborder: boolean;
 
   private sub: any;
   private _url: string;
@@ -82,6 +83,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        this.imageTotalWidth = 0;
        this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
+       this.noborder = true;
 
        let marker = this._url.indexOf('?');
        this._url = this._url.substr(0, marker);
@@ -160,7 +162,13 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
         .data('slider');
 
     document.getElementById('noborder').addEventListener('click', _.bind(function(event: any) {
+      this.noborder = false;
       this.showOriginal();
+    }, this));
+
+    document.getElementById('withborder').addEventListener('click', _.bind(function(event: any) {
+      this.noborder = true;
+      this.showPuzzle();
     }, this));
 
 
@@ -173,6 +181,12 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
     for(var i = 0; i < this._children.length; i++) {
       this._children[i].showOriginal();
+    }
+  }
+
+  showPuzzle() {
+    for(var i = 0; i < this._children.length; i++) {
+      this._children[i].showPuzzle();
     }
   }
 

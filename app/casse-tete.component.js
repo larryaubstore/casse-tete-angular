@@ -54,8 +54,14 @@ var CasseTeteComponent = (function () {
         this.parent.addChildren(this);
     };
     CasseTeteComponent.prototype.showOriginal = function () {
-        this.getSelector().style.width = this.puzzle.fullWidth + 'px';
-        this.getSelector().style.height = this.puzzle.fullHeight + 'px';
+        //this.getSelector().style.width = this.puzzle.fullWidth + 'px';
+        //this.getSelector().style.height = this.puzzle.fullHeight + 'px';
+        $("#TILE_" + this.puzzle.id).removeClass("border");
+        $("#TILE_" + this.puzzle.id).addClass("noborder");
+    };
+    CasseTeteComponent.prototype.showPuzzle = function () {
+        $("#TILE_" + this.puzzle.id).addClass("border");
+        $("#TILE_" + this.puzzle.id).removeClass("noborder");
     };
     CasseTeteComponent.prototype.setStyles = function (piece) {
         var styles = {

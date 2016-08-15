@@ -4,6 +4,12 @@
 
 .border {
 	border:1px solid white;
+  border-radius:15px;
+}
+
+.noborder {
+  border: 0px;
+  border-radius: 0px;
 }
 
 .tilewrapper {
@@ -41,7 +47,6 @@
 
 .shadow {
     box-shadow: 5px 5px 5px black; 
-    border-radius:15px;
 }
 
 .enableHover {
