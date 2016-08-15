@@ -112,8 +112,6 @@ export class CasseTeteService {
             aPiece = new Piece(  counter + 1, 
                         j * incX, 
                         i * incY, 
-//                        incX - margin, 
-//                        incY - margin, 
                         incX, 
                         incY, 
                         (incX) * j * -1, 

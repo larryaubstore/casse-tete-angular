@@ -134,32 +134,51 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     console.log('AfterViewInit');
-    $("#inputRow").slider().on('slide', _.bind(function(event: any) {
-          this.onKeyRow(event);
-          console.log(event.value);   
-        }, this))
-        .data('slider');
-    $("#inputMargin").slider().on('slide', _.bind(function(event: any) {
-          this.onKeyRow(event);
-          console.log(event.value);   
-        }, this))
-        .data('slider');
-    $("#inputWidth").slider().on('slide', _.bind(function(event: any) {
-          this.onKeyRow(event);
-          console.log(event.value);   
-        }, this))
-        .data('slider');
-    $("#inputHeight").slider().on('slide', _.bind(function(event: any) {
+
+    var inputRowSlider = $("#inputRow").slider();
+    inputRowSlider.on('slide', _.bind(function(event: any) {
           this.onKeyRow(event);
           console.log(event.value);   
         }, this))
         .data('slider');
 
-    $("#inputScale").slider().on('slide', _.bind(function(event: any) {
+    var inputMarginSlider = $("#inputMargin").slider();
+    inputMarginSlider.on('slide', _.bind(function(event: any) {
           this.onKeyRow(event);
           console.log(event.value);   
         }, this))
         .data('slider');
+
+
+    var inputWidthSlider = $("#inputWidth").slider();
+    inputWidthSlider.on('slide', _.bind(function(event: any) {
+          this.onKeyRow(event);
+          console.log(event.value);   
+        }, this))
+        .data('slider');
+        
+
+    var inputHeightSlider = $("#inputHeight").slider();
+    inputHeightSlider.on('slide', _.bind(function(event: any) {
+          this.onKeyRow(event);
+          console.log(event.value);   
+        }, this))
+        .data('slider');
+
+    var inputScaleSlider = $("#inputScale").slider();
+    inputScaleSlider.on('slide', _.bind(function(event: any) {
+          this.onKeyRow(event);
+          console.log(event.value);   
+        }, this))
+        .data('slider');
+
+
+    inputRowSlider.slider('disable');
+    inputMarginSlider.slider('disable');
+    inputWidthSlider.slider('disable');
+    inputHeightSlider.slider('disable');
+    inputScaleSlider.slider('disable');
+
 
     document.getElementById('noborder').addEventListener('click', _.bind(function(event: any) {
       this.noborder = false;
