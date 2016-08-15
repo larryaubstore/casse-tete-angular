@@ -82,31 +82,46 @@ var CasseTeteListComponent = (function () {
     };
     CasseTeteListComponent.prototype.ngAfterViewInit = function () {
         console.log('AfterViewInit');
-        $("#inputRow").slider().on('slide', _.bind(function (event) {
+        var inputRowSlider = $("#inputRow").slider();
+        inputRowSlider.on('slide', _.bind(function (event) {
             this.onKeyRow(event);
             console.log(event.value);
         }, this))
             .data('slider');
-        $("#inputMargin").slider().on('slide', _.bind(function (event) {
+        var inputMarginSlider = $("#inputMargin").slider();
+        inputMarginSlider.on('slide', _.bind(function (event) {
             this.onKeyRow(event);
             console.log(event.value);
         }, this))
             .data('slider');
-        $("#inputWidth").slider().on('slide', _.bind(function (event) {
+        var inputWidthSlider = $("#inputWidth").slider();
+        inputWidthSlider.on('slide', _.bind(function (event) {
             this.onKeyRow(event);
             console.log(event.value);
         }, this))
             .data('slider');
-        $("#inputHeight").slider().on('slide', _.bind(function (event) {
+        var inputHeightSlider = $("#inputHeight").slider();
+        inputHeightSlider.on('slide', _.bind(function (event) {
             this.onKeyRow(event);
             console.log(event.value);
         }, this))
             .data('slider');
-        $("#inputScale").slider().on('slide', _.bind(function (event) {
+        var inputScaleSlider = $("#inputScale").slider();
+        inputScaleSlider.on('slide', _.bind(function (event) {
             this.onKeyRow(event);
             console.log(event.value);
         }, this))
             .data('slider');
+        inputRowSlider.slider('destroy');
+        inputMarginSlider.slider('destroy');
+        inputWidthSlider.slider('destroy');
+        inputHeightSlider.slider('destroy');
+        inputScaleSlider.slider('destroy');
+        $("#inputRow").hide();
+        $("#inputMargin").hide();
+        $("#inputWidth").hide();
+        $("#inputHeight").hide();
+        $("#inputScale").hide();
         document.getElementById('noborder').addEventListener('click', _.bind(function (event) {
             this.noborder = false;
             this.showOriginal();
