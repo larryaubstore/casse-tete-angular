@@ -52,6 +52,7 @@ var CasseTeteListComponent = (function () {
             _this._freeSpot = 1;
             _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
             _this.noborder = true;
+            _this.fullscreen = false;
             var marker = _this._url.indexOf('?');
             _this._url = _this._url.substr(0, marker);
             var list = _this._casseTeteService.getList();
@@ -62,7 +63,7 @@ var CasseTeteListComponent = (function () {
             inputValues.count = 80;
             inputValues.margin = 2;
             inputValues.scale = 100;
-            _this.totalWidth = document.getElementsByClassName("col-md-10")[0].offsetWidth;
+            _this.totalWidth = document.getElementById("maincontainer").clientWidth;
             var fitWidth = Math.floor(_this.totalWidth / inputValues.count);
             console.log("fitWidth ==> " + fitWidth);
             var randomInt = +_this.getRandomInt(0, list.length);
@@ -116,12 +117,12 @@ var CasseTeteListComponent = (function () {
         inputMarginSlider.slider('destroy');
         inputWidthSlider.slider('destroy');
         inputHeightSlider.slider('destroy');
-        inputScaleSlider.slider('destroy');
+        //inputScaleSlider.slider('destroy');
         $("#inputRow").hide();
         $("#inputMargin").hide();
         $("#inputWidth").hide();
         $("#inputHeight").hide();
-        $("#inputScale").hide();
+        //$("#inputScale").hide();
         document.getElementById('noborder').addEventListener('click', _.bind(function (event) {
             this.noborder = false;
             this.showOriginal();
@@ -129,6 +130,14 @@ var CasseTeteListComponent = (function () {
         document.getElementById('withborder').addEventListener('click', _.bind(function (event) {
             this.noborder = true;
             this.showPuzzle();
+        }, this));
+        document.getElementById('fullscreen').addEventListener('click', _.bind(function (event) {
+            var element = document.getElementsByClassName("col-md-2")[0];
+            var containerElement = document.getElementsByClassName("container-fluid")[0];
+            containerElement.className = "container-fluid fullscreen";
+            element.style.display = "none";
+            document.getElementById('maincontainer').className = 'col-md-12';
+            this.resize();
         }, this));
         this.resize();
     };
@@ -177,7 +186,7 @@ var CasseTeteListComponent = (function () {
         this._resizeTimeout = setTimeout(_.bind(function () {
             this.checkErrors();
             var inputValues = this.getInputValues();
-            this.totalWidth = document.getElementsByClassName("col-md-10")[0].clientWidth;
+            this.totalWidth = document.getElementById("maincontainer").clientWidth;
             var totalHeight = document.getElementsByTagName("body")[0].clientHeight;
             console.log("resize");
             console.log(this.totalWidth);
@@ -185,7 +194,13 @@ var CasseTeteListComponent = (function () {
             var scope = this;
             this._casseTeteService.getImageNatural(this._url)
                 .then(function (imageNatural) {
-                scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80);
+                var containerFactor = 0.80;
+                var heightOffset = 60;
+                if (scope.fullscreen === true) {
+                    containerFactor = 1;
+                    heightOffset = 0;
+                }
+                scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor);
                 var factor = 1;
                 if (imageNatural.width >= scope.imageTotalWidth) {
                     factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
@@ -198,16 +213,16 @@ var CasseTeteListComponent = (function () {
                     inputValues.scale = factor;
                 }
                 else if (imageNatural.height >= totalHeight) {
-                    factor = Math.floor(imageNatural.height / totalHeight * 100 - 60);
+                    factor = Math.floor(imageNatural.height / totalHeight * 100 - heightOffset);
                     console.log("FACTOR 3 ==> " + factor);
                     inputValues.scale = factor;
-                    scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
+                    scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor * factor / 100);
                 }
                 else if (totalHeight < imageNatural.Height) {
-                    factor = Math.floor(totalHeight / imageNatural.height * 100 - 60);
+                    factor = Math.floor(totalHeight / imageNatural.height * 100 - heightOffset);
                     console.log("FACTOR 4 ==> " + factor);
                     inputValues.scale = factor;
-                    scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
+                    scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor * factor / 100);
                 }
                 else {
                     factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);

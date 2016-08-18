@@ -103,4 +103,17 @@
     animation: spin 2s linear infinite;
 }
 
+button {
+  margin-top: 10px;
+}
+
+#maincontainer.fullscreen {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.container-fluid.fullscreen {
+  padding-top: 0px;
+}
+
 /**/

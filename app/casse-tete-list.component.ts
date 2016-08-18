@@ -26,6 +26,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   totalWidth: number;
   imageTotalWidth: number;
   noborder: boolean;
+  fullscreen: boolean;
 
   private sub: any;
   private _url: string;
@@ -84,6 +85,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
        this.noborder = true;
+       this.fullscreen = false;
 
        let marker = this._url.indexOf('?');
        this._url = this._url.substr(0, marker);
@@ -100,7 +102,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        inputValues.scale = 100;
 
 
-       this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).offsetWidth;
+       this.totalWidth = document.getElementById("maincontainer").clientWidth; 
        let fitWidth = Math.floor(this.totalWidth / inputValues.count);
 
        console.log("fitWidth ==> " + fitWidth);
@@ -177,13 +179,13 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     inputMarginSlider.slider('destroy');
     inputWidthSlider.slider('destroy');
     inputHeightSlider.slider('destroy');
-    inputScaleSlider.slider('destroy');
+    //inputScaleSlider.slider('destroy');
 
     $("#inputRow").hide();
     $("#inputMargin").hide();
     $("#inputWidth").hide();
     $("#inputHeight").hide();
-    $("#inputScale").hide();
+    //$("#inputScale").hide();
 
 
 
@@ -195,6 +197,16 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     document.getElementById('withborder').addEventListener('click', _.bind(function(event: any) {
       this.noborder = true;
       this.showPuzzle();
+    }, this));
+
+    document.getElementById('fullscreen').addEventListener('click', _.bind(function(event: any) {
+      let element =  <HTMLElement>document.getElementsByClassName("col-md-2")[0];
+      let containerElement =  <HTMLElement>document.getElementsByClassName("container-fluid")[0];
+      containerElement.className = "container-fluid fullscreen";
+      element.style.display = "none";
+
+      document.getElementById('maincontainer').className = 'col-md-12';
+      this.resize();
     }, this));
 
 
@@ -262,7 +274,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
       this.checkErrors();
       let inputValues = this.getInputValues();
-      this.totalWidth = ( <HTMLElement>document.getElementsByClassName("col-md-10")[0]).clientWidth; 
+      this.totalWidth = document.getElementById("maincontainer").clientWidth; 
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;
 
       console.log("resize");
@@ -275,10 +287,14 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
       var scope = this;
       this._casseTeteService.getImageNatural(this._url)
         .then(function(imageNatural: ImageNatural) {
+          let containerFactor = 0.80;
+          let heightOffset = 60;
+          if (scope.fullscreen === true) {
+            containerFactor = 1;
+            heightOffset = 0;
+          }
 
-
-
-          scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80);
+          scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor);
 
           let factor = 1;
           if(imageNatural.width >= scope.imageTotalWidth) {
@@ -290,15 +306,15 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             console.log("FACTOR 2 ==> "  + factor);
             inputValues.scale = factor;
           } else if(imageNatural.height >= totalHeight) {
-            factor = Math.floor(imageNatural.height / totalHeight * 100 - 60);
+            factor = Math.floor(imageNatural.height / totalHeight * 100 - heightOffset);
             console.log("FACTOR 3 ==> "  + factor);
             inputValues.scale = factor;
-            scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
+            scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor * factor / 100);
           } else if(totalHeight < imageNatural.Height) {
-            factor = Math.floor(totalHeight / imageNatural.height * 100 - 60);
+            factor = Math.floor(totalHeight / imageNatural.height * 100 - heightOffset);
             console.log("FACTOR 4 ==> "  + factor);
             inputValues.scale = factor;
-            scope.imageTotalWidth = Math.floor(scope.totalWidth * 0.80 * factor / 100);
+            scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor * factor / 100);
           } else {
             factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
             console.log("FACTOR 5 ==> "  + factor);

@@ -34,7 +34,8 @@ include mixins/errorpanel.pug
       //
       button#noborder(type='button', class='btn btn-info', [style.display]="noborder === true  ? 'block' : 'none'")='Sans bordure'
       button#withborder(type='button', class='btn btn-info', [style.display]="noborder === false  ? 'block' : 'none'")='Avec bordure'
-    .col-md-10
+      button#fullscreen(type='button', class='btn btn-info', [style.display]="fullscreen === false  ? 'block' : 'none'")='Plein écran'
+    .col-md-10#maincontainer
       #puzzle.invisible(style='margin: 0 auto;height:100%;overflow:hidden;', [style.width]="getTotalWidth()")
         .tilewrapper
           .position
