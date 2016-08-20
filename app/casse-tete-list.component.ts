@@ -204,6 +204,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
       let containerElement =  <HTMLElement>document.getElementsByClassName("container-fluid")[0];
       containerElement.className = "container-fluid fullscreen";
       element.style.display = "none";
+      this.fullscreen = true;
 
       document.getElementById('maincontainer').className = 'col-md-12';
       this.resize();
@@ -292,6 +293,9 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
           if (scope.fullscreen === true) {
             containerFactor = 1;
             heightOffset = 0;
+
+            scope.totalWidth = window.innerWidth;
+            totalHeight = window.innerHeight;
           }
 
           scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor);
@@ -319,6 +323,10 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
             factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
             console.log("FACTOR 5 ==> "  + factor);
             inputValues.scale = factor;
+          }
+
+          if(scope.fullscreen === true) {
+            inputValues.scaleY = Math.floor(totalHeight / imageNatural.height * 100);
           }
 
           //scope.imageTotalWidth = Math.floor(scope.imageTotalWidth * factor  / 100);
@@ -358,6 +366,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     inputValues.width = +width;
     inputValues.height = +height;
     inputValues.scale = +scale;
+    inputValues.scaleY = 0;
     
 
     return inputValues;

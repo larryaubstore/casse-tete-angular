@@ -57,7 +57,12 @@ var CasseTeteService = (function () {
                 var incY = Math.floor(+(natHeight / (rows + 1)));
                 resolve({ tileOffsetWidth: incX, tileOffsetHeight: incY });
             };
-            image.src = imageSrc + '?scale=' + inputValues.scale;
+            if (inputValues.scaleY !== 0) {
+                image.src = imageSrc + '?scale=' + inputValues.scale + '&scaleY=' + inputValues.scaleY;
+            }
+            else {
+                image.src = imageSrc + '?scale=' + inputValues.scale;
+            }
         });
     };
     CasseTeteService.prototype.getPieces = function (inputValues, imageSrc) {
@@ -82,14 +87,19 @@ var CasseTeteService = (function () {
                 var counter = 0;
                 for (var i = 0; i < rows + 1; i++) {
                     for (var j = 0; j < cols + 1; j++) {
-                        aPiece = new piece_1.Piece(counter + 1, j * incX, i * incY, incX, incY, (incX) * j * -1, (incY) * i * -1, imageSrc + '?scale=' + inputValues.scale, 0, incX, incY);
+                        aPiece = new piece_1.Piece(counter + 1, j * incX, i * incY, incX, incY, (incX) * j * -1, (incY) * i * -1, inputValues.scaleY !== 0 ? imageSrc + '?scale=' + inputValues.scale + '&scaleY=' + inputValues.scaleY : imageSrc + '?scale=' + inputValues.scale, 0, incX, incY);
                         pieces.push(aPiece);
                         counter++;
                     }
                 }
                 resolve(new tilesetup_1.TileSetup(incX, incY, pieces));
             };
-            image.src = imageSrc + '?scale=' + inputValues.scale;
+            if (inputValues.scaleY !== 0) {
+                image.src = imageSrc + '?scale=' + inputValues.scale + '&scaleY=' + inputValues.scaleY;
+            }
+            else {
+                image.src = imageSrc + '?scale=' + inputValues.scale;
+            }
         });
     };
     CasseTeteService = __decorate([

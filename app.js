@@ -11,8 +11,27 @@ console.log(__dirname);
 app.get('/assets/css/*.jpg', function(req, res) {
 
   var urlParsed = url.parse(req.url, true);
+  if(urlParsed.query && urlParsed.query.scale && urlParsed.query.scaleY) {
 
-  if(urlParsed.query && urlParsed.query.scale) {
+
+    console.log("scaleY");
+    var factor = 100 / (parseInt(urlParsed.query.scale) - 5);
+    var factorY = 100 / (parseInt(urlParsed.query.scaleY) - 5);
+    var image = sharp('.' + urlParsed.pathname);
+    image
+      .metadata()
+      .then(function(metadata) {
+        return image
+          .resize(Math.round(metadata.width / factor), Math.round(metadata.height / factorY))
+          .webp()
+          .toBuffer();
+      })
+      .then(function(data) {
+        // data contains a WebP image half the width and height of the original JPEG
+        res.write(data);
+        res.end();
+      });
+  } else if(urlParsed.query && urlParsed.query.scale) {
 
     var factor = 100 / parseInt(urlParsed.query.scale);
     var image = sharp('.' + urlParsed.pathname);

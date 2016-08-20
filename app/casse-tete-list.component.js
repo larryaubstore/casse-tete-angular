@@ -136,6 +136,7 @@ var CasseTeteListComponent = (function () {
             var containerElement = document.getElementsByClassName("container-fluid")[0];
             containerElement.className = "container-fluid fullscreen";
             element.style.display = "none";
+            this.fullscreen = true;
             document.getElementById('maincontainer').className = 'col-md-12';
             this.resize();
         }, this));
@@ -199,6 +200,8 @@ var CasseTeteListComponent = (function () {
                 if (scope.fullscreen === true) {
                     containerFactor = 1;
                     heightOffset = 0;
+                    scope.totalWidth = window.innerWidth;
+                    totalHeight = window.innerHeight;
                 }
                 scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor);
                 var factor = 1;
@@ -229,6 +232,9 @@ var CasseTeteListComponent = (function () {
                     console.log("FACTOR 5 ==> " + factor);
                     inputValues.scale = factor;
                 }
+                if (scope.fullscreen === true) {
+                    inputValues.scaleY = Math.floor(totalHeight / imageNatural.height * 100);
+                }
                 //scope.imageTotalWidth = Math.floor(scope.imageTotalWidth * factor  / 100);
                 var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
                 var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
@@ -254,6 +260,7 @@ var CasseTeteListComponent = (function () {
         inputValues.width = +width;
         inputValues.height = +height;
         inputValues.scale = +scale;
+        inputValues.scaleY = 0;
         return inputValues;
     };
     CasseTeteListComponent.prototype.onKeyRow = function (event) {

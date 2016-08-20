@@ -68,7 +68,11 @@ export class CasseTeteService {
         resolve({ tileOffsetWidth: incX, tileOffsetHeight: incY});
       }
 
-      image.src = imageSrc + '?scale=' + inputValues.scale;
+      if(inputValues.scaleY !== 0) {
+        image.src = imageSrc + '?scale=' + inputValues.scale + '&scaleY=' + inputValues.scaleY;
+      } else {
+        image.src = imageSrc + '?scale=' + inputValues.scale;
+      }
     });
    
   }
@@ -116,7 +120,7 @@ export class CasseTeteService {
                         incY, 
                         (incX) * j * -1, 
                         (incY) * i * -1,
-                       imageSrc + '?scale=' + inputValues.scale,
+       inputValues.scaleY !== 0 ? imageSrc + '?scale=' + inputValues.scale + '&scaleY=' + inputValues.scaleY : imageSrc + '?scale=' + inputValues.scale,
                         0, 
                         incX, 
                         incY);
@@ -127,7 +131,11 @@ export class CasseTeteService {
         resolve(new TileSetup(incX, incY, pieces));
       }
 
-      image.src = imageSrc + '?scale=' + inputValues.scale;
+      if(inputValues.scaleY !== 0) {
+        image.src = imageSrc + '?scale=' + inputValues.scale + '&scaleY=' + inputValues.scaleY;
+      } else {
+        image.src = imageSrc + '?scale=' + inputValues.scale;
+      }
     });
   }
 }
