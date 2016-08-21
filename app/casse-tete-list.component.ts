@@ -85,7 +85,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        this._freeSpot = 1;
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
        this.noborder = true;
-       this.fullscreen = false;
+       this.fullscreen = true;
 
        let marker = this._url.indexOf('?');
        this._url = this._url.substr(0, marker);
