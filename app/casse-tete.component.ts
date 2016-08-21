@@ -53,8 +53,9 @@ export class CasseTeteComponent {
     var currentTop = tileSelector.position().top;
 
     if(this.puzzle.realPos - 1 === freeSpot && 
-       this.getRow(this.puzzle.realPos) === this.getRow(freeSpot)) {
+      this.getRow(this.puzzle.realPos) === this.getRow(freeSpot)) {
 
+      this.parent.moveControlPanel(currentLeft, currentTop);
       if(typeof(dontAnimate) !== "undefined") {
         tileSelector.css("left",  currentLeft - this.parent.getTileOffsetWidth() + "px");
       } else { 
@@ -64,6 +65,7 @@ export class CasseTeteComponent {
       this.puzzle.realPos = freeSpot;
     } else if(this.puzzle.realPos + 1 === freeSpot &&
              this.getRow(this.puzzle.realPos) === this.getRow(freeSpot)) {
+      this.parent.moveControlPanel(currentLeft, currentTop);
       if(typeof(dontAnimate) !== "undefined") {
         tileSelector.css("left",  currentLeft + this.parent.getTileOffsetWidth() + "px");
       } else { 
@@ -72,6 +74,7 @@ export class CasseTeteComponent {
       this.parent.setFreeSpot(this.puzzle.realPos);
       this.puzzle.realPos = freeSpot;
     } else if(this.puzzle.realPos - rowCount === freeSpot) {
+      this.parent.moveControlPanel(currentLeft, currentTop);
       if(typeof(dontAnimate) !== "undefined") {
         tileSelector.css("top",  currentTop - this.parent.getTileOffsetHeight() + "px");
       } else { 
@@ -80,6 +83,7 @@ export class CasseTeteComponent {
       this.parent.setFreeSpot(this.puzzle.realPos);
       this.puzzle.realPos = freeSpot;
     } else if(this.puzzle.realPos + rowCount === freeSpot) {
+      this.parent.moveControlPanel(currentLeft, currentTop );
       if(typeof(dontAnimate) !== "undefined") {
         tileSelector.css("top",  currentTop + this.parent.getTileOffsetHeight() + "px");
       } else { 

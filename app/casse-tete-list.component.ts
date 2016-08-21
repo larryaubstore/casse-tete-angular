@@ -65,6 +65,14 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     return element;
   }
 
+
+  moveControlPanel(x: number, y:number) {
+
+    let controlPanel = this.getControlPanel();
+    controlPanel.style.left = x + "px";
+    controlPanel.style.top = y + "px";
+  }
+
   setFreeSpot(value: number) {
     this._freeSpot = value;
     let controlPanel = this.getControlPanel();
@@ -289,6 +297,20 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     return oldArray;
   }
 
+  resizeControlPanel(inputValues: InputValues) {
+    let controlPanel = this.getControlPanel();
+    //controlPanel.style.width  = Math.floor(inputValues.width * inputValues.scale / 100) + "px";
+    controlPanel.style.width  = inputValues.width + "px";
+
+    if(inputValues.scaleY !== 0) {
+      controlPanel.style.height = Math.floor(inputValues.height * inputValues.scaleY / 100) + "px";
+    } else {
+      controlPanel.style.height = inputValues.height + "px";
+    }
+
+
+  }
+
   resize() {
 
     if(this._resizeTimeout) clearTimeout(this._resizeTimeout);
@@ -349,6 +371,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
           if(scope.fullscreen === true) {
             inputValues.scaleY = Math.floor(totalHeight / imageNatural.height * 100);
           }
+          scope.resizeControlPanel(inputValues);
 
           //scope.imageTotalWidth = Math.floor(scope.imageTotalWidth * factor  / 100);
           var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
