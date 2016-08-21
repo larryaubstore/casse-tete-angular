@@ -297,16 +297,11 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     return oldArray;
   }
 
-  resizeControlPanel(inputValues: InputValues) {
+  resizeControlPanel() {
     let controlPanel = this.getControlPanel();
     //controlPanel.style.width  = Math.floor(inputValues.width * inputValues.scale / 100) + "px";
-    controlPanel.style.width  = inputValues.width + "px";
-
-    if(inputValues.scaleY !== 0) {
-      controlPanel.style.height = Math.floor(inputValues.height * inputValues.scaleY / 100) + "px";
-    } else {
-      controlPanel.style.height = inputValues.height + "px";
-    }
+    controlPanel.style.width  = this._tileOffsetWidth + "px";
+    controlPanel.style.height = this._tileOffsetHeight + "px";
 
 
   }
@@ -371,7 +366,6 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
           if(scope.fullscreen === true) {
             inputValues.scaleY = Math.floor(totalHeight / imageNatural.height * 100);
           }
-          scope.resizeControlPanel(inputValues);
 
           //scope.imageTotalWidth = Math.floor(scope.imageTotalWidth * factor  / 100);
           var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
@@ -381,6 +375,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
                                         values[0].incX, values[0].incY);
             scope._tileOffsetWidth = values[1].tileOffsetWidth;
             scope._tileOffsetHeight = values[1].tileOffsetHeight;
+            scope.resizeControlPanel();
 
             scope._rowCount = Math.floor(inputValues.count / 4);
             $("#puzzle").removeClass("invisible");
