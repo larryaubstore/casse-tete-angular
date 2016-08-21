@@ -60,8 +60,14 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     return this._freeSpot;
   }
 
+  getControlPanel() {
+    let element =  <HTMLElement>document.getElementsByClassName("controlpanel")[0];
+    return element;
+  }
+
   setFreeSpot(value: number) {
     this._freeSpot = value;
+    let controlPanel = this.getControlPanel();
   }
 
   getRowCount() {
@@ -212,8 +218,19 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
     this.resize();
+  }
 
+  randomIntFromInterval(min:number,max:number) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+  }
 
+  shuffle() {
+    let random = 0;
+    for(var i = 0; i < this._children.length * 4; i++) {
+      random = this.randomIntFromInterval(1, this._children.length);
+      console.log("rand ==> " + random);
+      this._children[random - 1].manualClick();
+    }
   }
 
   showOriginal() {
@@ -246,6 +263,10 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   addChildren(casseTeteComponent: CasseTeteComponent) {
     this._children.push(casseTeteComponent);
+
+    if(this._children.length === this.puzzles.length) {
+      this.shuffle();
+    }
   }
 
 
