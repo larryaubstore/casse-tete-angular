@@ -32,15 +32,6 @@ export class CasseTeteComponent {
   }
 
 
-  private getRow(pos: number) {
-    let rowCount = this.parent.getRowCount();
-    let row = Math.floor((pos - 1) / rowCount);
-
-    console.log("pos ==> " + pos);
-    console.log("row ==> " + row);
-    console.log("cou ==> " + rowCount);
-    return row;
-  }
 
   private _onClick(event: any, dontAnimate: boolean) {
 
@@ -53,7 +44,7 @@ export class CasseTeteComponent {
     var currentTop = tileSelector.position().top;
 
     if(this.puzzle.realPos - 1 === freeSpot && 
-      this.getRow(this.puzzle.realPos) === this.getRow(freeSpot)) {
+      this.parent.getRow(this.puzzle.realPos) === this.parent.getRow(freeSpot)) {
 
       this.parent.moveControlPanel(currentLeft, currentTop);
       if(typeof(dontAnimate) !== "undefined") {
@@ -64,7 +55,7 @@ export class CasseTeteComponent {
       this.parent.setFreeSpot(this.puzzle.realPos);
       this.puzzle.realPos = freeSpot;
     } else if(this.puzzle.realPos + 1 === freeSpot &&
-             this.getRow(this.puzzle.realPos) === this.getRow(freeSpot)) {
+             this.parent.getRow(this.puzzle.realPos) === this.parent.getRow(freeSpot)) {
       this.parent.moveControlPanel(currentLeft, currentTop);
       if(typeof(dontAnimate) !== "undefined") {
         tileSelector.css("left",  currentLeft + this.parent.getTileOffsetWidth() + "px");
