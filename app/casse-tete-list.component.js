@@ -127,12 +127,12 @@ var CasseTeteListComponent = (function () {
         inputMarginSlider.slider('destroy');
         inputWidthSlider.slider('destroy');
         inputHeightSlider.slider('destroy');
-        //inputScaleSlider.slider('destroy');
+        inputScaleSlider.slider('destroy');
         $("#inputRow").hide();
         $("#inputMargin").hide();
         $("#inputWidth").hide();
         $("#inputHeight").hide();
-        //$("#inputScale").hide();
+        $("#inputScale").hide();
         document.getElementById('noborder').addEventListener('click', _.bind(function (event) {
             this.noborder = false;
             this.showOriginal();

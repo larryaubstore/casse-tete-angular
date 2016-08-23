@@ -193,13 +193,13 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     inputMarginSlider.slider('destroy');
     inputWidthSlider.slider('destroy');
     inputHeightSlider.slider('destroy');
-    //inputScaleSlider.slider('destroy');
+    inputScaleSlider.slider('destroy');
 
     $("#inputRow").hide();
     $("#inputMargin").hide();
     $("#inputWidth").hide();
     $("#inputHeight").hide();
-    //$("#inputScale").hide();
+    $("#inputScale").hide();
 
 
 

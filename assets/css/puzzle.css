@@ -116,4 +116,12 @@ button {
   padding-top: 15px;
 }
 
+.controlpanel {
+  padding-left: 15px;
+  padding-right: 15px;
+  width:100px;
+  overflow:hidden;
+  position:relative;
+}
+
 /**/
