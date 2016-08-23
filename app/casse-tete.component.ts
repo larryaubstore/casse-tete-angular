@@ -65,7 +65,9 @@ export class CasseTeteComponent {
       this.parent.setFreeSpot(this.puzzle.realPos);
       this.puzzle.realPos = freeSpot;
     } else if(this.puzzle.realPos - rowCount === freeSpot &&
-     Math.abs(this.parent.getRow(this.puzzle.realPos) - this.parent.getRow(freeSpot)) === 1 ) {
+     Math.abs(this.parent.getRow(this.puzzle.realPos) - this.parent.getRow(freeSpot)) === 1 &&
+            this.parent.getCol(this.puzzle.realPos) === this.parent.getCol(freeSpot)) {
+      /**/
       this.parent.moveControlPanel(currentLeft, currentTop);
       if(typeof(dontAnimate) !== "undefined") {
         tileSelector.css("top",  currentTop - this.parent.getTileOffsetHeight() + "px");
@@ -74,8 +76,10 @@ export class CasseTeteComponent {
       }
       this.parent.setFreeSpot(this.puzzle.realPos);
       this.puzzle.realPos = freeSpot;
+      /**/
     } else if(this.puzzle.realPos + rowCount === freeSpot && 
-      Math.abs(this.parent.getRow(this.puzzle.realPos) - this.parent.getRow(freeSpot)) === 1) {
+      Math.abs(this.parent.getRow(this.puzzle.realPos) - this.parent.getRow(freeSpot)) === 1 &&
+             this.parent.getCol(this.puzzle.realPos) === this.parent.getCol(freeSpot)) {
       this.parent.moveControlPanel(currentLeft, currentTop );
       if(typeof(dontAnimate) !== "undefined") {
         tileSelector.css("top",  currentTop + this.parent.getTileOffsetHeight() + "px");

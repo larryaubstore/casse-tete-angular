@@ -235,7 +235,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   shuffle() {
     let random = 0;
     for(var i = 0; i < this._children.length * 8; i++) {
-      random = this.randomIntFromInterval(1, this._children.length);
+      random = this.randomIntFromInterval(2, this._children.length);
       console.log("rand ==> " + random);
       this._children[random - 1].manualClick();
     }

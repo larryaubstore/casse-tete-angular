@@ -16,28 +16,64 @@ var CasseTeteComponent = (function () {
     function CasseTeteComponent() {
         console.info('CasseTete Component Mounted Successfully');
     }
-    CasseTeteComponent.prototype._onClick = function () {
+    CasseTeteComponent.prototype.manualClick = function () {
+        this._onClick(null, true);
+    };
+    CasseTeteComponent.prototype._onClick = function (event, dontAnimate) {
         var freeSpot = this.parent.getFreeSpot();
         var rowCount = this.parent.getRowCount();
         var tileSelector = $("#TILE_" + this.puzzle.id);
         var offset = this.parent.getTileOffsetHeight();
-        if (this.puzzle.realPos - 1 === freeSpot) {
-            tileSelector.animate({ left: '-=' + this.parent.getTileOffsetWidth() }, 250);
+        var currentLeft = tileSelector.position().left;
+        var currentTop = tileSelector.position().top;
+        if (this.puzzle.realPos - 1 === freeSpot &&
+            this.parent.getRow(this.puzzle.realPos) === this.parent.getRow(freeSpot)) {
+            this.parent.moveControlPanel(currentLeft, currentTop);
+            if (typeof (dontAnimate) !== "undefined") {
+                tileSelector.css("left", currentLeft - this.parent.getTileOffsetWidth() + "px");
+            }
+            else {
+                tileSelector.animate({ left: '-=' + this.parent.getTileOffsetWidth() }, 250);
+            }
             this.parent.setFreeSpot(this.puzzle.realPos);
             this.puzzle.realPos = freeSpot;
         }
-        else if (this.puzzle.realPos + 1 === freeSpot) {
-            tileSelector.animate({ left: '+=' + this.parent.getTileOffsetWidth() }, 250);
+        else if (this.puzzle.realPos + 1 === freeSpot &&
+            this.parent.getRow(this.puzzle.realPos) === this.parent.getRow(freeSpot)) {
+            this.parent.moveControlPanel(currentLeft, currentTop);
+            if (typeof (dontAnimate) !== "undefined") {
+                tileSelector.css("left", currentLeft + this.parent.getTileOffsetWidth() + "px");
+            }
+            else {
+                tileSelector.animate({ left: '+=' + this.parent.getTileOffsetWidth() }, 250);
+            }
             this.parent.setFreeSpot(this.puzzle.realPos);
             this.puzzle.realPos = freeSpot;
         }
-        else if (this.puzzle.realPos - rowCount === freeSpot) {
-            tileSelector.animate({ top: '-=' + this.parent.getTileOffsetHeight() }, 250);
+        else if (this.puzzle.realPos - rowCount === freeSpot &&
+            Math.abs(this.parent.getRow(this.puzzle.realPos) - this.parent.getRow(freeSpot)) === 1 &&
+            this.parent.getCol(this.puzzle.realPos) === this.parent.getCol(freeSpot)) {
+            /**/
+            this.parent.moveControlPanel(currentLeft, currentTop);
+            if (typeof (dontAnimate) !== "undefined") {
+                tileSelector.css("top", currentTop - this.parent.getTileOffsetHeight() + "px");
+            }
+            else {
+                tileSelector.animate({ top: '-=' + this.parent.getTileOffsetHeight() }, 250);
+            }
             this.parent.setFreeSpot(this.puzzle.realPos);
             this.puzzle.realPos = freeSpot;
         }
-        else if (this.puzzle.realPos + rowCount === freeSpot) {
-            tileSelector.animate({ top: '+=' + this.parent.getTileOffsetHeight() }, 250);
+        else if (this.puzzle.realPos + rowCount === freeSpot &&
+            Math.abs(this.parent.getRow(this.puzzle.realPos) - this.parent.getRow(freeSpot)) === 1 &&
+            this.parent.getCol(this.puzzle.realPos) === this.parent.getCol(freeSpot)) {
+            this.parent.moveControlPanel(currentLeft, currentTop);
+            if (typeof (dontAnimate) !== "undefined") {
+                tileSelector.css("top", currentTop + this.parent.getTileOffsetHeight() + "px");
+            }
+            else {
+                tileSelector.animate({ top: '+=' + this.parent.getTileOffsetHeight() }, 250);
+            }
             this.parent.setFreeSpot(this.puzzle.realPos);
             this.puzzle.realPos = freeSpot;
         }
@@ -64,6 +100,7 @@ var CasseTeteComponent = (function () {
         $("#TILE_" + this.puzzle.id).removeClass("noborder");
     };
     CasseTeteComponent.prototype.setStyles = function (piece) {
+        console.log("SET STYLE");
         var styles = {
             'left': piece.left + 'px',
             'top': piece.top + 'px',
