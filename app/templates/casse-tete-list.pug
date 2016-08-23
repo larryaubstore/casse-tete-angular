@@ -6,35 +6,6 @@ include mixins/errorpanel.pug
 
 
 
-      label.invisible(for="inputRow")='# de pièces'
-      .input-group
-        input( id="inputRow", data-slider-id='ex1Slider', type="text", data-slider-min="0", data-slider-max="60", data-slider-step="1", data-slider-value="20", disabled)
-       
-      label.invisible(for="inputMargin")='Marges'
-      .input-group
-        input( id="inputMargin", data-slider-id='exMarginSlider', type="text", data-slider-min="0", data-slider-max="30", data-slider-step="1", data-slider-value="9", disabled)
-
-      label.invisible(for="inputWidth")='Largeur des tuiles'
-      .input-group.invisible
-        input( id="inputWidth", data-slider-id='exWidthSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="150", disabled)
-
-      label.invisible(for="inputHeight")='Hauteur des tuiles'
-      .input-group.invisible
-        input( id="inputHeight", data-slider-id='exHeightSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="105", disabled)
-
-      label.invisible(for="inputScale")='Facteur d\'agrandissement'
-      .input-group.disabled
-        input( id="inputScale", data-slider-id='exScaleSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="50", disabled)
-
-      h1
-        span.label.label-danger([style.display]="countererrors > 0  ? 'block' : 'none'")='{{countererrors}}'
-      h1
-        span.label.label-success([style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
-      // +errorpanel(0)
-      //
-      button#noborder(type='button', class='btn btn-info', [style.display]="noborder === true  ? 'block' : 'none'")='Sans bordure'
-      button#withborder(type='button', class='btn btn-info', [style.display]="noborder === false  ? 'block' : 'none'")='Avec bordure'
-      button#fullscreen(type='button', class='btn btn-info', [style.display]="fullscreen === false  ? 'block' : 'none'")='Plein écran'
     .col-md-10#maincontainer
       #puzzle.invisible(style='margin: 0 auto;height:100%;overflow:hidden;', [style.width]="getTotalWidth()")
         .tilewrapper
@@ -45,6 +16,38 @@ include mixins/errorpanel.pug
             //  casse-tete([puzzle]="puzzle")
             //
             //
+            //
+        .controlpanel(style="width:100px;overflow:hidden;position:relative;")
+          label.invisible(for="inputRow")='# de pièces'
+          .input-group
+            input( id="inputRow", data-slider-id='ex1Slider', type="text", data-slider-min="0", data-slider-max="60", data-slider-step="1", data-slider-value="20", disabled)
+           
+          label.invisible(for="inputMargin")='Marges'
+          .input-group
+            input( id="inputMargin", data-slider-id='exMarginSlider', type="text", data-slider-min="0", data-slider-max="30", data-slider-step="1", data-slider-value="9", disabled)
+
+          label.invisible(for="inputWidth")='Largeur des tuiles'
+          .input-group.invisible
+            input( id="inputWidth", data-slider-id='exWidthSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="150", disabled)
+
+          label.invisible(for="inputHeight")='Hauteur des tuiles'
+          .input-group.invisible
+            input( id="inputHeight", data-slider-id='exHeightSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="105", disabled)
+
+          label.invisible(for="inputScale")='Facteur d\'agrandissement'
+          .input-group.disabled
+            input( id="inputScale", data-slider-id='exScaleSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="50", disabled)
+
+          h1
+            span.label.label-danger([style.display]="countererrors > 0  ? 'block' : 'none'")='{{countererrors}}'
+          h1
+            span.label.label-success([style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
+          // +errorpanel(0)
+          //
+          button#noborder(type='button', class='btn btn-info', [style.display]="noborder === true  ? 'block' : 'none'")='Sans bordure'
+          button#withborder(type='button', class='btn btn-info', [style.display]="noborder === false  ? 'block' : 'none'")='Avec bordure'
+          button#fullscreen(type='button', class='btn btn-info', [style.display]="fullscreen === false  ? 'block' : 'none'")='Plein écran'
+
 
 //#vignettes(style='width:990px;margin: 0 auto;')
 //  vignette(*ngFor="let vignette of vignettes", [vignette]="vignette")

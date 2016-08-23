@@ -31,8 +31,18 @@ var CasseTeteListComponent = (function () {
     CasseTeteListComponent.prototype.getFreeSpot = function () {
         return this._freeSpot;
     };
+    CasseTeteListComponent.prototype.getControlPanel = function () {
+        var element = document.getElementsByClassName("controlpanel")[0];
+        return element;
+    };
+    CasseTeteListComponent.prototype.moveControlPanel = function (x, y) {
+        var controlPanel = this.getControlPanel();
+        controlPanel.style.left = x + "px";
+        controlPanel.style.top = y + "px";
+    };
     CasseTeteListComponent.prototype.setFreeSpot = function (value) {
         this._freeSpot = value;
+        var controlPanel = this.getControlPanel();
     };
     CasseTeteListComponent.prototype.getRowCount = function () {
         return this._rowCount + 1;
@@ -52,7 +62,7 @@ var CasseTeteListComponent = (function () {
             _this._freeSpot = 1;
             _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
             _this.noborder = true;
-            _this.fullscreen = false;
+            _this.fullscreen = true;
             var marker = _this._url.indexOf('?');
             _this._url = _this._url.substr(0, marker);
             var list = _this._casseTeteService.getList();
@@ -142,6 +152,17 @@ var CasseTeteListComponent = (function () {
         }, this));
         this.resize();
     };
+    CasseTeteListComponent.prototype.randomIntFromInterval = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+    CasseTeteListComponent.prototype.shuffle = function () {
+        var random = 0;
+        for (var i = 0; i < this._children.length * 8; i++) {
+            random = this.randomIntFromInterval(2, this._children.length);
+            console.log("rand ==> " + random);
+            this._children[random - 1].manualClick();
+        }
+    };
     CasseTeteListComponent.prototype.showOriginal = function () {
         for (var i = 0; i < this._children.length; i++) {
             this._children[i].showOriginal();
@@ -163,6 +184,15 @@ var CasseTeteListComponent = (function () {
     };
     CasseTeteListComponent.prototype.addChildren = function (casseTeteComponent) {
         this._children.push(casseTeteComponent);
+        if (this._children.length === this.puzzles.length) {
+            this.shuffle();
+        }
+    };
+    CasseTeteListComponent.prototype.calcLeft = function (realPos) {
+        return (this.getCol(realPos) * this._tileOffsetWidth);
+    };
+    CasseTeteListComponent.prototype.calcTop = function (realPos) {
+        return (this.getRow(realPos) * this._tileOffsetHeight);
     };
     CasseTeteListComponent.prototype.merge = function (oldArray, newArray, incX, incY) {
         if (oldArray.length === 0 || oldArray.length !== newArray.length) {
@@ -170,16 +200,22 @@ var CasseTeteListComponent = (function () {
         }
         else {
             for (var i = 0; i < oldArray.length; i++) {
-                oldArray[i].left = newArray[i].left;
-                oldArray[i].top = newArray[i].top;
-                oldArray[i].width = newArray[i].width;
-                oldArray[i].height = newArray[i].height;
+                oldArray[i].left = this.calcLeft(oldArray[i].realPos);
+                oldArray[i].top = this.calcTop(oldArray[i].realPos);
+                oldArray[i].width = this._tileOffsetWidth;
+                oldArray[i].height = this._tileOffsetHeight;
                 oldArray[i].bgLeft = newArray[i].bgLeft;
                 oldArray[i].bgTop = newArray[i].bgTop;
                 oldArray[i].src = newArray[i].src;
             }
         }
         return oldArray;
+    };
+    CasseTeteListComponent.prototype.resizeControlPanel = function () {
+        var controlPanel = this.getControlPanel();
+        //controlPanel.style.width  = Math.floor(inputValues.width * inputValues.scale / 100) + "px";
+        controlPanel.style.width = this._tileOffsetWidth + "px";
+        controlPanel.style.height = this._tileOffsetHeight + "px";
     };
     CasseTeteListComponent.prototype.resize = function () {
         if (this._resizeTimeout)
@@ -239,14 +275,31 @@ var CasseTeteListComponent = (function () {
                 var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
                 var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
                 Promise.all([p1, p2]).then(function (values) {
-                    scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, values[0].incX, values[0].incY);
                     scope._tileOffsetWidth = values[1].tileOffsetWidth;
                     scope._tileOffsetHeight = values[1].tileOffsetHeight;
+                    scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, values[0].incX, values[0].incY);
+                    scope.resizeControlPanel();
                     scope._rowCount = Math.floor(inputValues.count / 4);
                     $("#puzzle").removeClass("invisible");
                 });
             });
         }, this), 500);
+    };
+    CasseTeteListComponent.prototype.getRow = function (pos) {
+        var rowCount = this.getRowCount();
+        var row = Math.floor((pos - 1) / rowCount);
+        console.log("pos ==> " + pos);
+        console.log("row ==> " + row);
+        console.log("cou ==> " + rowCount);
+        return row;
+    };
+    CasseTeteListComponent.prototype.getCol = function (pos) {
+        var rowCount = this.getRowCount();
+        var col = (pos % rowCount);
+        if (col === 0) {
+            col = rowCount;
+        }
+        return col - 1;
     };
     CasseTeteListComponent.prototype.getInputValues = function () {
         var row = document.getElementById('inputRow').value;

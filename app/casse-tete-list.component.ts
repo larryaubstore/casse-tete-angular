@@ -60,8 +60,22 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     return this._freeSpot;
   }
 
+  getControlPanel() {
+    let element =  <HTMLElement>document.getElementsByClassName("controlpanel")[0];
+    return element;
+  }
+
+
+  moveControlPanel(x: number, y:number) {
+
+    let controlPanel = this.getControlPanel();
+    controlPanel.style.left = x + "px";
+    controlPanel.style.top = y + "px";
+  }
+
   setFreeSpot(value: number) {
     this._freeSpot = value;
+    let controlPanel = this.getControlPanel();
   }
 
   getRowCount() {
@@ -212,8 +226,19 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
     this.resize();
+  }
 
+  randomIntFromInterval(min:number,max:number) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+  }
 
+  shuffle() {
+    let random = 0;
+    for(var i = 0; i < this._children.length * 8; i++) {
+      random = this.randomIntFromInterval(2, this._children.length);
+      console.log("rand ==> " + random);
+      this._children[random - 1].manualClick();
+    }
   }
 
   showOriginal() {
@@ -246,6 +271,18 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   addChildren(casseTeteComponent: CasseTeteComponent) {
     this._children.push(casseTeteComponent);
+
+    if(this._children.length === this.puzzles.length) {
+      this.shuffle();
+    }
+  }
+
+  calcLeft(realPos: number) {
+    return (this.getCol(realPos) * this._tileOffsetWidth);
+  }
+
+  calcTop(realPos: number) {
+    return (this.getRow(realPos) * this._tileOffsetHeight);
   }
 
 
@@ -256,16 +293,25 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     } else {
 
       for(var i = 0; i < oldArray.length; i++) {
-        oldArray[i].left = newArray[i].left;
-        oldArray[i].top = newArray[i].top;
-        oldArray[i].width = newArray[i].width;
-        oldArray[i].height = newArray[i].height;
+        oldArray[i].left = this.calcLeft(oldArray[i].realPos);
+        oldArray[i].top = this.calcTop(oldArray[i].realPos);
+        oldArray[i].width = this._tileOffsetWidth;
+        oldArray[i].height = this._tileOffsetHeight;
         oldArray[i].bgLeft = newArray[i].bgLeft;
         oldArray[i].bgTop = newArray[i].bgTop;
         oldArray[i].src = newArray[i].src;
       }
     }
     return oldArray;
+  }
+
+  resizeControlPanel() {
+    let controlPanel = this.getControlPanel();
+    //controlPanel.style.width  = Math.floor(inputValues.width * inputValues.scale / 100) + "px";
+    controlPanel.style.width  = this._tileOffsetWidth + "px";
+    controlPanel.style.height = this._tileOffsetHeight + "px";
+
+
   }
 
   resize() {
@@ -333,10 +379,13 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
           var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
           var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
           Promise.all([p1, p2]).then(function(values: any) { 
-            scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
-                                        values[0].incX, values[0].incY);
+
             scope._tileOffsetWidth = values[1].tileOffsetWidth;
             scope._tileOffsetHeight = values[1].tileOffsetHeight;
+
+            scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
+                                        values[0].incX, values[0].incY);
+            scope.resizeControlPanel();
 
             scope._rowCount = Math.floor(inputValues.count / 4);
             $("#puzzle").removeClass("invisible");
@@ -349,6 +398,26 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
   } 
+
+  getRow(pos: number) {
+    let rowCount = this.getRowCount();
+    let row = Math.floor((pos - 1) / rowCount);
+
+    console.log("pos ==> " + pos);
+    console.log("row ==> " + row);
+    console.log("cou ==> " + rowCount);
+    return row;
+  }
+
+  getCol(pos: number) {
+    let rowCount = this.getRowCount();
+    let col = (pos % rowCount);
+
+    if(col === 0) {
+      col = rowCount;
+    }
+    return col - 1;
+  }
 
 
   getInputValues() {
