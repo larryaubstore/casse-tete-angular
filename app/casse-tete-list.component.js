@@ -185,7 +185,10 @@ var CasseTeteListComponent = (function () {
     CasseTeteListComponent.prototype.addChildren = function (casseTeteComponent) {
         this._children.push(casseTeteComponent);
         if (this._children.length === this.puzzles.length) {
-            this.shuffle();
+            var scope = this;
+            setTimeout(function () {
+                scope.shuffle();
+            }, 250);
         }
     };
     CasseTeteListComponent.prototype.calcLeft = function (realPos) {

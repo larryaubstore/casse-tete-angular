@@ -226,6 +226,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
     this.resize();
+
   }
 
   randomIntFromInterval(min:number,max:number) {
@@ -273,7 +274,11 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     this._children.push(casseTeteComponent);
 
     if(this._children.length === this.puzzles.length) {
-      this.shuffle();
+
+      var scope = this;
+      setTimeout(function () {
+        scope.shuffle();
+      }, 250);
     }
   }
 

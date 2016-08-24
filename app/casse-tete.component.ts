@@ -27,6 +27,10 @@ export class CasseTeteComponent {
     console.info('CasseTete Component Mounted Successfully');
   }
 
+  ngOnInit() {
+    this.puzzle.realPos = this.puzzle.id;
+  }
+
   public manualClick() {
     this._onClick(null, true);
   }
@@ -101,11 +105,10 @@ export class CasseTeteComponent {
   }
 
   ngAfterViewInit() {
-    this.puzzle.realPos = this.puzzle.id;
     document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", 
       _.bind(this._onClick, this));
-
     this.parent.addChildren(this);
+
 
   }
 
@@ -134,12 +137,20 @@ export class CasseTeteComponent {
       'background-position': piece.bgLeft + 'px ' + piece.bgTop + 'px',
       'display' : piece.id === 1 ? 'none' : 'block',
       'background-image': 'url(' + piece.src + ')'
-
     };
     return styles;
   }
 
-
-
-
+  setStylesReal(piece: Piece) {
+    let styles = {
+      'left': piece.left + 'px',
+      'top' : piece.top + 'px',
+      'width' : piece.width + 'px',
+      'height' : piece.height + 'px',
+      //'display' : piece.id === 1 ? 'none' : 'block',
+      //'zIndex': piece.id === 1 ? 0 : 1000
+      'zIndex': 0
+    };
+    return styles;
+  };
 }

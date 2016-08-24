@@ -16,6 +16,9 @@ var CasseTeteComponent = (function () {
     function CasseTeteComponent() {
         console.info('CasseTete Component Mounted Successfully');
     }
+    CasseTeteComponent.prototype.ngOnInit = function () {
+        this.puzzle.realPos = this.puzzle.id;
+    };
     CasseTeteComponent.prototype.manualClick = function () {
         this._onClick(null, true);
     };
@@ -85,7 +88,6 @@ var CasseTeteComponent = (function () {
         return document.getElementById("TILE_" + this.puzzle.id);
     };
     CasseTeteComponent.prototype.ngAfterViewInit = function () {
-        this.puzzle.realPos = this.puzzle.id;
         document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
         this.parent.addChildren(this);
     };
@@ -112,6 +114,19 @@ var CasseTeteComponent = (function () {
         };
         return styles;
     };
+    CasseTeteComponent.prototype.setStylesReal = function (piece) {
+        var styles = {
+            'left': piece.left + 'px',
+            'top': piece.top + 'px',
+            'width': piece.width + 'px',
+            'height': piece.height + 'px',
+            //'display' : piece.id === 1 ? 'none' : 'block',
+            //'zIndex': piece.id === 1 ? 0 : 1000
+            'zIndex': 0
+        };
+        return styles;
+    };
+    ;
     __decorate([
         core_1.Input(), 
         __metadata('design:type', piece_1.Piece)
