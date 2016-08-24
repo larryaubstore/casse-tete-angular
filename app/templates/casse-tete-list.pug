@@ -38,15 +38,18 @@ include mixins/errorpanel.pug
           .input-group.disabled
             input( id="inputScale", data-slider-id='exScaleSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="50", disabled)
 
-          h1
-            span.label.label-danger([style.display]="countererrors > 0  ? 'block' : 'none'")='{{countererrors}}'
-          h1
-            span.label.label-success([style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
+          button(type='button', class='btn btn-danger', [style.display]="countererrors > 0  ? 'block' : 'none'")='{{countererrors}} erreurs'
+          button(type='button', class='btn btn-success', [style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
           // +errorpanel(0)
           //
           button#noborder(type='button', class='btn btn-info', [style.display]="noborder === true  ? 'block' : 'none'")='Sans bordure'
           button#withborder(type='button', class='btn btn-info', [style.display]="noborder === false  ? 'block' : 'none'")='Avec bordure'
           button#fullscreen(type='button', class='btn btn-info', [style.display]="fullscreen === false  ? 'block' : 'none'")='Plein écran'
+
+          button#showpos(type='button', class='btn btn-info', [style.display]="showpos === true  ? 'block' : 'none'")='Position'
+          button#dontshowpos(type='button', class='btn btn-info', [style.display]="showpos === false  ? 'block' : 'none'")='Sans position'
+
+
 
 
 //#vignettes(style='width:990px;margin: 0 auto;')

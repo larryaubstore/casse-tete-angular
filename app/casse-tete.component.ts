@@ -157,6 +157,12 @@ export class CasseTeteComponent {
       //'zIndex': piece.id === 1 ? 0 : 1000
       //'zIndex': 0
     };
+
+    if(this.parent.showpos === true) {
+      styles['display'] = 'block';
+    } else {
+      styles['display'] = 'none';
+    }
     return styles;
   };
 }

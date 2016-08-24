@@ -27,6 +27,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   imageTotalWidth: number;
   noborder: boolean;
   fullscreen: boolean;
+  showpos: boolean;
 
   private sub: any;
   private _url: string;
@@ -100,6 +101,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
        this.noborder = true;
        this.fullscreen = true;
+       this.showpos = true;
 
        let marker = this._url.indexOf('?');
        this._url = this._url.substr(0, marker);
@@ -213,6 +215,14 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
       this.showPuzzle();
     }, this));
 
+    document.getElementById('showpos').addEventListener('click', _.bind(function(event: any) {
+      this.showpos = false;
+    }, this));
+
+    document.getElementById('dontshowpos').addEventListener('click', _.bind(function(event: any) {
+      this.showpos = true;
+    }, this));
+
     document.getElementById('fullscreen').addEventListener('click', _.bind(function(event: any) {
       let element =  <HTMLElement>document.getElementsByClassName("col-md-2")[0];
       let containerElement =  <HTMLElement>document.getElementsByClassName("container-fluid")[0];
@@ -276,9 +286,9 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     if(this._children.length === this.puzzles.length) {
 
       var scope = this;
-      setTimeout(function () {
-        scope.shuffle();
-      }, 250);
+      //setTimeout(function () {
+      scope.shuffle();
+      //}, 250);
     }
   }
 
