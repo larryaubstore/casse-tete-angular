@@ -25,7 +25,7 @@ var CasseTeteComponent = (function () {
     CasseTeteComponent.prototype._onClick = function (event, dontAnimate) {
         var freeSpot = this.parent.getFreeSpot();
         var rowCount = this.parent.getRowCount();
-        var tileSelector = $("#TILE_" + this.puzzle.id);
+        var tileSelector = $("#TILE_" + this.puzzle.id + ",#REALPOS_" + this.puzzle.id);
         var offset = this.parent.getTileOffsetHeight();
         var currentLeft = tileSelector.position().left;
         var currentTop = tileSelector.position().top;
@@ -89,6 +89,7 @@ var CasseTeteComponent = (function () {
     };
     CasseTeteComponent.prototype.ngAfterViewInit = function () {
         document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
+        document.getElementById("REALPOS_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
         this.parent.addChildren(this);
     };
     CasseTeteComponent.prototype.showOriginal = function () {
@@ -120,9 +121,8 @@ var CasseTeteComponent = (function () {
             'top': piece.top + 'px',
             'width': piece.width + 'px',
             'height': piece.height + 'px',
-            //'display' : piece.id === 1 ? 'none' : 'block',
-            //'zIndex': piece.id === 1 ? 0 : 1000
-            'zIndex': 0
+            'line-height': piece.height + 'px',
+            'text-align': 'center'
         };
         return styles;
     };

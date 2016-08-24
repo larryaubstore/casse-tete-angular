@@ -126,7 +126,7 @@ button {
 
 .realPos {
   position: absolute;
-  background-color: white;
+  /*background-color: white;*/
   font-size: 80px;
 }
 
