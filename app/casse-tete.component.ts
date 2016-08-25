@@ -27,6 +27,10 @@ export class CasseTeteComponent {
     console.info('CasseTete Component Mounted Successfully');
   }
 
+  ngOnInit() {
+    this.puzzle.realPos = this.puzzle.id;
+  }
+
   public manualClick() {
     this._onClick(null, true);
   }
@@ -38,7 +42,7 @@ export class CasseTeteComponent {
     let freeSpot = this.parent.getFreeSpot();
     let rowCount = this.parent.getRowCount();
 
-    let tileSelector = $("#TILE_" + this.puzzle.id);
+    let tileSelector = $("#TILE_" + this.puzzle.id + ",#REALPOS_" + this.puzzle.id);
     let offset = this.parent.getTileOffsetHeight();
     var currentLeft = tileSelector.position().left;
     var currentTop = tileSelector.position().top;
@@ -101,11 +105,14 @@ export class CasseTeteComponent {
   }
 
   ngAfterViewInit() {
-    this.puzzle.realPos = this.puzzle.id;
     document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", 
+      _.bind(this._onClick, this));
+  
+    document.getElementById("REALPOS_" + this.puzzle.id).addEventListener("click", 
       _.bind(this._onClick, this));
 
     this.parent.addChildren(this);
+
 
   }
 
@@ -134,12 +141,28 @@ export class CasseTeteComponent {
       'background-position': piece.bgLeft + 'px ' + piece.bgTop + 'px',
       'display' : piece.id === 1 ? 'none' : 'block',
       'background-image': 'url(' + piece.src + ')'
-
     };
     return styles;
   }
 
+  setStylesReal(piece: Piece) {
+    let styles = {
+      'left': piece.left + 'px',
+      'top' : piece.top + 'px',
+      'width' : piece.width + 'px',
+      'height' : piece.height + 'px',
+      'line-height': piece.height + 'px',
+      'text-align': 'center'
+      //'display' : piece.id === 1 ? 'none' : 'block',
+      //'zIndex': piece.id === 1 ? 0 : 1000
+      //'zIndex': 0
+    };
 
-
-
+    if(this.parent.showpos === true) {
+      styles['display'] = 'block';
+    } else {
+      styles['display'] = 'none';
+    }
+    return styles;
+  };
 }

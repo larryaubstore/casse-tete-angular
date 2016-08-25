@@ -16,13 +16,16 @@ var CasseTeteComponent = (function () {
     function CasseTeteComponent() {
         console.info('CasseTete Component Mounted Successfully');
     }
+    CasseTeteComponent.prototype.ngOnInit = function () {
+        this.puzzle.realPos = this.puzzle.id;
+    };
     CasseTeteComponent.prototype.manualClick = function () {
         this._onClick(null, true);
     };
     CasseTeteComponent.prototype._onClick = function (event, dontAnimate) {
         var freeSpot = this.parent.getFreeSpot();
         var rowCount = this.parent.getRowCount();
-        var tileSelector = $("#TILE_" + this.puzzle.id);
+        var tileSelector = $("#TILE_" + this.puzzle.id + ",#REALPOS_" + this.puzzle.id);
         var offset = this.parent.getTileOffsetHeight();
         var currentLeft = tileSelector.position().left;
         var currentTop = tileSelector.position().top;
@@ -85,8 +88,8 @@ var CasseTeteComponent = (function () {
         return document.getElementById("TILE_" + this.puzzle.id);
     };
     CasseTeteComponent.prototype.ngAfterViewInit = function () {
-        this.puzzle.realPos = this.puzzle.id;
         document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
+        document.getElementById("REALPOS_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
         this.parent.addChildren(this);
     };
     CasseTeteComponent.prototype.showOriginal = function () {
@@ -112,6 +115,24 @@ var CasseTeteComponent = (function () {
         };
         return styles;
     };
+    CasseTeteComponent.prototype.setStylesReal = function (piece) {
+        var styles = {
+            'left': piece.left + 'px',
+            'top': piece.top + 'px',
+            'width': piece.width + 'px',
+            'height': piece.height + 'px',
+            'line-height': piece.height + 'px',
+            'text-align': 'center'
+        };
+        if (this.parent.showpos === true) {
+            styles['display'] = 'block';
+        }
+        else {
+            styles['display'] = 'none';
+        }
+        return styles;
+    };
+    ;
     __decorate([
         core_1.Input(), 
         __metadata('design:type', piece_1.Piece)

@@ -27,6 +27,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   imageTotalWidth: number;
   noborder: boolean;
   fullscreen: boolean;
+  showpos: boolean;
 
   private sub: any;
   private _url: string;
@@ -100,6 +101,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
        this.noborder = true;
        this.fullscreen = true;
+       this.showpos = true;
 
        let marker = this._url.indexOf('?');
        this._url = this._url.substr(0, marker);
@@ -193,13 +195,13 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     inputMarginSlider.slider('destroy');
     inputWidthSlider.slider('destroy');
     inputHeightSlider.slider('destroy');
-    //inputScaleSlider.slider('destroy');
+    inputScaleSlider.slider('destroy');
 
     $("#inputRow").hide();
     $("#inputMargin").hide();
     $("#inputWidth").hide();
     $("#inputHeight").hide();
-    //$("#inputScale").hide();
+    $("#inputScale").hide();
 
 
 
@@ -211,6 +213,14 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     document.getElementById('withborder').addEventListener('click', _.bind(function(event: any) {
       this.noborder = true;
       this.showPuzzle();
+    }, this));
+
+    document.getElementById('showpos').addEventListener('click', _.bind(function(event: any) {
+      this.showpos = false;
+    }, this));
+
+    document.getElementById('dontshowpos').addEventListener('click', _.bind(function(event: any) {
+      this.showpos = true;
     }, this));
 
     document.getElementById('fullscreen').addEventListener('click', _.bind(function(event: any) {
@@ -226,6 +236,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
     this.resize();
+
   }
 
   randomIntFromInterval(min:number,max:number) {
@@ -273,7 +284,11 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     this._children.push(casseTeteComponent);
 
     if(this._children.length === this.puzzles.length) {
-      this.shuffle();
+
+      var scope = this;
+      //setTimeout(function () {
+      scope.shuffle();
+      //}, 250);
     }
   }
 
@@ -310,6 +325,16 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     //controlPanel.style.width  = Math.floor(inputValues.width * inputValues.scale / 100) + "px";
     controlPanel.style.width  = this._tileOffsetWidth + "px";
     controlPanel.style.height = this._tileOffsetHeight + "px";
+
+    var freeSpot = this.getFreeSpot();
+    var row = this.getRow(freeSpot);
+    var col = this.getCol(freeSpot);
+
+    controlPanel.style.left = (this._tileOffsetWidth * (col ) ) + 'px';
+    controlPanel.style.top = (this._tileOffsetHeight * (row ) ) + 'px';
+
+
+
 
 
   }

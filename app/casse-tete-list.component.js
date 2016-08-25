@@ -63,6 +63,7 @@ var CasseTeteListComponent = (function () {
             _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
             _this.noborder = true;
             _this.fullscreen = true;
+            _this.showpos = true;
             var marker = _this._url.indexOf('?');
             _this._url = _this._url.substr(0, marker);
             var list = _this._casseTeteService.getList();
@@ -127,12 +128,12 @@ var CasseTeteListComponent = (function () {
         inputMarginSlider.slider('destroy');
         inputWidthSlider.slider('destroy');
         inputHeightSlider.slider('destroy');
-        //inputScaleSlider.slider('destroy');
+        inputScaleSlider.slider('destroy');
         $("#inputRow").hide();
         $("#inputMargin").hide();
         $("#inputWidth").hide();
         $("#inputHeight").hide();
-        //$("#inputScale").hide();
+        $("#inputScale").hide();
         document.getElementById('noborder').addEventListener('click', _.bind(function (event) {
             this.noborder = false;
             this.showOriginal();
@@ -140,6 +141,12 @@ var CasseTeteListComponent = (function () {
         document.getElementById('withborder').addEventListener('click', _.bind(function (event) {
             this.noborder = true;
             this.showPuzzle();
+        }, this));
+        document.getElementById('showpos').addEventListener('click', _.bind(function (event) {
+            this.showpos = false;
+        }, this));
+        document.getElementById('dontshowpos').addEventListener('click', _.bind(function (event) {
+            this.showpos = true;
         }, this));
         document.getElementById('fullscreen').addEventListener('click', _.bind(function (event) {
             var element = document.getElementsByClassName("col-md-2")[0];
@@ -185,7 +192,9 @@ var CasseTeteListComponent = (function () {
     CasseTeteListComponent.prototype.addChildren = function (casseTeteComponent) {
         this._children.push(casseTeteComponent);
         if (this._children.length === this.puzzles.length) {
-            this.shuffle();
+            var scope = this;
+            //setTimeout(function () {
+            scope.shuffle();
         }
     };
     CasseTeteListComponent.prototype.calcLeft = function (realPos) {
@@ -216,6 +225,11 @@ var CasseTeteListComponent = (function () {
         //controlPanel.style.width  = Math.floor(inputValues.width * inputValues.scale / 100) + "px";
         controlPanel.style.width = this._tileOffsetWidth + "px";
         controlPanel.style.height = this._tileOffsetHeight + "px";
+        var freeSpot = this.getFreeSpot();
+        var row = this.getRow(freeSpot);
+        var col = this.getCol(freeSpot);
+        controlPanel.style.left = (this._tileOffsetWidth * (col)) + 'px';
+        controlPanel.style.top = (this._tileOffsetHeight * (row)) + 'px';
     };
     CasseTeteListComponent.prototype.resize = function () {
         if (this._resizeTimeout)
