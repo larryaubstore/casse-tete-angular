@@ -63,6 +63,7 @@ var CasseTeteListComponent = (function () {
             _this._url = decodeURIComponent(params['url']); // (+) converts string 'id' to a number
             _this.noborder = true;
             _this.fullscreen = true;
+            _this.showpos = true;
             var marker = _this._url.indexOf('?');
             _this._url = _this._url.substr(0, marker);
             var list = _this._casseTeteService.getList();
@@ -141,6 +142,12 @@ var CasseTeteListComponent = (function () {
             this.noborder = true;
             this.showPuzzle();
         }, this));
+        document.getElementById('showpos').addEventListener('click', _.bind(function (event) {
+            this.showpos = false;
+        }, this));
+        document.getElementById('dontshowpos').addEventListener('click', _.bind(function (event) {
+            this.showpos = true;
+        }, this));
         document.getElementById('fullscreen').addEventListener('click', _.bind(function (event) {
             var element = document.getElementsByClassName("col-md-2")[0];
             var containerElement = document.getElementsByClassName("container-fluid")[0];
@@ -186,9 +193,8 @@ var CasseTeteListComponent = (function () {
         this._children.push(casseTeteComponent);
         if (this._children.length === this.puzzles.length) {
             var scope = this;
-            setTimeout(function () {
-                scope.shuffle();
-            }, 250);
+            //setTimeout(function () {
+            scope.shuffle();
         }
     };
     CasseTeteListComponent.prototype.calcLeft = function (realPos) {
@@ -219,6 +225,11 @@ var CasseTeteListComponent = (function () {
         //controlPanel.style.width  = Math.floor(inputValues.width * inputValues.scale / 100) + "px";
         controlPanel.style.width = this._tileOffsetWidth + "px";
         controlPanel.style.height = this._tileOffsetHeight + "px";
+        var freeSpot = this.getFreeSpot();
+        var row = this.getRow(freeSpot);
+        var col = this.getCol(freeSpot);
+        controlPanel.style.left = (this._tileOffsetWidth * (col)) + 'px';
+        controlPanel.style.top = (this._tileOffsetHeight * (row)) + 'px';
     };
     CasseTeteListComponent.prototype.resize = function () {
         if (this._resizeTimeout)

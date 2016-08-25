@@ -326,6 +326,16 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
     controlPanel.style.width  = this._tileOffsetWidth + "px";
     controlPanel.style.height = this._tileOffsetHeight + "px";
 
+    var freeSpot = this.getFreeSpot();
+    var row = this.getRow(freeSpot);
+    var col = this.getCol(freeSpot);
+
+    controlPanel.style.left = (this._tileOffsetWidth * (col ) ) + 'px';
+    controlPanel.style.top = (this._tileOffsetHeight * (row ) ) + 'px';
+
+
+
+
 
   }
 

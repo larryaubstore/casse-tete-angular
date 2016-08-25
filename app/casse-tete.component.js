@@ -124,6 +124,12 @@ var CasseTeteComponent = (function () {
             'line-height': piece.height + 'px',
             'text-align': 'center'
         };
+        if (this.parent.showpos === true) {
+            styles['display'] = 'block';
+        }
+        else {
+            styles['display'] = 'none';
+        }
         return styles;
     };
     ;
