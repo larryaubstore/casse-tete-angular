@@ -130,4 +130,13 @@ button {
   font-size: 80px;
 }
 
+
+.errorcount {
+  position:absolute;
+  top:0px;
+  right:3px;
+  margin-top:0px;
+  z-index: 100;
+  
+}
 /**/

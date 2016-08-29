@@ -1,5 +1,8 @@
 include mixins/errorpanel.pug
 
+button.errorcount(type='button', class='btn btn-danger', [style.display]="countererrors > 0  ? 'block' : 'none'")='{{countererrors}}'
+button.errorcount(type='button', class='btn btn-success', [style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
+
 .container-fluid([class.fullscreen]="fullscreen")
   .row
     .col-md-2([style.display]="fullscreen === false  ? 'block' : 'none'")
@@ -38,16 +41,14 @@ include mixins/errorpanel.pug
           .input-group.disabled
             input( id="inputScale", data-slider-id='exScaleSlider', type="text", data-slider-min="0", data-slider-max="300", data-slider-step="5", data-slider-value="50", disabled)
 
-          button(type='button', class='btn btn-danger', [style.display]="countererrors > 0  ? 'block' : 'none'")='{{countererrors}} erreurs'
-          button(type='button', class='btn btn-success', [style.display]="countererrors <= 0 ? 'block' : 'none'")='{{countererrors}}'
           // +errorpanel(0)
           //
           button#noborder(type='button', class='btn btn-info', [style.display]="noborder === true  ? 'block' : 'none'")='Sans bordure'
           button#withborder(type='button', class='btn btn-info', [style.display]="noborder === false  ? 'block' : 'none'")='Avec bordure'
           button#fullscreen(type='button', class='btn btn-info', [style.display]="fullscreen === false  ? 'block' : 'none'")='Plein écran'
 
-          button#showpos(type='button', class='btn btn-info', [style.display]="showpos === true  ? 'block' : 'none'")='Position'
-          button#dontshowpos(type='button', class='btn btn-info', [style.display]="showpos === false  ? 'block' : 'none'")='Sans position'
+          button#showpos(type='button', class='btn btn-info', [style.display]="showpos === true  ? 'block' : 'none'")='Sans position'
+          button#dontshowpos(type='button', class='btn btn-info', [style.display]="showpos === false  ? 'block' : 'none'")='Position'
 
 
 
