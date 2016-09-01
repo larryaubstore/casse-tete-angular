@@ -4,6 +4,6 @@ if(!process.env.DATABASE) {
   };
 } else {
   module.exports = {
-      'url' : 'mongodb://localhost/passport'
+      'url' : process.env.DATABASE
   };
 }
