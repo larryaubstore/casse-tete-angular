@@ -2,6 +2,7 @@ var url     = require('url');
 var express = require('express');
 var sharp   = require('sharp');
 var fs      = require('fs');
+var User    = require('../models/user');
 
 
 
@@ -69,8 +70,27 @@ var setup = function(app, passport) {
 
 
   /* LOGIN */
-  app.get('/login', function(req, res) {
-    res.render('login.ejs', { message: req.flash('loginMessage') });
+  app.get('/login', function(req, res, next) {
+
+    var urlParsed = url.parse(req.url, true);
+    if(urlParsed.query.modeinvite) {
+      var newUser            = new User();                                          
+      newUser.local.email    = 'noemail';
+      newUser.local.password = newUser.generateHash('noemail');                      
+
+      passport.authenticate('local-login', function(err, user, info) {
+        req.logIn(newUser, function(err) {
+            newUser.save(function(err) {
+              if(err) {
+                throw err;
+              }
+              return res.redirect('/');
+            });
+        });
+      })(req, res, next);
+    } else {
+      res.render('login.ejs', { message: req.flash('loginMessage') });
+    }
   });
 
   app.post('/login', function(req, res, next) {
@@ -145,7 +165,7 @@ function isLoggedIn(req, res, next) {
 
     console.log(req.url);
     //if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup')
-    if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/')
+    if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/' || req.url === '/?modeinvite=true')
         return next();
 
     var callback = null;
