@@ -60,25 +60,45 @@ var setup = function(app, passport) {
   });
 
   console.log("r ==> " + root);
-  
-  app.use(isLoggedIn); 
-  app.use(express.static(root)); 
-
   app.get('/casse-tete/*', isLoggedIn, function(req, res) {
     console.log(root + '/index.html');
     res.sendFile(root + '/index.html');
   });
+  
+  app.use(express.static(root)); 
+
 
   /* LOGIN */
   app.get('/login', function(req, res) {
     res.render('login.ejs', { message: req.flash('loginMessage') });
   });
 
-  app.post('/login', passport.authenticate('local-login', {
-      successRedirect : '/', 
-      failureRedirect : '/login', 
-      failureFlash : true 
-  }));
+  app.post('/login', function(req, res, next) {
+   
+    passport.authenticate('local-login', function(err, user, info) {
+
+
+      if(err) { return next(err); }
+
+      if(!user) { res.redirect('/login'); }
+
+      req.logIn(user, function(err) {
+
+        if(err) { return next(err); }
+        var urlParsed = url.parse(req.url, true);
+
+        if(urlParsed.query.callback) {
+          return res.redirect(urlParsed.query.callback);
+        } else {
+          return res.redirect('/');
+        }
+      });
+    })(req, res, next);  
+//    passport.authenticate('local-login', {
+//      successRedirect : '/', 
+//      failureRedirect : '/login', 
+//      failureFlash : true 
+  });
 
   app.get('/signup', function(req, res) {
       res.render('signup.ejs', { message: req.flash('signupMessage') });
@@ -114,14 +134,29 @@ var setup = function(app, passport) {
       });
   });
 
+  
+  app.use(isLoggedIn); 
 
 };
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup')
+//    if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/')
+//        return next();
+
+    console.log(req.url);
+    //if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup')
+    if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/')
         return next();
 
-    res.redirect('/login');
+    var callback = null;
+    if(req.url !== '/login' && req.url !== '/signup') {
+      callback = req.url;
+    }
+    if(callback) {
+      res.redirect('/login?callback=' + callback);
+    } else {
+      res.redirect('/login');
+    }
 }
 
 module.exports = setup;
