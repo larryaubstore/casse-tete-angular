@@ -84,7 +84,11 @@ var setup = function(app, passport) {
               if(err) {
                 throw err;
               }
-              return res.redirect('/');
+              if(urlParsed.query.callback) {
+                return res.redirect(urlParsed.query.callback);
+              } else {
+                return res.redirect('/');
+              }
             });
         });
       })(req, res, next);
@@ -114,10 +118,6 @@ var setup = function(app, passport) {
         }
       });
     })(req, res, next);  
-//    passport.authenticate('local-login', {
-//      successRedirect : '/', 
-//      failureRedirect : '/login', 
-//      failureFlash : true 
   });
 
   app.get('/signup', function(req, res) {
@@ -160,11 +160,8 @@ var setup = function(app, passport) {
 };
 
 function isLoggedIn(req, res, next) {
-//    if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/')
-//        return next();
 
     console.log(req.url);
-    //if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup')
     if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/' || req.url === '/?modeinvite=true')
         return next();
 
