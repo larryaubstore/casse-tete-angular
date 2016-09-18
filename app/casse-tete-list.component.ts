@@ -1,21 +1,22 @@
-import { Component, OnInit, OnDestroy, AfterViewInit }  from '@angular/core';
-import { Router, ActivatedRoute }                       from '@angular/router';
-import { CasseTeteService }                             from './casse-tete.service';
+import { Component, 
+         OnInit, 
+         OnDestroy, 
+         AfterViewInit }                from '@angular/core';
+import { Router, ActivatedRoute }       from '@angular/router';
 
-import { Piece }                                        from './piece';
-import { Vignette }                                     from './vignette';
+import { Piece }                        from './piece';
+import { Vignette }                     from './vignette';
 import { InputValues }                  from './inputValues';
 
 import { CasseTeteComponent }           from './casse-tete.component';
-import { VignetteComponent }            from './vignette.component';
 import { ImageNatural }                 from './imagenatural';
+
+import { CasseTeteService }             from './casse-tete.service';
  
 @Component({
   selector: 'casse-tete-list',
   templateUrl: 'app/dist/templates/casse-tete-list.html', 
-  styleUrls: ['assets/css/puzzle.css'],
-  providers: [CasseTeteService],
-  directives: [CasseTeteComponent, VignetteComponent]
+  styleUrls: ['assets/css/puzzle.css']
 }) 
 export class CasseTeteListComponent implements OnInit, AfterViewInit {
   

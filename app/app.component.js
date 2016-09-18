@@ -9,15 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
 var AppComponent = (function () {
     function AppComponent() {
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'main',
-            directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n\n    <nav>\n      <a style='display:none' [routerLink]=\"['casse-tete/test']\">Valeur par d\u00E9faut</a>\n    </nav>\n\n\n    <router-outlet></router-outlet>\n  "
+            template: "\n\n    <nav>\n      <a style='display:none' routerLink='casse-tete/test'>Valeur par d\u00E9faut</a>\n    </nav>\n\n    <router-outlet></router-outlet>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
