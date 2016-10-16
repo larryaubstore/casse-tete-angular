@@ -7,7 +7,9 @@
     "npm": "3.6.0"
   },
   "scripts": {
-    "start": "gulp heroku: && forever app.js"
+    "start": "gulp heroku: && forever app.js",
+    "e2e": "protractor",
+		"postinstall": "webdriver-manager update"
   },
   "keywords": [],
   "author": "",
@@ -67,7 +69,8 @@
     "karma-jasmine": "^0.3.8",
     "lite-server": "^2.2.0",
     "lodash": "^4.11.1",
-    "protractor": "^3.3.0",
+    "protractor": "^4.0.9",
+    "protractor-jasmine2-screenshot-reporter": "^0.3.2",
     "rimraf": "^2.5.2",
     "tslint": "^3.7.4",
     "typescript": "^1.8.10",

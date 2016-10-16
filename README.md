@@ -10,3 +10,7 @@ http://www.lapiecemanquante.ca/
 - Button to Show real order numbers under images
 - Move tile on click/touch
 
+
+# start
+mongod
+gulp
