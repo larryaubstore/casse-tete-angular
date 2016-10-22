@@ -20,15 +20,10 @@ var CasseTeteService = (function () {
         return mock_casse_tetes_1.CASSETETES;
     };
     CasseTeteService.prototype.getVignettes = function () {
-        var vignettes = [
-            { 'id': 1, 'imagesrc': 'colonne.jpg' }
-        ];
     };
     CasseTeteService.prototype.getImageNatural = function (url) {
-        var _this = this;
         return new Promise(function (resolve, reject) {
             var image = new Image();
-            var scope = _this;
             image.onload = function (event) {
                 var imageNatural = new imagenatural_1.ImageNatural();
                 imageNatural.width = this.naturalWidth;
@@ -39,16 +34,10 @@ var CasseTeteService = (function () {
         });
     };
     CasseTeteService.prototype.getTileOffset = function (inputValues, imageSrc) {
-        var _this = this;
         return new Promise(function (resolve, reject) {
             var count = inputValues.count;
-            var width = inputValues.width;
-            var height = inputValues.height;
-            var margin = inputValues.margin;
             var rows = Math.floor(count / 4);
-            var cols = Math.floor(count / 4);
             var image = new Image();
-            var scope = _this;
             image.onload = function (event) {
                 var factor = 1;
                 var natWidth = this.naturalWidth * factor;
@@ -66,17 +55,12 @@ var CasseTeteService = (function () {
         });
     };
     CasseTeteService.prototype.getPieces = function (inputValues, imageSrc) {
-        var _this = this;
         return new Promise(function (resolve, reject) {
             var pieces = [];
             var count = inputValues.count;
-            var width = inputValues.width;
-            var height = inputValues.height;
-            var margin = inputValues.margin;
             var rows = Math.floor(count / 4);
             var cols = Math.floor(count / 4);
             var image = new Image();
-            var scope = _this;
             image.onload = function (event) {
                 var factor = 1;
                 var natWidth = this.naturalWidth * factor;

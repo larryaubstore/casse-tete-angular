@@ -102,8 +102,8 @@ export class CasseTeteComponent {
   ngAfterViewInit() {
     document.getElementById('TILE_' + this.puzzle.id).addEventListener('click',
       _.bind(this._onClick, this));
- 
-    document.getElementById('REALPOS_' + this.puzzle.id).addEventListener('click', 
+
+    document.getElementById('REALPOS_' + this.puzzle.id).addEventListener('click',
       _.bind(this._onClick, this));
 
     this.parent.addChildren(this);
@@ -112,8 +112,6 @@ export class CasseTeteComponent {
   }
 
   showOriginal() {
-    //this.getSelector().style.width = this.puzzle.fullWidth + 'px';
-    //this.getSelector().style.height = this.puzzle.fullHeight + 'px';
 
     $('#TILE_' + this.puzzle.id).removeClass('border');
     $('#TILE_' + this.puzzle.id).addClass('noborder');
@@ -148,12 +146,9 @@ export class CasseTeteComponent {
       'height' : piece.height + 'px',
       'line-height': piece.height + 'px',
       'text-align': 'center'
-      //'display' : piece.id === 1 ? 'none' : 'block',
-      //'zIndex': piece.id === 1 ? 0 : 1000
-      //'zIndex': 0
     };
 
-    if(this.parent.showpos === true) {
+    if (this.parent.showpos === true) {
       styles['display'] = 'block';
     } else {
       styles['display'] = 'none';

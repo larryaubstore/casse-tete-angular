@@ -30,7 +30,7 @@ var CasseTeteListComponent = (function () {
         return this._freeSpot;
     };
     CasseTeteListComponent.prototype.getControlPanel = function () {
-        var element = document.getElementsByClassName("controlpanel")[0];
+        var element = document.getElementsByClassName('controlpanel')[0];
         return element;
     };
     CasseTeteListComponent.prototype.moveControlPanel = function (x, y) {

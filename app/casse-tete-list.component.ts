@@ -18,9 +18,9 @@ import { CasseTeteService }             from './casse-tete.service';
   styleUrls: ['assets/css/puzzle.css']
 })
 export class CasseTeteListComponent implements OnInit, AfterViewInit {
-  
+
   puzzles: Piece[];
-  vignettes: Vignette[]; 
+  vignettes: Vignette[];
   me: CasseTeteListComponent;
   countererrors: number;
   totalWidth: number;
@@ -35,10 +35,10 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   private _freeSpot: number;
   private _rowCount: number;
   private _tileOffsetWidth: number;
-  private _tileOffsetHeight:number;
+  private _tileOffsetHeight: number;
   private _children: CasseTeteComponent[];
 
-  constructor(                                                                                        
+  constructor(
 
     private route: ActivatedRoute,
     private _router: Router,
@@ -47,9 +47,9 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
       this.puzzles = [];
       this._children = [];
 
-  } 
-  
-  getRandomInt(min: number, max:number) {
+  }
+
+  getRandomInt(min: number, max: number) {
       return Math.floor(Math.random() * (max - min)) + min;
   }
 
@@ -62,12 +62,12 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   }
 
   getControlPanel() {
-    let element =  <HTMLElement>document.getElementsByClassName("controlpanel")[0];
+    let element =  <HTMLElement>document.getElementsByClassName('controlpanel')[0];
     return element;
   }
 
 
-  moveControlPanel(x: number, y:number) {
+  moveControlPanel(x: number, y: number) {
 
     let controlPanel = this.getControlPanel();
     controlPanel.style.left = x + "px";

@@ -17,8 +17,8 @@ var setup = function(app, passport) {
 
 
       console.log("scaleY");
-      var factor = 100 / (parseInt(urlParsed.query.scale) - 5);
-      var factorY = 100 / (parseInt(urlParsed.query.scaleY) - 5);
+      var factor = 100 / (parseInt(urlParsed.query.scale));
+      var factorY = 100 / (parseInt(urlParsed.query.scaleY));
       var image = sharp('.' + urlParsed.pathname);
       image
         .metadata()
