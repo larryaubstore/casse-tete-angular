@@ -72,7 +72,7 @@ var CasseTeteListComponent = (function () {
             inputValues.count = 80;
             inputValues.margin = 2;
             inputValues.scale = 100;
-            _this.totalWidth = document.getElementById("maincontainer").clientWidth;
+            _this.totalWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             var fitWidth = Math.floor(_this.totalWidth / inputValues.count);
             console.log("fitWidth ==> " + fitWidth);
             var randomInt = +_this.getRandomInt(0, list.length);
@@ -235,7 +235,7 @@ var CasseTeteListComponent = (function () {
         this._resizeTimeout = setTimeout(_.bind(function () {
             this.checkErrors();
             var inputValues = this.getInputValues();
-            this.totalWidth = document.getElementById("maincontainer").clientWidth;
+            this.totalWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             var totalHeight = document.getElementsByTagName("body")[0].clientHeight;
             console.log("resize");
             console.log(this.totalWidth);
@@ -245,7 +245,7 @@ var CasseTeteListComponent = (function () {
                 .then(function (imageNatural) {
                 var containerFactor = 0.80;
                 var heightOffset = 60;
-                if (scope.fullscreen === true) {
+                if (true === true) {
                     containerFactor = 1;
                     heightOffset = 0;
                     scope.totalWidth = window.innerWidth;

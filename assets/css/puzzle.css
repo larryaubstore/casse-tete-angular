@@ -113,7 +113,12 @@ button {
 }
 
 .container-fluid.fullscreen {
-  padding-top: 15px;
+  padding-top: 0px;
+}
+
+#maincontainer {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .controlpanel {
@@ -139,4 +144,5 @@ button {
   z-index: 100;
   
 }
+
 /**/

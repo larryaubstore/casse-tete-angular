@@ -9,7 +9,7 @@ button.errorcount(type='button', class='btn btn-success', [style.display]="count
 
 
 
-    .col-md-10#maincontainer
+    .col-md-12#maincontainer
       #puzzle.invisible(style='margin: 0 auto;height:100%;overflow:hidden;', [style.width]="getTotalWidth()")
         .tilewrapper
           .position
@@ -49,9 +49,3 @@ button.errorcount(type='button', class='btn btn-success', [style.display]="count
 
           button#showpos(type='button', class='btn btn-info', [style.display]="showpos === true  ? 'block' : 'none'")='Sans position'
           button#dontshowpos(type='button', class='btn btn-info', [style.display]="showpos === false  ? 'block' : 'none'")='Position'
-
-
-
-
-//#vignettes(style='width:990px;margin: 0 auto;')
-//  vignette(*ngFor="let vignette of vignettes", [vignette]="vignette")

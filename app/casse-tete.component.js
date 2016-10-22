@@ -25,15 +25,14 @@ var CasseTeteComponent = (function () {
     CasseTeteComponent.prototype._onClick = function (event, dontAnimate) {
         var freeSpot = this.parent.getFreeSpot();
         var rowCount = this.parent.getRowCount();
-        var tileSelector = $("#TILE_" + this.puzzle.id + ",#REALPOS_" + this.puzzle.id);
-        var offset = this.parent.getTileOffsetHeight();
+        var tileSelector = $('#TILE_' + this.puzzle.id + ',#REALPOS_' + this.puzzle.id);
         var currentLeft = tileSelector.position().left;
         var currentTop = tileSelector.position().top;
         if (this.puzzle.realPos - 1 === freeSpot &&
             this.parent.getRow(this.puzzle.realPos) === this.parent.getRow(freeSpot)) {
             this.parent.moveControlPanel(currentLeft, currentTop);
-            if (typeof (dontAnimate) !== "undefined") {
-                tileSelector.css("left", currentLeft - this.parent.getTileOffsetWidth() + "px");
+            if (typeof (dontAnimate) !== 'undefined') {
+                tileSelector.css('left', currentLeft - this.parent.getTileOffsetWidth() + 'px');
             }
             else {
                 tileSelector.animate({ left: '-=' + this.parent.getTileOffsetWidth() }, 250);
@@ -44,8 +43,8 @@ var CasseTeteComponent = (function () {
         else if (this.puzzle.realPos + 1 === freeSpot &&
             this.parent.getRow(this.puzzle.realPos) === this.parent.getRow(freeSpot)) {
             this.parent.moveControlPanel(currentLeft, currentTop);
-            if (typeof (dontAnimate) !== "undefined") {
-                tileSelector.css("left", currentLeft + this.parent.getTileOffsetWidth() + "px");
+            if (typeof (dontAnimate) !== 'undefined') {
+                tileSelector.css('left', currentLeft + this.parent.getTileOffsetWidth() + 'px');
             }
             else {
                 tileSelector.animate({ left: '+=' + this.parent.getTileOffsetWidth() }, 250);
@@ -58,8 +57,8 @@ var CasseTeteComponent = (function () {
             this.parent.getCol(this.puzzle.realPos) === this.parent.getCol(freeSpot)) {
             /**/
             this.parent.moveControlPanel(currentLeft, currentTop);
-            if (typeof (dontAnimate) !== "undefined") {
-                tileSelector.css("top", currentTop - this.parent.getTileOffsetHeight() + "px");
+            if (typeof (dontAnimate) !== 'undefined') {
+                tileSelector.css('top', currentTop - this.parent.getTileOffsetHeight() + 'px');
             }
             else {
                 tileSelector.animate({ top: '-=' + this.parent.getTileOffsetHeight() }, 250);
@@ -71,8 +70,8 @@ var CasseTeteComponent = (function () {
             Math.abs(this.parent.getRow(this.puzzle.realPos) - this.parent.getRow(freeSpot)) === 1 &&
             this.parent.getCol(this.puzzle.realPos) === this.parent.getCol(freeSpot)) {
             this.parent.moveControlPanel(currentLeft, currentTop);
-            if (typeof (dontAnimate) !== "undefined") {
-                tileSelector.css("top", currentTop + this.parent.getTileOffsetHeight() + "px");
+            if (typeof (dontAnimate) !== 'undefined') {
+                tileSelector.css('top', currentTop + this.parent.getTileOffsetHeight() + 'px');
             }
             else {
                 tileSelector.animate({ top: '+=' + this.parent.getTileOffsetHeight() }, 250);
@@ -85,25 +84,25 @@ var CasseTeteComponent = (function () {
         this.parent.checkErrors();
     };
     CasseTeteComponent.prototype.getSelector = function () {
-        return document.getElementById("TILE_" + this.puzzle.id);
+        return document.getElementById('TILE_' + this.puzzle.id);
     };
     CasseTeteComponent.prototype.ngAfterViewInit = function () {
-        document.getElementById("TILE_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
-        document.getElementById("REALPOS_" + this.puzzle.id).addEventListener("click", _.bind(this._onClick, this));
+        document.getElementById('TILE_' + this.puzzle.id).addEventListener('click', _.bind(this._onClick, this));
+        document.getElementById('REALPOS_' + this.puzzle.id).addEventListener('click', _.bind(this._onClick, this));
         this.parent.addChildren(this);
     };
     CasseTeteComponent.prototype.showOriginal = function () {
         //this.getSelector().style.width = this.puzzle.fullWidth + 'px';
         //this.getSelector().style.height = this.puzzle.fullHeight + 'px';
-        $("#TILE_" + this.puzzle.id).removeClass("border");
-        $("#TILE_" + this.puzzle.id).addClass("noborder");
+        $('#TILE_' + this.puzzle.id).removeClass('border');
+        $('#TILE_' + this.puzzle.id).addClass('noborder');
     };
     CasseTeteComponent.prototype.showPuzzle = function () {
-        $("#TILE_" + this.puzzle.id).addClass("border");
-        $("#TILE_" + this.puzzle.id).removeClass("noborder");
+        $('#TILE_' + this.puzzle.id).addClass('border');
+        $('#TILE_' + this.puzzle.id).removeClass('noborder');
     };
     CasseTeteComponent.prototype.setStyles = function (piece) {
-        console.log("SET STYLE");
+        console.log('SET STYLE');
         var styles = {
             'left': piece.left + 'px',
             'top': piece.top + 'px',

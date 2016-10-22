@@ -1,6 +1,5 @@
-import { Component, 
-         OnInit, 
-         OnDestroy, 
+import { Component,
+         OnInit,
          AfterViewInit }                from '@angular/core';
 import { Router, ActivatedRoute }       from '@angular/router';
 
@@ -12,12 +11,12 @@ import { CasseTeteComponent }           from './casse-tete.component';
 import { ImageNatural }                 from './imagenatural';
 
 import { CasseTeteService }             from './casse-tete.service';
- 
+
 @Component({
   selector: 'casse-tete-list',
-  templateUrl: 'app/dist/templates/casse-tete-list.html', 
+  templateUrl: 'app/dist/templates/casse-tete-list.html',
   styleUrls: ['assets/css/puzzle.css']
-}) 
+})
 export class CasseTeteListComponent implements OnInit, AfterViewInit {
   
   puzzles: Piece[];
@@ -119,7 +118,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
        inputValues.scale = 100;
 
 
-       this.totalWidth = document.getElementById("maincontainer").clientWidth; 
+       this.totalWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); 
        let fitWidth = Math.floor(this.totalWidth / inputValues.count);
 
        console.log("fitWidth ==> " + fitWidth);
@@ -347,7 +346,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
       this.checkErrors();
       let inputValues = this.getInputValues();
-      this.totalWidth = document.getElementById("maincontainer").clientWidth; 
+			this.totalWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       let totalHeight = ( <HTMLElement>document.getElementsByTagName("body")[0]).clientHeight;
 
       console.log("resize");
@@ -362,7 +361,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
         .then(function(imageNatural: ImageNatural) {
           let containerFactor = 0.80;
           let heightOffset = 60;
-          if (scope.fullscreen === true) {
+          if (true === true) {
             containerFactor = 1;
             heightOffset = 0;
 
