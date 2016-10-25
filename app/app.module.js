@@ -13,6 +13,7 @@ var platform_browser_1 = require('@angular/platform-browser');
 var app_component_1 = require('./app.component');
 var app_routes_1 = require('./app.routes');
 var app_casse_tete_module_1 = require('./app.casse-tete.module');
+var core_2 = require('angular2-logger/core');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -24,7 +25,8 @@ var AppModule = (function () {
                 app_casse_tete_module_1.CasseTeteModule
             ],
             declarations: [app_component_1.AppComponent],
-            bootstrap: [app_component_1.AppComponent]
+            bootstrap: [app_component_1.AppComponent],
+            providers: [core_2.Logger]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

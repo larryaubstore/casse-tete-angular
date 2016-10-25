@@ -2,6 +2,7 @@ import { Component, Input  } from '@angular/core';
 import { CasseTeteService }       from './casse-tete.service';
 import { CasseTeteListComponent }       from './casse-tete-list.component';
 import { Piece } from './piece';
+import { Logger } from 'angular2-logger/core';
 
 
 @Component({
@@ -18,9 +19,11 @@ export class CasseTeteComponent {
 
 
 
-  constructor(
+
+
+  constructor(private _logger: Logger
   ) {
-    console.info('CasseTete Component Mounted Successfully');
+    this._logger.log('CasseTete Component Mounted Successfully');
   }
 
   ngOnInit() {

@@ -12,9 +12,11 @@ var core_1 = require('@angular/core');
 var casse_tete_service_1 = require('./casse-tete.service');
 var casse_tete_list_component_1 = require('./casse-tete-list.component');
 var piece_1 = require('./piece');
+var core_2 = require('angular2-logger/core');
 var CasseTeteComponent = (function () {
-    function CasseTeteComponent() {
-        console.info('CasseTete Component Mounted Successfully');
+    function CasseTeteComponent(_logger) {
+        this._logger = _logger;
+        this._logger.log('CasseTete Component Mounted Successfully');
     }
     CasseTeteComponent.prototype.ngOnInit = function () {
         this.puzzle.realPos = this.puzzle.id;
@@ -145,7 +147,7 @@ var CasseTeteComponent = (function () {
             styleUrls: ['assets/css/puzzle.css'],
             providers: [casse_tete_service_1.CasseTeteService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_2.Logger])
     ], CasseTeteComponent);
     return CasseTeteComponent;
 }());

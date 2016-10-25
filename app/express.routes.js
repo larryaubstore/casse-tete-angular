@@ -24,7 +24,7 @@ var setup = function(app, passport) {
         .metadata()
         .then(function(metadata) {
           return image
-            .resize(Math.round(metadata.width / factor), Math.round(metadata.height / factorY))
+            .resize(Math.ceil(metadata.width / factor), Math.ceil(metadata.height / factorY))
             .webp()
             .toBuffer();
         })
@@ -41,7 +41,7 @@ var setup = function(app, passport) {
         .metadata()
         .then(function(metadata) {
           return image
-            .resize(Math.round(metadata.width / factor))
+            .resize(Math.ceil(metadata.width / factor))
             .webp()
             .toBuffer();
         })
