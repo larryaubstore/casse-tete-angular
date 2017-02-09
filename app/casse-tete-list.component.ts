@@ -29,7 +29,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   fullscreen: boolean;
   showpos: boolean;
 
-  private sub: any;
+  private _sub: any;
   private _url: string;
   private _resizeTimeout: any;
   private _freeSpot: number;
@@ -92,7 +92,7 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
+    this._sub = this.route.params.subscribe(params => {
 
        this.me = this;
        this.countererrors = 0;
@@ -253,7 +253,6 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
   }
 
   showOriginal() {
-
     for(var i = 0; i < this._children.length; i++) {
       this._children[i].showOriginal();
     }
@@ -269,26 +268,18 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
     var count = 0;
     for(var i = 0; i < this.puzzles.length; i++) {
-
       if(!this.puzzles[i].isCorrect()) {
         count++;
       }
-
     }
-
     this.countererrors = count;
   }
 
 
   addChildren(casseTeteComponent: CasseTeteComponent) {
     this._children.push(casseTeteComponent);
-
     if(this._children.length === this.puzzles.length) {
-
-      var scope = this;
-      //setTimeout(function () {
-      scope.shuffle();
-      //}, 250);
+      this.shuffle();
     }
   }
 
@@ -356,63 +347,60 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
 
 
-      var scope = this;
-      this._casseTeteService.getImageNatural(this._url)
-        .then(function(imageNatural: ImageNatural) {
+      this._casseTeteService.getImageNatural(this._url).then((imageNatural: ImageNatural) => {
           let containerFactor = 0.80;
           let heightOffset = 60;
           if (true === true) {
             containerFactor = 1;
             heightOffset = 0;
 
-            scope.totalWidth = window.innerWidth;
+            this.totalWidth = window.innerWidth;
             totalHeight = window.innerHeight;
           }
 
-          scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor);
+          this.imageTotalWidth = Math.floor(this.totalWidth * containerFactor);
 
           let factor = 1;
-          if(imageNatural.width >= scope.imageTotalWidth) {
-            factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
+          if(imageNatural.width >= this.imageTotalWidth) {
+            factor = Math.floor(this.imageTotalWidth / imageNatural.width * 100);
             console.log("FACTOR 1 ==> "  + factor);
             inputValues.scale = factor;
-          } else if(scope.imageTotalWidth < imageNatural.width) {
-            factor = Math.floor(imageNatural.width / scope.imageTotalWidth * 100);
+          } else if(this.imageTotalWidth < imageNatural.width) {
+            factor = Math.floor(imageNatural.width / this.imageTotalWidth * 100);
             console.log("FACTOR 2 ==> "  + factor);
             inputValues.scale = factor;
           } else if(imageNatural.height >= totalHeight) {
             factor = Math.floor(imageNatural.height / totalHeight * 100 - heightOffset);
             console.log("FACTOR 3 ==> "  + factor);
             inputValues.scale = factor;
-            scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor * factor / 100);
+            this.imageTotalWidth = Math.floor(this.totalWidth * containerFactor * factor / 100);
           } else if(totalHeight < imageNatural.Height) {
             factor = Math.floor(totalHeight / imageNatural.height * 100 - heightOffset);
             console.log("FACTOR 4 ==> "  + factor);
             inputValues.scale = factor;
-            scope.imageTotalWidth = Math.floor(scope.totalWidth * containerFactor * factor / 100);
+            this.imageTotalWidth = Math.floor(this.totalWidth * containerFactor * factor / 100);
           } else {
-            factor = Math.floor(scope.imageTotalWidth / imageNatural.width * 100);
+            factor = Math.floor(this.imageTotalWidth / imageNatural.width * 100);
             console.log("FACTOR 5 ==> "  + factor);
             inputValues.scale = factor;
           }
 
-          if(scope.fullscreen === true) {
+          if(this.fullscreen === true) {
             inputValues.scaleY = Math.floor(totalHeight / imageNatural.height * 100);
           }
 
-          //scope.imageTotalWidth = Math.floor(scope.imageTotalWidth * factor  / 100);
-          var p1 = scope._casseTeteService.getPieces(inputValues, scope._url);
-          var p2 = scope._casseTeteService.getTileOffset(inputValues, scope._url);
-          Promise.all([p1, p2]).then(function(values: any) { 
+          var p1 = this._casseTeteService.getPieces(inputValues, this._url);
+          var p2 = this._casseTeteService.getTileOffset(inputValues, this._url);
+          Promise.all([p1, p2]).then((values: any) => { 
 
-            scope._tileOffsetWidth = values[1].tileOffsetWidth;
-            scope._tileOffsetHeight = values[1].tileOffsetHeight;
+            this._tileOffsetWidth = values[1].tileOffsetWidth;
+            this._tileOffsetHeight = values[1].tileOffsetHeight;
 
-            scope.puzzles = scope.merge(scope.puzzles, values[0].puzzles, 
+            this.puzzles = this.merge(this.puzzles, values[0].puzzles, 
                                         values[0].incX, values[0].incY);
-            scope.resizeControlPanel();
+            this.resizeControlPanel();
 
-            scope._rowCount = Math.floor(inputValues.count / 4);
+            this._rowCount = Math.floor(inputValues.count / 4);
             $("#puzzle").removeClass("invisible");
           });
 
@@ -469,21 +457,20 @@ export class CasseTeteListComponent implements OnInit, AfterViewInit {
 
   onKeyRow(event:any) {
     var inputValues = this.getInputValues();
-    var scope = this;
-    var p1 = scope._casseTeteService.getPieces(inputValues, this._url);
-    var p2 = scope._casseTeteService.getTileOffset(inputValues, this._url);
+    var p1 = this._casseTeteService.getPieces(inputValues, this._url);
+    var p2 = this._casseTeteService.getTileOffset(inputValues, this._url);
 
 
-    Promise.all([p1, p2]).then(function(values: any) { 
-      scope.puzzles = values[0].puzzles;
-      scope._tileOffsetWidth = values[1].tileOffsetWidth;
-      scope._tileOffsetHeight = values[1].tileOffsetHeight;
-      scope._rowCount = Math.floor(inputValues.count / 4);
+    Promise.all([p1, p2]).then((values: any) => { 
+      this.puzzles = values[0].puzzles;
+      this._tileOffsetWidth = values[1].tileOffsetWidth;
+      this._tileOffsetHeight = values[1].tileOffsetHeight;
+      this._rowCount = Math.floor(inputValues.count / 4);
      });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this._sub.unsubscribe();
   }
 
 

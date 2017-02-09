@@ -161,19 +161,21 @@ var setup = function(app, passport) {
 
 function isLoggedIn(req, res, next) {
 
-    console.log(req.url);
-    if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/' || req.url === '/?modeinvite=true')
-        return next();
+    // console.log(req.url);
+    // if (req.isAuthenticated() || req.url === '/login' || req.url === '/signup' || req.url === '/' || req.url === '/?modeinvite=true')
+    //     return next();
 
-    var callback = null;
-    if(req.url !== '/login' && req.url !== '/signup') {
-      callback = req.url;
-    }
-    if(callback) {
-      res.redirect('/login?callback=' + callback);
-    } else {
-      res.redirect('/login');
-    }
+    // var callback = null;
+    // if(req.url !== '/login' && req.url !== '/signup') {
+    //   callback = req.url;
+    // }
+    // if(callback) {
+    //   res.redirect('/login?callback=' + callback);
+    // } else {
+    //   res.redirect('/login');
+    // }
+    //
+    return next();
 }
 
 module.exports = setup;
