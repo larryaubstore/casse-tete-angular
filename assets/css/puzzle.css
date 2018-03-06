@@ -53,25 +53,13 @@
     box-shadow: inset 10px 10px 10px black;
 }
 
-
-/* web designer wall => webdesignerwall.com */
-.button {
-    width:80px;
-    display: inline-block;
-    outline: none;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    font: 14px/100% Arial, Helvetica, sans-serif;
-    padding: .5em 2em .55em;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: .5em; 
-    -moz-border-radius: .5em;
-    border-radius: .5em;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    
+    /* web designer wall => webdesignerwall.com */
+.btn.btn-info {
+    display: none !important;
 }
+
+
 .button:hover {
     text-decoration: none;
 }
@@ -129,11 +117,33 @@ button {
   position:relative;
 }
 
-.realPos {
-  position: absolute;
-  /*background-color: white;*/
-  font-size: 80px;
+@media screen and (min-width: 200px) {
+    .realPos {
+       position: absolute;
+        /*background-color: white;*/
+        font-size: 20px;
+    }
 }
+
+@media screen and (min-width: 400px) {
+    .realPos {
+       position: absolute;
+        /*background-color: white;*/
+        font-size: 40px;
+    }
+}
+
+
+@media screen and (min-width: 800px) {
+    .realPos {
+       position: absolute;
+        /*background-color: white;*/
+        font-size: 80px;
+    }
+}
+
+
+
 
 
 .errorcount {
